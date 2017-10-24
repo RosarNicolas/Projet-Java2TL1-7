@@ -1,4 +1,4 @@
-package tp1;
+package main;
 
 public class Fatty extends Zombies {
 

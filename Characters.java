@@ -1,25 +1,25 @@
-package entités;
+package main;
 
 public class Characters {
 	private int numJoueur;
 	private int sante;
 	private int pointDAction;
-	private Armes gauche;// à null au début puis donner arme par défaut
-	private Armes droite; // à null au début
+	private Weapons gauche;// à null au début puis donner arme par défaut
+	private Weapons droite; // à null au début
 	private int chance;
 	private int abscisse;
 	private int ordonnee;
+	private String nom;
 	
 	/** CONSTRUCTEUR */
-	public Characters(int numJ, int sante, int pointAction, Armes gauche, Armes droite, int chance, int x, int y) {
+	public Characters(String nom, int numJ, int sante, int pointAction, int chance, int x, int y) {
 		this.numJoueur = numJ;
 		this.sante = sante;
 		this.pointDAction = pointAction;
-		this.gauche = new Armes() gauche;
-		this.droite = new Armes() droite;
 		this.chance = chance;
 		this.abscisse = x;
 		this.ordonnee = y;
+		this.nom = nom;
 	}
 	
 	
@@ -45,7 +45,7 @@ public class Characters {
 		}
 	}
 	
-	public void attaque(Armes x){ //l'arme dans l'inventaire
+	public void attaque(Weapons x){ //l'arme dans l'inventaire
 		if( x == null ) { // donner le chiffre au-dessus de la position dans le tableau
 			System.out.println("Vous n'avez pas d'arme à cet emplacement");
 			// !!!!!! vérifier si possède arme 
@@ -101,17 +101,17 @@ public class Characters {
 		this.pointDAction = pointDAction;
 	}
 
-	public Armes getGauche() {
+	public Weapons getGauche() {
 		return gauche;
 	}
-	public void setGauche(Armes gauche) {
+	public void setGauche(Weapons gauche) {
 		this.gauche = gauche;
 	}
 
-	public Armes getDroite() {
+	public Weapons getDroite() {
 		return droite;
 	}
-	public void setDroite(Armes droite) {
+	public void setDroite(Weapons droite) {
 		this.droite = droite;
 	}
 
