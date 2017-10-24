@@ -40,6 +40,13 @@ public abstract class Weapons
 		
 	}
 	
+	public boolean random()
+	{
+		int a =(int) (Math.random() * 100);
+		int chance = (int) (this.chanceDeToucher *100) ;
+		return a<chance;
+	}
+	
 	public double getChanceDeToucher() 
 	{
 		return chanceDeToucher;

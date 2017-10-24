@@ -13,18 +13,23 @@ public abstract class Zombies {
 	private int id;
 	private String nom;
 	
-	public Zombies(int pdv, int pda, int id, String n) {
-		this.pointsDeVie = pdv;
-		this.pointsDactions = pda;
-		this.id = id;
-		this.nom = n;
-	}
-
+	public static Zombies [] zombies = new Zombies [10];
 	public static Zombies walker = new Walker();
 	public static Zombies runner = new Runner();
 	public static Zombies fatty = new Fatty();
 	public static Zombies crawler = new Crawler();
 	
+	
+	public Zombies(int pdv, int pda, int id, String n) {
+		this.pointsDeVie = pdv;
+		this.pointsDactions = pda;
+		this.id = id;
+		this.nom = n;
+		
+		zombies[id] = this;
+	}
+
+
 	
 	public int getPointsDeVie() {
 		return pointsDeVie;
