@@ -55,6 +55,7 @@ public class Carte
 					tab[i][k] = tabCourant[3+(j*4)];
 				}
 			}
+			test.close();
 		} 
 		catch (Exception e) 
 		{
