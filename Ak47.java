@@ -1,4 +1,4 @@
-package main;
+package projet;
 
 public class Ak47 extends Weapons
 {

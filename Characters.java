@@ -1,4 +1,4 @@
-package main;
+package projet;
 
 public class Characters {
 	private int numJoueur;
@@ -24,38 +24,102 @@ public class Characters {
 	
 	
 	/** ACTIONS */
-	public void deplacement() {
+	public void deplacement() 
+	{
 		
 		pointDAction--;
 		estFinTour();
 	}
 	
-	public void fouille( int chance/*paramètre représentant la CHANCE de loot */){
-		
-		if(cherche(/*chance*/)) {
-			System.out.println("Vous avez trouvé quelque chose!");
-			randomArme();
-			pointDAction--;
-			estFinTour();
-		}
-		else {
-			System.out.println("Vous repartez les mains vides ...");
-			pointDAction--;
-			estFinTour();
-		}
+	public static Weapons fouille()//a generaliser car meme methode que l'apparition des zombies
+	{
+		double a = Math.random()*1000;
+		int b = (int)a%11;
+		System.out.println("Vous avez trouvé un "+Weapons.armes[b].getNomDeLarme() +" !"
+				  +"\nSes dégats sont de : " + Weapons.armes[b].getDegats()
+				  +"\nSa portée est de :  "+ Weapons.armes[b].getRange()
+				  +"\nVous pouvez attaquer "+Weapons.armes[b].getNombreDeFrappe()+" fois avec par action"
+				  +"\nVotre précision est de "+ ((int)(Weapons.armes[b].getChanceDeToucher()*100))+"%\n\n");
+			return Weapons.armes[b];
 	}
 	
-	public void attaque(Weapons x){ //l'arme dans l'inventaire
-		if( x == null ) { // donner le chiffre au-dessus de la position dans le tableau
-			System.out.println("Vous n'avez pas d'arme à cet emplacement");
+	public static Zombies rentre()
+	{
+		
+		Game.counterDeZombie++;
+		double a = Math.random()*1000;
+		int b = (int)a%4;
+		System.out.println("Un zombie " + Zombies.zombies[b].getNom()+" apparait !\n"
+							+"il possède "+Zombies.zombies[b].getPointsDeVie() +" points de vie !"
+							+"et "+Zombies.zombies[b].getPointsDactions()+" point d'action");
+			if(b == 0)
+			{
+				Zombies aRenvoyer = new Crawler();
+				return aRenvoyer;
+			}
+			if(b == 1)
+			{
+				Zombies aRenvoyer = new Walker();
+				return aRenvoyer;
+			}
+			if(b == 2)
+			{
+				Zombies aRenvoyer = new Runner();
+				return aRenvoyer;
+			}
+			else
+			{
+				Zombies aRenvoyer = new Fatty();
+				return aRenvoyer;
+			}
+	}
+	
+	
+	public int attaque(int noArme){ //l'arme dans l'inventaire
+		if( this.gauche == null && this.droite == null ) { // donner le chiffre au-dessus de la position dans le tableau
+			System.out.println("Vous n'avez pas d'arme, fuyez !");
 			// !!!!!! vérifier si possède arme 
+			return 0;
 		}
-		else {
-			System.out.println("Attaque avec : " + x);
-			// Methode ENNEMI.sante - methode ARME.degats
-			pointDAction--;
-			estFinTour();
+		else if(noArme == 1)
+		{
+			int degatsTot = 0;
+			int countNbreDeCoups = this.gauche.getNombreDeFrappe();
+			System.out.println("Attaque avec : " + this.gauche.getNomDeLarme());
+			for(int i = 0; i < countNbreDeCoups ; i++)
+			{
+			
+			//rand
+			if(this.gauche.random())
+			{
+				degatsTot += this.gauche.getDegats();
+			}
+			
+			//pointDAction--;
+			}	
+			System.out.println("Vous infligez "+ degatsTot + " points de degats au zombie !");
+			return degatsTot;
 		}
+		else if(noArme == 2)
+		{
+			int degatsTot = 0;
+			int countNbreDeCoups = this.gauche.getNombreDeFrappe();
+			System.out.println("Attaque avec : " + this.droite.getNomDeLarme());
+			for(int i = 0; i < countNbreDeCoups ; i++)
+			{
+			
+			//rand
+			if(this.droite.random())
+			{
+				degatsTot += this.droite.getDegats();
+			}
+			
+			//pointDAction--;
+			}	
+			System.out.println("Vous infligez "+ degatsTot + "points de degats au zombie !");
+			return degatsTot;
+		}
+		return 0;
 	}
 	
 	/** METHODES */

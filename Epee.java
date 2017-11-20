@@ -1,4 +1,4 @@
-package main;
+package projet;
 
 public class Epee extends Weapons 
 {

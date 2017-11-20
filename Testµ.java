@@ -1,4 +1,4 @@
-package main;
+package projet;
 
 public class Testµ
 {
@@ -7,8 +7,8 @@ public class Testµ
 	{
 		Game.test();
 		//test();
+		
 	}
-	
 	public static void test()
 	{
 		arme1 = new Hache();

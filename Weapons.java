@@ -1,8 +1,8 @@
-package main;
+package projet;
 
 public abstract class Weapons
 {
-	private String nomDeLarme;
+	private static String nomDeLarme;
 	private int nombreDeFrappe;
 	private double chanceDeToucher;
 	private int degats;
@@ -38,6 +38,13 @@ public abstract class Weapons
 		
 		armes[id] = this;
 		
+	}
+	
+	public boolean random()
+	{
+		int a =(int) (Math.random() * 100);
+		int chance = (int) (this.chanceDeToucher *100) ;
+		return a<chance;
 	}
 	
 	public double getChanceDeToucher() 
@@ -99,7 +106,7 @@ public abstract class Weapons
 		this.nombreDeFrappe = nombreDeFrappe;
 	}
 
-	public String getNomDeLarme() {
+	public static String getNomDeLarme() {
 		return nomDeLarme;
 	}
 		

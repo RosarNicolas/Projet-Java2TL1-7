@@ -1,128 +1,126 @@
-package model;
 /**
- * @author Nicolas
- * Dernière modification : 16/11/17
+ * 
  */
+package projet;
+
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-
-import main.Characters;
 
 /**
- * Classe pour l'affichage d'une carte en console.
- * Cette carte doit être modifiée selon le déplacement d'un personnage
+ * @author he201460
+ *
  */
-public class Carte {
-	
-	/**
-	 * l : variable pour contenir les lignes du fichier lu
-	 * compteur : variable pour changer de place dans le tableau
-	 * 			à double entrée
-	 * a : variable pour contenir la longueur (en nombre de caractères) d'une ligne
-	 * 			de la carte.
-	 * tab2 : tableau pour contenir les lignes lues dans le fichier
-	 * 			pour manipuler celle-ci.
-	 * tab : tableau à double entrée contenant la carte en caractères.
-	 */
-	private static String l = "";
-	private static int compteur = 0;
-	private static int a = 0;
-	private static String[] tab2 = new String[50];
-	private static String[][] tab = new String[13][17];
-	
-	// METHODE Lecture carte
-	/**
-	 * Méthode faisant un lecture dans un fichier
-	 * pour en ramener un affichage de carte dans la console.
-	 */
-	public void lectureCarte() {
-		try {
-			BufferedReader reader = new BufferedReader( new FileReader("C:\\Users\\Nicolas\\Downloads\\carte 4.txt")  );
-			l = reader.readLine(); // passer la première ligne contenant des caractères invisibles
-			l = reader.readLine();
+public class Carte 
+{
+	private int longueur;
+	private int largeur;
+	private String[][] tab;
+	private Position sortie;
+	private Position apparition;
+	public Carte(String path)
+	{
+		try 
+		{
+			Position courante = new Position(0,0);
+			String [] tabCourant = new String[50];
+			String line;
+			BufferedReader test = new BufferedReader(new FileReader(path));
+			line = test.readLine();
 			
-			// obtention des longueurs et largeur de la carte
-			// a contient la longueur d'une ligne
-			tab2 = l.trim().split(" ");
-			a = Integer.parseInt(tab2[0]);
-		
-			// lecture tant que pas à la fin du fichier
-			while( (l = reader.readLine()) != null) {
-				tab2 = l.split("");
 			
-				for(int i = 0 ; i < a ; i++) {
-					tab[compteur][i] = tab2[i]; // Mise des lignes dans le tableau
-				
+			line = test.readLine();
+			tabCourant = line.split(" ");
+			this.longueur = Integer.parseInt(tabCourant[0]);
+			this.largeur = Integer.parseInt(tabCourant[1]);
+			
+			
+			line = test.readLine();
+			tabCourant = line.split(" ");
+			courante = new Position(Integer.parseInt(tabCourant[0]), Integer.parseInt(tabCourant[1]));
+			this.apparition = courante;
+			
+			line = test.readLine();
+			tabCourant = line.split(" ");
+			courante = new Position(Integer.parseInt(tabCourant[0]), Integer.parseInt(tabCourant[1]));
+			this.sortie = courante;
+			
+			
+			for(int i = 0;i<longueur;i++)
+			{
+				line = test.readLine();
+				tabCourant = line.split("");
+				for(int j = 3, k = 0;j<largeur;j+=4,k++)
+				{
+					tab[i][k] = tabCourant[3+(j*4)];
 				}
-				compteur++;
 			}
-			reader.close();
-		
+			test.close();
+		} 
+		catch (Exception e) 
+		{
+			e.getMessage();
 		}
-		catch (IOException e) {
-			
-			System.err.println("Erreur durant la lecture du fichier");
-			
-		}
-		
-		// test pour l'affichage
-		for(int i = 0 ; i < tab.length ; i++) {
-			System.out.println("");
-			for(int j = 0 ; j < tab[0].length ; j ++){
-				System.out.print(tab[i][j]);
-			}
-		}
-	
 	}
 	
-	/*
-	 * Mémo
-	tab[1][2] = "g";
-	tab[3][2] = "h";	// saut de 2 VERTICAL
-	tab[3][6] = "d";	// saut de 4 HORIZONTAL
-	*/
-	
-	/**
-	 * Cette méthode permet de gérer le déplacement
-	 * visuel en Console.
-	 * Cette méthode sera peut-être modifée selon l'implémentation 
-	 * de la classe characters mais son fonctionnement devrait rester le même.
-	 * ( pour ne pas modifier Abscisse et ordonnée avant vérification )
-	 * 
-	 * @param c : Objet de type Characers/Personnages
-	 * @param a : valeur de l'ancienne position en abscisse
-	 * @param b : valeur de l'ancienne position en ordonnée
-	 */
-	// METHODE déplacement avec vérification
-	public void deplacement(Characters c, int a, int b) {
-		// conserver les anciennes positions du personnages avec a et b
-		if (tab[a][b] == "/") { 
-			
-			System.out.println("Vous ne pouvez pas aller par là.");
-			c.setAbscisse(a);
-			c.setOrdonnee(b);
-			
+	public void generer()
+	{
+		for(int i = 0;i<this.largeur;i++)
+		{
+			System.out.println("---");
 		}
-		// déplacement si pas d'erreur
-		else {
-			
-			tab[c.getAbscisse()][c.getOrdonnee()] = "☺";
-			tab[a][b] = "#";
-			
+		for(int i = 0;i<this.longueur;i++)
+		{
+			for(int j = 0; j<this.largeur;j++)
+			{
+				System.out.print("| "+tab[i][j]);
+			}
+			System.out.println(" |");
+			for(int j = 0 ; j<=this.largeur;j++)
+			{
+				System.out.print("---");
+			}
+		}
 		
-		}
 	}
-	// catch au cas ou en dehors du tableau
-	
-	public static void main(String args[]) {
-		
-		Carte c = new Carte();
-		c.lectureCarte();
-		
+
+	public int getLongueur() {
+		return longueur;
+	}
+
+	public void setLongueur(int longueur) {
+		this.longueur = longueur;
+	}
+
+	public int getLargeur() {
+		return largeur;
+	}
+
+	public void setLargeur(int largeur) {
+		this.largeur = largeur;
+	}
+
+	public String[][] getTab() {
+		return tab;
+	}
+
+	public void setTab(String[][] tab) {
+		this.tab = tab;
+	}
+
+	public Position getSortie() {
+		return sortie;
+	}
+
+	public void setSortie(Position sortie) {
+		this.sortie = sortie;
+	}
+
+	public Position getApparition() {
+		return apparition;
+	}
+
+	public void setApparition(Position apparition) {
+		this.apparition = apparition;
 	}
 }
-
-
-		
-
