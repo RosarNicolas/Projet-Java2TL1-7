@@ -36,6 +36,6 @@ public class Position
 	
 	public boolean equals(Position x)
 	{
-		
+		return this.posX == x.getPosX() && this.posY == x.getPosY();
 	}
 }

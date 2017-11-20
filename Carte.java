@@ -33,7 +33,7 @@ public class Carte
 			tabCourant = line.split(" ");
 			this.longueur = Integer.parseInt(tabCourant[0]);
 			this.largeur = Integer.parseInt(tabCourant[1]);
-			
+			tab = new String[this.longueur][this.largeur];
 			
 			line = test.readLine();
 			tabCourant = line.split(" ");
@@ -49,11 +49,21 @@ public class Carte
 			for(int i = 0;i<longueur;i++)
 			{
 				line = test.readLine();
-				tabCourant = line.split("");
-				for(int j = 3, k = 0;j<largeur;j+=4,k++)
+				line = test.readLine();
+				tabCourant = line.split("\\|");
+				for(int z =  0; z<tabCourant.length; z++)
 				{
-					tab[i][k] = tabCourant[3+(j*4)];
+					if(tabCourant[z] != null)
+					{
+						tabCourant[z].trim();
+					}
 				}
+				
+				for(int y = 1 ; y<=this.largeur && tabCourant[y] != null ; y++)
+				{
+					tab[i][y-1] = tabCourant[y];
+				}
+				
 			}
 			test.close();
 		} 
@@ -63,27 +73,36 @@ public class Carte
 		}
 	}
 	
-	public void generer()
+	public void generer(Personnage perso)
 	{
-		for(int i = 0;i<this.largeur;i++)
+		for(int i = 0;i<tab.length;i++)
 		{
-			System.out.println("---");
-		}
-		for(int i = 0;i<this.longueur;i++)
-		{
-			for(int j = 0; j<this.largeur;j++)
+			genererLigne(this.largeur);
+			for(int j = 0;j<tab[0].length;j++)
 			{
-				System.out.print("| "+tab[i][j]);
+				if(perso.getEmplacement().getPosY() == i && perso.getEmplacement().getPosX() == j)
+				{
+					System.out.print("| j ");
+				}
+				else
+				{
+					System.out.print("|" + tab[i][j] );
+				}
 			}
-			System.out.println(" |");
-			for(int j = 0 ; j<=this.largeur;j++)
-			{
-				System.out.print("---");
-			}
+			System.out.println("|");
 		}
-		
+		genererLigne(this.largeur);
 	}
+	public void genererLigne(int x)
+	{
+		 
+      for(int w = 0 ; w < largeur ; w++ ) 
+      {
+    	  System.out.print("||||");
+	  }
+      System.out.println("|");
 
+	}
 	public int getLongueur() {
 		return longueur;
 	}
