@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main1;
+package main;
 
 import java.util.HashMap;
 import java.util.Scanner;

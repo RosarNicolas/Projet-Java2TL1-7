@@ -6,7 +6,7 @@
  * verifier les comportement des zombies 
  * verifier les attaque des joueurs
  */
-package main1;
+package main;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,6 +25,7 @@ public class Jeu {
 	static HashMap<Integer, Zombie> zombies = new HashMap<>();
 	static HashMap<Integer, Arme> armes = new HashMap<>();
 	//static Zombie [] zombiesSurCarte = new Zombie[50];
+	static LinkedList<Entite> entiteSurCarte = new LinkedList<Entite>();
 	static LinkedList<Zombie> zombiesSurCarte = new LinkedList<Zombie>();
 	static LinkedList<Zombie> zombiesSurCase = new LinkedList<Zombie>();
 	static Scanner sc = new Scanner(System.in);
@@ -35,6 +36,7 @@ public class Jeu {
 	public static void main(String[] args)
 	{
 		init();
+		
 		System.out.println("Quel est votre nom ?");
 		perso = new Personnage(sc.next(), 1, 2, 3, carte.getApparition());
 		//verifier l'entree du joueur
@@ -46,11 +48,15 @@ public class Jeu {
 							+ "\n Fouillez (entrez 1)"
 							+ "\n Attaquer (entrez 2)"
 							+ "\n Vous deplacez (entrez 3)");
-		carte.generer(perso);
+		
+		//carte.generer(perso);
+		creationEntiteListe();
+		carte.generer(entiteSurCarte);
 		while(!perso.getEmplacement().equals(carte.getSortie()))
 		{
-			tourPerso();
-			//tourZombie();
+			//tourPerso();
+			String test = sc.next();
+			tourZombie();
 		}
 	}
 	
@@ -77,9 +83,9 @@ public class Jeu {
 		armes.put(11,new Arme(11, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
 		armes.put(12,new Arme(12, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
 		
-		carte = new Carte("E:/ephec2017-2018/devoir java/carte4.txt");
+		carte = new Carte("res/carte4.txt");
 		
-		for(int i = 0 ; i < 2;i++)
+		for(int i = 0 ; i < 1;i++)
 		{
 			zombieApparition();
 		}
@@ -132,7 +138,7 @@ public class Jeu {
 				{
 					zombiesSurCarte.removeFirst();  //pointeur donc zombie[] devrait etre mis a jour;
 				}
-				carte.generer(perso);
+				//carte.generer(entitesSurCarte);
 				actionPerso--;
 			}
 			else if(action == 3)
@@ -141,7 +147,8 @@ public class Jeu {
 				String deplacement = sc.next();
 				perso.deplacer(deplacement);
 				System.out.println("Voici votre position actuelle  "+ perso.getEmplacement().getPosX()+";"+perso.getEmplacement().getPosY());
-				carte.generer(perso);
+				creationEntiteListe();
+				carte.generer(entiteSurCarte);
 				actionPerso--;
 			}
 			else if(action == 4)
@@ -161,8 +168,12 @@ public class Jeu {
 	 */
 	public static void tourZombie()
 	{
-	
-		
+		for(Zombie z : zombiesSurCarte)
+		{
+			z.deplacer(perso, carte);
+		}
+		creationEntiteListe();
+		carte.generer(entiteSurCarte);
 	}
 	
 	public static void zombieApparition()
@@ -170,12 +181,26 @@ public class Jeu {
 		String [][] courant = carte.getTab();
 		int posX = 0;
 		int posY = 0;
+		String debug2 = "";
+		String debug3 = courant[carte.getApparition().getPosX()][carte.getApparition().getPosY()];
 		do {
-			posX = (int) Math.random() * carte.getLongueur();
-			posY = (int) Math.random() * carte.getLargeur();
-		   }while(courant[posX][posY] != "#");
+//			double debug = Math.random();
+//			debug *= carte.getLongueur();
+//			posX = (int) debug;
+			posX = (int) Math.floor((Math.random() * carte.getLargeur() ));
+			posY = (int) Math.floor((Math.random() * carte.getLongueur()));
+			debug2  = courant[posY][posX];
+		   }while(!debug2.equals(debug3) || (posX == 0 && posY == 0));
 		int a = (int) Math.ceil(Math.random() * 4);
-		zombiesSurCarte.add(new Zombie(zombies.get(a).getNom(),zombies.get(a).getId(),zombies.get(a).getPointsDeVie(),zombies.get(a).getPointsDAction(),zombies.get(a).getEmplacement()));
+		zombiesSurCarte.add(new Zombie(zombies.get(a).getNom(),zombies.get(a).getId(),zombies.get(a).getPointsDeVie(),zombies.get(a).getPointsDAction(),new Position(3,4)));
+	}
+	
+	public static void creationEntiteListe()
+	{
+		entiteSurCarte.removeAll(entiteSurCarte);
+		Entite ent = new Personnage(perso.getNom(),perso.getId(), perso.getPointsDeVie(), perso.getPointsDAction(),  perso.getEmplacement() );
+		entiteSurCarte.addAll(zombiesSurCarte);
+		entiteSurCarte.add(ent);
 	}
 
 }

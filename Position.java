@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main1;
+package main;
 
 /**
  * @author he201460

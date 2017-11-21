@@ -1,11 +1,12 @@
 /**
  * 
  */
-package main1;
+package main;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.LinkedList;
 
 /**
  * @author he201460
@@ -73,18 +74,48 @@ public class Carte
 		}
 	}
 	
-	public void generer(Personnage perso)
+	public void generer(LinkedList<Entite> ent)
 	{
 		for(int i = 0;i<tab.length;i++)
 		{
 			genererLigne(this.largeur);
 			for(int j = 0;j<tab[0].length;j++)
 			{
-				if(perso.getEmplacement().getPosY() == i && perso.getEmplacement().getPosX() == j)
+				boolean dejaEcrit = false;
+				int counter = 0;
+				/////////////
+				for(Entite perso : ent)
 				{
-					System.out.print("| j ");
+				/////////////
+					
+					if(perso.getEmplacement().getPosY() == i && perso.getEmplacement().getPosX() == j)
+					{
+						//debugin
+						String a = perso.getClass().toString();
+						if(a.equals("class main.Personnage"))
+						{
+							System.out.print("| j ");
+							dejaEcrit = true;
+						}
+						else
+						{
+							counter++;
+						}
+					}
+				/////////////
 				}
-				else
+				if(counter > 1)
+				{
+					System.out.print("| " + counter + " ");
+					dejaEcrit = true;
+				}
+				else if(counter == 1)
+				{
+					System.out.print("| z ");
+					dejaEcrit = true;
+				}
+				////////////
+				if(!dejaEcrit)
 				{
 					System.out.print("|" + tab[i][j] );
 				}
