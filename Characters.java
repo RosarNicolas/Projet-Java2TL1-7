@@ -1,5 +1,8 @@
-package projet;
-
+package main1;
+/**
+ * Crée par VKBJ
+ * Modifié par PL et NR
+ */
 public class Characters {
 	private int numJoueur;
 	private int sante;
@@ -50,8 +53,8 @@ public class Characters {
 		double a = Math.random()*1000;
 		int b = (int)a%4;
 		System.out.println("Un zombie " + Zombies.zombies[b].getNom()+" apparait !\n"
-							+"il possède "+Zombies.zombies[b].getPointsDeVie() +" points de vie !"
-							+"et "+Zombies.zombies[b].getPointsDactions()+" point d'action");
+							+"Il possède "+Zombies.zombies[b].getPointsDeVie() +" points de vie "
+							+"et "+Zombies.zombies[b].getPointsDactions()+" point d'action !");
 			if(b == 0)
 			{
 				Zombies aRenvoyer = new Crawler();

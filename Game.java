@@ -1,5 +1,8 @@
-package projet;
-
+package main1;
+/**
+ * Créer par VKBJ
+ * Modifié par PL et NR
+ */
 import java.util.Scanner;
 
 public class Game 
@@ -19,7 +22,7 @@ public class Game
 	
 	public static void test()
 	{
-		System.out.println("Bienvenue dans zombicide votre objectif atteindre la sortie en bottant le cula  des zombie, pas compliqué\n");
+		System.out.println("Bienvenue dans zombicide votre objectif atteindre la sortie en bottant le cul à des zombies, pas compliqué\n");
 		
 		System.out.println("Quel est le nom de votre personnage ?");
 		Scanner sc = new Scanner(System.in);
@@ -71,7 +74,7 @@ public class Game
 		{
 			if(players[0].getGauche() != null && players[0].getDroite() != null)
 			{
-				System.out.println("Vous avez deja 2 armes");
+				System.out.println("Vous avez déjà 2 armes");
 			}
 			else if(players[0].getGauche() == null)
 			{
@@ -83,14 +86,14 @@ public class Game
 			}
 			else
 			{
-				System.out.println("Vous avez les mains pleines d'armes, a la baston !");
+				System.out.println("Vous avez les mains pleines d'armes, à la baston !");
 			}
 		}
 		else if(action == 3) //peut etre utiliser une liste pour pop et add les zombies plus facilement;
 		{
 			if(counterDeZombie == 0)
 			{
-				System.out.println("il n'y a pas de zombie a combattre camarades !");
+				System.out.println("Il n'y a pas de zombies à combattre camarades !");
 			}
 			else
 			{
@@ -104,7 +107,7 @@ public class Game
 					zombie[noDeZombie].setPointsDeVie(vieZ - players[0].attaque(sc.nextInt()));
 					vieZ = zombie[noDeZombie].getPointsDeVie();
 				}
-				System.out.println("Bravo vous l'avez bien défoncé !!! Il y des giclures partout sur votre vest maintenant...");
+				System.out.println("Bravo vous l'avez bien défoncé !!! Il y a des giclures partout sur votre veste maintenant...");
 				zombie[noDeZombie] = null;
 				counterDeZombie--;
 			}
