@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 /**
  * @author groupe 7
- *
+ *verifier input choix d'arme
  */
 public class Jeu {
 	
@@ -28,7 +28,7 @@ public class Jeu {
 	static LinkedList<Zombie> zombiesSurCarte = new LinkedList<Zombie>();
 	static LinkedList<Zombie> zombiesSurCase = new LinkedList<Zombie>();
 	static Scanner sc = new Scanner(System.in);
-	static int compteurTour = 0;
+	static int compteurTour = 1;
 	/**
 	 * @param args
 	 * methode main dans laquelle se deroule la presentation et la boucle qui fera tournee le jeu jusqu'a la fin
@@ -54,6 +54,9 @@ public class Jeu {
 		carte.generer(entiteSurCarte);
 		while(!perso.getEmplacement().equals(carte.getSortie()))
 		{
+			System.out.println("Tour numero : " +compteurTour);
+			System.out.println();
+			System.out.println();
 			tourPerso();
 			tourZombie();
 			if(perso.getPointsDeVie() <= 0)
@@ -61,10 +64,14 @@ public class Jeu {
 				System.out.println("Vous etes mort...et perdez la partie");
 				break;
 			}
-			if(compteurTour%2 == 0)
+			if(compteurTour%2 == 0 && compteurTour > 0)
 			{
+				System.out.println("Tour pair apparition de zombie");
 				zombieApparition();
+//				updateEntiteListe();
+//				carte.generer(entiteSurCarte);
 			}
+			perso.setPointsDAction(3);
 			compteurTour++;
 		}
 	}
@@ -110,8 +117,8 @@ public class Jeu {
 		System.out.println();
 		System.out.println();
 		
-		int actionPerso = perso.getPointsDAction();
-		while(actionPerso > 0 && !perso.getEmplacement().equals(carte.getSortie()))
+		 
+		while( perso.getPointsDAction() > 0 && !perso.getEmplacement().equals(carte.getSortie()))
 		{
 			System.out.println("Que voulez vous faire ?");
 			explication();
@@ -128,11 +135,12 @@ public class Jeu {
 			if(action == 1)
 			{
 				perso.fouille(armes);
-				actionPerso--;
+				perso.setPointsDAction(perso.getPointsDAction() - 1);
+				updateEntiteListe();
+				carte.generer(entiteSurCarte);
 			}
 			else if(action == 2)
 			{
-				perso.setArmeGauche(new Arme(1, 1, 1, 1, 0.66, 0.125,0.05, "Arc"));
 				int noArme = 0;
 				System.out.println("Avec quelle arme voulez vous attaquer ?(1 ou 2)");
 						//
@@ -159,8 +167,7 @@ public class Jeu {
 						
 						//a voir si suppression
 						zero =  courant[0].charAt(0);
-						un = courant[1].charAt(0);
-						
+						un = courant[1].charAt(0);	
 					}while(!Character.isDigit(zero) || !Character.isDigit(un) || courant.length > 2 );
 				}while( !(Integer.parseInt(zero+"") < carte.getLargeur()) || !(Integer.parseInt(un+"") < carte.getLongueur()) || Integer.parseInt(zero+"") < 0 && Integer.parseInt(un+"") < 0 );
 				System.out.println(" deuxieme reussi");
@@ -217,7 +224,9 @@ public class Jeu {
 						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer la ");
 					}
 				}
-				actionPerso--;
+				perso.setPointsDAction(perso.getPointsDAction() - 1);
+				updateEntiteListe();
+				carte.generer(entiteSurCarte);
 			}
 			else if(action == 3)
 			{
@@ -232,11 +241,13 @@ public class Jeu {
 				System.out.println("Voici votre position actuelle  "+ perso.getEmplacement().getPosX()+";"+perso.getEmplacement().getPosY());
 				updateEntiteListe();
 				carte.generer(entiteSurCarte);
-				actionPerso--;
+				perso.setPointsDAction(perso.getPointsDAction() - 1);
 			}
 			else if(action == 4)
 			{
-				actionPerso--;
+				perso.setPointsDAction(perso.getPointsDAction() - 1);
+				updateEntiteListe();
+				carte.generer(entiteSurCarte);
 			}
 			else if(action == 5)
 			{
@@ -259,6 +270,8 @@ public class Jeu {
 							  +"\nVotre arme en main droite (2) est un "+ perso.getArmeDroite().getNomDeLarme());
 			
 				}
+				updateEntiteListe();
+				carte.generer(entiteSurCarte);
 				
 			}
 			else if(action == 6)
@@ -266,6 +279,8 @@ public class Jeu {
 				System.out.println("Quelle arme voulez vous jeter ?");
 				int armeAjeter = Integer.parseInt(sc.next());
 				perso.jeterUneArme(armeAjeter);
+				updateEntiteListe();
+				carte.generer(entiteSurCarte);
 			}
 			else
 			{
@@ -280,25 +295,27 @@ public class Jeu {
 	 */
 	public static void tourZombie()
 	{
-		System.out.println("C'est au tour des zombies (entrer a)");
+		System.out.println("C'est au tour des zombies (appuyer sur une touche)");
 		String test = sc.next();
 		for(Zombie z : zombiesSurCarte)
 		{
 			if(z.getEmplacement().equals(perso.getEmplacement()))
 			{
 				int degat = z.attaquer();
-				perso.setPointsDeVie(perso.getPointsDeVie() - 1);
+				perso.setPointsDeVie(perso.getPointsDeVie() - degat);
+				//degat toujours egal a 1
 				System.out.println("Un zombie vous a mordu vous etes blessé");
 			}
 			else
 			{
 				z.deplacer(perso, carte);
+				updateEntiteListe();
+				carte.generer(entiteSurCarte);
 			}
 		
 			
 		}
-		updateEntiteListe();
-		carte.generer(entiteSurCarte);
+		
 		
 	}
 	
@@ -315,9 +332,9 @@ public class Jeu {
 			debug2  = courant[posY][posX];
 		   }while(!debug2.equals(signeCasePratiquable) || (posX == 0 && posY == 0));
 		int a = (int) Math.ceil(Math.random() * 4);
-		zombiesSurCarte.add(new Zombie(zombies.get(a).getNom(),zombies.get(a).getId(),zombies.get(a).getPointsDeVie(),zombies.get(a).getPointsDAction(),new Position(3,1)));
+		zombiesSurCarte.add(new Zombie(zombies.get(a).getNom(),zombies.get(a).getId(),zombies.get(a).getPointsDeVie(),zombies.get(a).getPointsDAction(),new Position(posX,posY)));
 		updateEntiteListe();
-		if(compteurTour != 0)
+		if(compteurTour != 1)
 		{
 			carte.generer(entiteSurCarte);
 		}

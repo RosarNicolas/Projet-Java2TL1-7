@@ -58,6 +58,7 @@ public class Personnage extends Entite
 		}
 		else
 		{
+			this.setPointsDAction(this.getPointsDAction() + 1);
 			System.out.println("Vous ne pouvez pas aller par la");
 		}
 	}
