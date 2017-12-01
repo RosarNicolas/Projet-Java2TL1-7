@@ -158,9 +158,17 @@ public class Personnage extends Entite
 
 	public boolean verification(Carte carte, Position z) 
 	{
-		String debug  = carte.getTab()[z.getPosY()][z.getPosX()];
-		String ddebug = carte.getCarPossible();
-		boolean debugz  = debug.equals(ddebug); 
-		return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
+		try 
+		{
+			String debug  = carte.getTab()[z.getPosY()][z.getPosX()];
+			String ddebug = carte.getCarPossible();
+			boolean debugz  = debug.equals(ddebug); 
+			return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			e.getMessage();
+			return false;
+		}
 	}
 }
