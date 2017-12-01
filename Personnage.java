@@ -21,34 +21,35 @@ public class Personnage extends Entite
 	}
 	
 	
-	@Override
-	public void deplacer(String direction) 
+	
+	public void deplacer(String direction, Carte carte) 
 	{
 		int couranteY = this.getEmplacement().getPosY();
 		int couranteX = this.getEmplacement().getPosX();
 		
-		if(direction.equals("haut"))
+		if(direction.equals("haut") && verification(carte, new Position(couranteX, couranteY - 1)))
 		{
 			couranteY --;
-			//peut etre change le setPosition
 			Position nouvelle = new Position(couranteX, couranteY);
+			
+			
 			this.setEmplacement(nouvelle);
 		}
-		else if(direction.equals("bas"))
+		else if(direction.equals("bas") && verification(carte, new Position(couranteX, couranteY + 1)))
 		{
 			couranteY ++;
 			//peut etre change le setPosition
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
 		}
-		else if(direction.equals("droite"))
+		else if(direction.equals("droite") && verification(carte, new Position(couranteX + 1, couranteY )))
 		{
 			couranteX ++;
 			//peut etre change le setPosition
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
 		}
-		else
+		else if(direction.equals("gauche") && verification(carte, new Position(couranteX - 1, couranteY)))
 		{
 			couranteX --;
 			//peut etre change le setPosition
@@ -57,14 +58,9 @@ public class Personnage extends Entite
 		}
 	}
 
-	@Override
-	public int attaquer() 
+	
+	public int attaquer(int choixDeLarme) 
 	{
-		
-		System.out.println("Quelle arme voulez vous utiliser ?(1 arme gauche /// 2 arme droite");
-		int choixDeLarme = Integer.parseInt(sc.next());
-		//if() methode iterative ne cas de mauvais entree ?????
-		
 		if(choixDeLarme == 1)
 		{
 			for(int i = 0 ; i<armeGauche.getNombreDeFrappe() ; i++)
@@ -90,13 +86,6 @@ public class Personnage extends Entite
 		return 1;
 	}
 
-	@Override
-	public void apparition(int x, int y) 
-	{
-		Position courante = new Position(x, y);
-		this.setEmplacement(courante);
-		//perso.setVisibility(true);
-	}
 	
 	public void fouille(HashMap<Integer,Arme> armes)
 	{
@@ -120,5 +109,51 @@ public class Personnage extends Entite
 		}
 				
 
+	}
+	
+	public void jeterUneArme(int x)
+	{
+		if(x == 1)
+		{
+			this.armeGauche = null;
+		}
+		else
+		{
+			this.armeDroite = null;
+		}
+	}
+
+
+	public Arme getArmeGauche() {
+		return armeGauche;
+	}
+
+
+	public void setArmeGauche(Arme armeGauche) {
+		this.armeGauche = armeGauche;
+	}
+
+
+	public Arme getArmeDroite() {
+		return armeDroite;
+	}
+
+
+	public void setArmeDroite(Arme armeDroite) {
+		this.armeDroite = armeDroite;
+	}
+
+
+	@Override
+	public int attaquer() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public boolean verification(Carte carte, Position z) 
+	{
+		String debuger = carte.getTab()[0][1];
+		return (!carte.getTab()[z.getPosY()][z.getPosX()].equals(debuger));
 	}
 }

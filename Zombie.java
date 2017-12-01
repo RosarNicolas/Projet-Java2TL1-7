@@ -11,12 +11,6 @@ public class Zombie extends Entite
 		super(nom,id,pointsDeVie, pointsDAction,emplacement);
 	}
 
-	@Override
-	public void deplacer(String direction)
-	{
-		//à quoi sert-elle ??
-		//voir méthode déplacer suivante
-	}
 	
 	public void deplacer(Personnage perso, Carte carte)
 	{
@@ -54,43 +48,6 @@ public class Zombie extends Entite
 	{
 		String debuger = carte.getTab()[0][1];
 		return (!carte.getTab()[z.getPosY()][z.getPosX()].equals(debuger));
-//		int couranteX = this.getEmplacement().getPosX();
-//		int couranteY = this.getEmplacement().getPosY();
-//		String[][] map = carte.getTab();
-//		
-//		
-//		if (map[couranteX][couranteY] == "/") 
-//		{
-//	        int rand = (int) (Math.random() * 4 );
-//	        switch(rand)
-//	        {
-//	        	case 1 : couranteX++;
-//	        			 if (map[couranteX][couranteY] == "/") 
-//	        			 {
-//	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-//	        			 }
-//	        			 break;
-//	        	case 2 : couranteX--;
-//	        			 if (map[couranteX][couranteY] == "/") 
-//	        			 {
-//	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-//	        			 }
-//	        			 break;
-//	        	case 3 : couranteY++;
-//	        			 if (map[couranteX][couranteY] == "/") 
-//	        			 {
-//	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-//	        			 }
-//	        			 break;
-//	        	case 4 : couranteY--;
-//	        			 if (map[couranteX][couranteY] == "/") 
-//	        			 {
-//	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-//	        			 }
-//	        			 break;
-//	        }
-//	        
-//	    }
 	}
 	
 	@Override
@@ -107,14 +64,11 @@ public class Zombie extends Entite
 		return 1;
 	}
 
+
+
 	@Override
-	public void apparition(int x, int y)
-	{
-		//apparition de zombie ????
-	}
-	
-	public static int apparition()
-	{
-		return 1;
+	public void deplacer(String direction, Carte carte) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -23,12 +23,10 @@ public abstract class Entite
 		this.emplacement = emplacement;
 	}
 	
-	public abstract void deplacer(String direction);
+	public abstract void deplacer(String direction, Carte carte);
 	
 	public abstract int attaquer(); //parametre ?????
 	
-	public abstract void apparition(int x, int y);
-
 	public String getNom() {
 		return nom;
 	}

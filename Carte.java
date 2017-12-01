@@ -83,6 +83,7 @@ public class Carte
 			{
 				boolean dejaEcrit = false;
 				int counter = 0;
+				boolean caseJoueur = false;
 				/////////////
 				for(Entite perso : ent)
 				{
@@ -90,12 +91,11 @@ public class Carte
 					
 					if(perso.getEmplacement().getPosY() == i && perso.getEmplacement().getPosX() == j)
 					{
-						//debugin
 						String a = perso.getClass().toString();
 						if(a.equals("class main.Personnage"))
 						{
-							System.out.print("| j ");
-							dejaEcrit = true;
+							caseJoueur = true;
+							
 						}
 						else
 						{
@@ -104,12 +104,23 @@ public class Carte
 					}
 				/////////////
 				}
-				if(counter > 1)
+				
+				if(caseJoueur && counter == 0)
+				{
+					System.out.print("| j ");
+					dejaEcrit = true;
+				}
+				if(caseJoueur && counter > 0)
+				{
+					System.out.print("| x ");
+					dejaEcrit = true;
+				}
+				else if((!caseJoueur) && counter > 1)
 				{
 					System.out.print("| " + counter + " ");
 					dejaEcrit = true;
 				}
-				else if(counter == 1)
+				else if((!caseJoueur) && counter == 1)
 				{
 					System.out.print("| z ");
 					dejaEcrit = true;

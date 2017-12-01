@@ -17,7 +17,23 @@ public class Position
 		this.posX = posX;
 		this.posY = posY;
 	}
-
+	
+	public boolean verifierDistance(Position x, int portee)
+	{
+		if(this.getPosX() == x.getPosX())
+		{
+			return Math.abs(this.getPosY() - x.getPosY()) <= 2;
+		}
+		else if(this.getPosY() == x.getPosY())
+		{
+			return Math.abs(this.getPosX() - x.getPosX()) <= 2;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public int getPosX() {
 		return posX;
 	}
