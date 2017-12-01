@@ -19,6 +19,8 @@ public class Carte
 	private String[][] tab;
 	private Position sortie;
 	private Position apparition;
+	private String carPossible;
+	private String carImpossible;
 	public Carte(String path)
 	{
 		try 
@@ -46,19 +48,23 @@ public class Carte
 			courante = new Position(Integer.parseInt(tabCourant[0]), Integer.parseInt(tabCourant[1]));
 			this.sortie = courante;
 			
+			line = test.readLine();
+			tabCourant = line.split("\\|");
+			carPossible = tabCourant[1];
+			carImpossible = tabCourant[2];
 			
 			for(int i = 0;i<longueur;i++)
 			{
 				line = test.readLine();
 				line = test.readLine();
 				tabCourant = line.split("\\|");
-				for(int z =  0; z<tabCourant.length; z++)
+				/*for(int z =  0; z<tabCourant.length; z++)
 				{
 					if(tabCourant[z] != null)
 					{
 						tabCourant[z].trim();
 					}
-				}
+				}*/
 				
 				for(int y = 1 ; y<=this.largeur && tabCourant[y] != null ; y++)
 				{
@@ -183,5 +189,21 @@ public class Carte
 
 	public void setApparition(Position apparition) {
 		this.apparition = apparition;
+	}
+
+	public String getCarPossible() {
+		return carPossible;
+	}
+
+	public void setCarPossible(String carPossible) {
+		this.carPossible = carPossible;
+	}
+
+	public String getCarImpossible() {
+		return carImpossible;
+	}
+
+	public void setCarImpossible(String carImpossible) {
+		this.carImpossible = carImpossible;
 	}
 }

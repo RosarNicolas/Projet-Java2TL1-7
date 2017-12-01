@@ -56,6 +56,10 @@ public class Personnage extends Entite
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
 		}
+		else
+		{
+			System.out.println("Vous ne pouvez pas aller par la");
+		}
 	}
 
 	
@@ -153,7 +157,9 @@ public class Personnage extends Entite
 
 	public boolean verification(Carte carte, Position z) 
 	{
-		String debuger = carte.getTab()[0][1];
-		return (!carte.getTab()[z.getPosY()][z.getPosX()].equals(debuger));
+		String debug  = carte.getTab()[z.getPosY()][z.getPosX()];
+		String ddebug = carte.getCarPossible();
+		boolean debugz  = debug.equals(ddebug); 
+		return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
 	}
 }
