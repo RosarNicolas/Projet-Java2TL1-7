@@ -24,7 +24,6 @@ public class Jeu {
 	static Personnage perso;
 	static HashMap<Integer, Zombie> zombies = new HashMap<>();
 	static HashMap<Integer, Arme> armes = new HashMap<>();
-	//static Zombie [] zombiesSurCarte = new Zombie[50];
 	static LinkedList<Entite> entiteSurCarte = new LinkedList<Entite>();
 	static LinkedList<Zombie> zombiesSurCarte = new LinkedList<Zombie>();
 	static LinkedList<Zombie> zombiesSurCase = new LinkedList<Zombie>();
@@ -133,6 +132,7 @@ public class Jeu {
 			}
 			else if(action == 2)
 			{
+				perso.setArmeGauche(new Arme(1, 1, 1, 1, 0.66, 0.125,0.05, "Arc"));
 				int noArme = 0;
 				System.out.println("Avec quelle arme voulez vous attaquer ?(1 ou 2)");
 						//
@@ -144,19 +144,26 @@ public class Jeu {
 							//{
 							//	sysout(mauvaise entree arme)
 							//}
-				System.out.println("Ou voulez vous attaquer ?");
+				
 				String [] courant;
 				char zero;
 				char un;
 				String vise;
 				do
 				{
-					vise = sc.next();
-					courant = vise.split("");
-					zero =  courant[0].charAt(0);
-					un = courant[1].charAt(1);
-				}while(!Character.isDigit(zero) || !Character.isDigit(un) || zero > carte.getLargeur() || un > carte.getLongueur() || zero < 0 || un < 0);
-				//a verifier
+					System.out.println("Ou voulez vous attaquer ?");
+					do 
+					{
+						vise = sc.next();
+						courant = vise.split("");
+						
+						//a voir si suppression
+						zero =  courant[0].charAt(0);
+						un = courant[1].charAt(0);
+						
+					}while(!Character.isDigit(zero) || !Character.isDigit(un) || courant.length > 2 );
+				}while( !(Integer.parseInt(zero+"") < carte.getLargeur()) || !(Integer.parseInt(un+"") < carte.getLongueur()) || Integer.parseInt(zero+"") < 0 && Integer.parseInt(un+"") < 0 );
+				System.out.println(" deuxieme reussi");
 				
 				Position endroitDeLattaque = new Position(Integer.parseInt(courant[0]),Integer.parseInt(courant[1]));
 				updateZombieSurCase(endroitDeLattaque);
@@ -183,7 +190,7 @@ public class Jeu {
 					}
 					else
 					{
-						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer la ");
+						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer a cete endroit ");
 					}
 				}
 				else 
@@ -308,7 +315,7 @@ public class Jeu {
 			debug2  = courant[posY][posX];
 		   }while(!debug2.equals(signeCasePratiquable) || (posX == 0 && posY == 0));
 		int a = (int) Math.ceil(Math.random() * 4);
-		zombiesSurCarte.add(new Zombie(zombies.get(a).getNom(),zombies.get(a).getId(),zombies.get(a).getPointsDeVie(),zombies.get(a).getPointsDAction(),new Position(posX,posY)));
+		zombiesSurCarte.add(new Zombie(zombies.get(a).getNom(),zombies.get(a).getId(),zombies.get(a).getPointsDeVie(),zombies.get(a).getPointsDAction(),new Position(3,1)));
 		updateEntiteListe();
 		if(compteurTour != 0)
 		{
