@@ -10,14 +10,15 @@ package main;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Observable;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
  * @author groupe 7
  *verifier input choix d'arme
  */
-public class Jeu extends Observable {
+public class Jeu {
 	
 	static Carte carte;
 	static Personnage perso;
@@ -98,7 +99,7 @@ public class Jeu extends Observable {
 		armes.put(11,new Arme(11, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
 		armes.put(12,new Arme(12, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
 		
-		carte = new Carte("res/carte4.txt");
+		carte = new Carte("C:\\Users\\Nicolas\\Downloads\\carte4.txt");
 		
 		for(int i = 0 ; i < 1;i++)
 		{
@@ -133,6 +134,9 @@ public class Jeu extends Observable {
 			
 			if(action == 1)
 			{
+				if(perso.getArmeDroite() != null && perso.getArmeGauche() != null) {
+					perso.setPointsDAction(perso.getPointsDAction() + 1);
+				}
 				perso.fouille(armes);
 				perso.setPointsDAction(perso.getPointsDAction() - 1);
 				updateEntiteListe();
