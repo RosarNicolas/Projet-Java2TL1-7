@@ -1,16 +1,17 @@
 - fouiller fait perde un point d'action (alors que plus de place pur un arme)
+	CORRIGE ==> OK
 
-- Il n'y a pas de vérification d'entrée en cas de choix d'arme
-	ex: j'ai entré 11 (mais cela a fonctionné sans planté)
+- Il n'y a pas de vÃ©rification d'entrÃ©e en cas de choix d'arme
+	ex: j'ai entrÃ© 11 (mais cela a fonctionnÃ© sans plantÃ©)
 
-- fouiller pour obtenir 2 armes, jeter la première
-	attaquer un zombie avec la première (ou il n'y as plus d'arme)
+- fouiller pour obtenir 2 armes, jeter la premiÃ¨re
+	attaquer un zombie avec la premiÃ¨re (ou il n'y as plus d'arme)
 	PLANTAGE:
 	Exception in thread "main" java.lang.NullPointerException
 	at main.Jeu.tourPerso(Jeu.java:181)
 	at main.Jeu.main(Jeu.java:60)
 
-- attaquer à un endroit où il n'y a pas de zombie
+- attaquer Ã  un endroit oÃ¹ il n'y a pas de zombie
 
 - les zombies ne nous attaquent pas.
 
