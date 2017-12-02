@@ -1,9 +1,12 @@
 - fouiller fait perde un point d'action (alors que plus de place pur un arme)
-	CORRIGE dans jeu (ajout d'un if de vérification si armes gauche et droite sont != null)
+		CORRIGE dans jeu (ajout d'un if de vérification si armes gauche et droite sont != null)
 		==> OK
 
 - Il n'y a pas de vérification d'entrée en cas de choix d'arme
 	ex: j'ai entré 11 (mais cela a fonctionné sans planté)
+		CORRIGE dans jeu 	( try and catch pour emmpêcher un autre format qu'un chiffre
+					+ if pour empêcher un autre chiffre que l'arme 1 ou 2)
+		==> OK
 
 - fouiller pour obtenir 2 armes, jeter la première
 	attaquer un zombie avec la première (ou il n'y as plus d'arme)
