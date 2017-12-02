@@ -1,5 +1,6 @@
 - fouiller fait perde un point d'action (alors que plus de place pur un arme)
-	CORRIGE ==> OK
+	CORRIGE dans jeu (ajout d'un if de vérification si armes gauche et droite sont != null)
+		==> OK
 
 - Il n'y a pas de vérification d'entrée en cas de choix d'arme
 	ex: j'ai entré 11 (mais cela a fonctionné sans planté)
