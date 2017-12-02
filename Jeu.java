@@ -10,15 +10,14 @@ package main;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.Observable;
 import java.util.Scanner;
 
 /**
  * @author groupe 7
  *verifier input choix d'arme
  */
-public class Jeu {
+public class Jeu extends Observable {
 	
 	static Carte carte;
 	static Personnage perso;
