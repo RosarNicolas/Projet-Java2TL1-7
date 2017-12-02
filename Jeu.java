@@ -129,7 +129,7 @@ public class Jeu {
 			}
 			catch(NumberFormatException e)
 			{
-				System.out.println("Vous n'avez pas entrer un bon chiffre reessayer");
+				System.out.println("Vous n'avez pas entrer un bon chiffre reessayer !");
 			}
 			
 			if(action == 1)
@@ -152,13 +152,13 @@ public class Jeu {
 							noArme = Integer.parseInt(sc.next());
 							
 							if (noArme != 1 || noArme != 2) {
-								System.out.println("mauvaise entree arme");
+								System.out.println("Mauvaise entree arme !");
 								continue;
 							}
 						}
 						catch(NumberFormatException e)
 							{
-								System.out.println("mauvaise entree arme");
+								System.out.println("Mauvaise entree arme !");
 								continue;
 							}
 				
@@ -194,7 +194,7 @@ public class Jeu {
 						if(!(perso.attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 						{
 							zombiesSurCase.addFirst(cibleAttaque);
-							System.out.println("Vous n'avez pas reussi a tuer le zombie cible");
+							System.out.println("Vous n'avez pas reussi a tuer le zombie cible !");
 						}
 						else
 						{
@@ -218,7 +218,7 @@ public class Jeu {
 						if(!(perso.attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 						{
 							zombiesSurCase.addFirst(cibleAttaque);
-							System.out.println("Vous n'avez pas reussi a tuer le zombie cible");
+							System.out.println("Vous n'avez pas reussi a tuer le zombie cible !");
 						}
 						else
 						{
@@ -313,7 +313,7 @@ public class Jeu {
 				int degat = z.attaquer();
 				perso.setPointsDeVie(perso.getPointsDeVie() - degat);
 				//degat toujours egal a 1
-				System.out.println("Un zombie vous a mordu vous etes blessé");
+				System.out.println("Un zombie vous a mordu vous etes blessÃ©");
 			}
 			else
 			{
