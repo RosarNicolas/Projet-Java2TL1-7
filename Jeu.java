@@ -146,15 +146,21 @@ public class Jeu {
 			{
 				int noArme = 0;
 				System.out.println("Avec quelle arme voulez vous attaquer ?(1 ou 2)");
-						//
-						//try
-						//{
+						
+						try
+						{
 							noArme = Integer.parseInt(sc.next());
-						//}
-						//catch(FormatNumberException e)
-							//{
-							//	sysout(mauvaise entree arme)
-							//}
+							
+							if (noArme != 1 || noArme != 2) {
+								System.out.println("mauvaise entree arme");
+								continue;
+							}
+						}
+						catch(NumberFormatException e)
+							{
+								System.out.println("mauvaise entree arme");
+								continue;
+							}
 				
 				String [] courant;
 				char zero;
