@@ -230,7 +230,7 @@ public class Jeu {
 					}
 					else
 					{
-						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer la ");
+						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer là !");
 					}
 				}
 				perso.setPointsDAction(perso.getPointsDAction() - 1);
@@ -293,7 +293,7 @@ public class Jeu {
 			}
 			else
 			{
-				System.out.println("Mauvais entree");
+				System.out.println("Mauvais entree !");
 			}
 		}
 	}
@@ -313,7 +313,7 @@ public class Jeu {
 				int degat = z.attaquer();
 				perso.setPointsDeVie(perso.getPointsDeVie() - degat);
 				//degat toujours egal a 1
-				System.out.println("Un zombie vous a mordu vous etes blessé");
+				System.out.println("Un zombie vous a mordu vous etes blessé !");
 			}
 			else
 			{
