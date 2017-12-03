@@ -1,3 +1,4 @@
+
 /**
  * Groupe 7 JAVA PROJECT
  * MAJ 17/11/2017
@@ -74,6 +75,8 @@ public class Jeu {
 			perso.setPointsDAction(3);
 			compteurTour++;
 		}
+		System.out.println();
+		System.out.println("Vous vous etes echaper bravo !! ");
 	}
 	
 	/**
@@ -99,7 +102,7 @@ public class Jeu {
 		armes.put(11,new Arme(11, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
 		armes.put(12,new Arme(12, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
 		
-		carte = new Carte("C:\\Users\\Nicolas\\Downloads\\carte4.txt");
+		carte = new Carte("res/carte4.txt");
 		
 		for(int i = 0 ; i < 1;i++)
 		{
@@ -134,9 +137,13 @@ public class Jeu {
 			
 			if(action == 1)
 			{
-				if(perso.getArmeDroite() != null && perso.getArmeGauche() != null) {
+				/*
+				if(perso.getArmeDroite() != null && perso.getArmeGauche() != null) 
+				{
 					perso.setPointsDAction(perso.getPointsDAction() + 1);
 				}
+				*/
+				//deplace dans Personnage
 				perso.fouille(armes);
 				perso.setPointsDAction(perso.getPointsDAction() - 1);
 				updateEntiteListe();
@@ -151,7 +158,7 @@ public class Jeu {
 						{
 							noArme = Integer.parseInt(sc.next());
 							
-							if (noArme != 1 || noArme != 2) {
+							if (noArme != 1 && noArme != 2) {
 								System.out.println("Mauvaise entree arme !");
 								continue;
 							}
@@ -161,6 +168,16 @@ public class Jeu {
 								System.out.println("Mauvaise entree arme !");
 								continue;
 							}
+						if(noArme == 1 && perso.getArmeGauche() == null)
+						{
+							System.out.println("Vous n'avez pas d'arme en main gauche (1)");
+							continue;
+						}
+						else if(noArme == 2 && perso.getArmeDroite() == null)
+						{
+							System.out.println("Vous n'avez pas d'arme en main droite (2)");
+							continue;
+						}
 				
 				String [] courant;
 				char zero;
@@ -179,11 +196,14 @@ public class Jeu {
 						un = courant[1].charAt(0);	
 					}while(!Character.isDigit(zero) || !Character.isDigit(un) || courant.length > 2 );
 				}while( !(Integer.parseInt(zero+"") < carte.getLargeur()) || !(Integer.parseInt(un+"") < carte.getLongueur()) || Integer.parseInt(zero+"") < 0 && Integer.parseInt(un+"") < 0 );
-				System.out.println(" deuxieme reussi");
 				
 				Position endroitDeLattaque = new Position(Integer.parseInt(courant[0]),Integer.parseInt(courant[1]));
 				updateZombieSurCase(endroitDeLattaque);
-				
+				if(zombiesSurCase.isEmpty())
+				{
+					System.out.println("Il n'y pas de zombie a cet endroit");
+					continue;
+				}
 				//trouver un moyen pour eviter la redondance du code !!!!!!!!
 				if(noArme == 1 )
 				{
@@ -230,7 +250,7 @@ public class Jeu {
 					}
 					else
 					{
-						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer lÃ  !");
+						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer là !");
 					}
 				}
 				perso.setPointsDAction(perso.getPointsDAction() - 1);
@@ -313,7 +333,7 @@ public class Jeu {
 				int degat = z.attaquer();
 				perso.setPointsDeVie(perso.getPointsDeVie() - degat);
 				//degat toujours egal a 1
-				System.out.println("Un zombie vous a mordu vous etes blessÃ© !");
+				System.out.println("Un zombie vous a mordu vous etes blessé !");
 			}
 			else
 			{

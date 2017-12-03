@@ -111,6 +111,7 @@ public class Personnage extends Entite
 		else
 		{
 			System.out.println("Vous n'avez plus de place");
+			this.setPointsDAction(this.getPointsDAction() + 1);
 		}
 				
 
