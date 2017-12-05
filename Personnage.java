@@ -1,70 +1,174 @@
-package projet;
 /**
- * Crée par Loïc Persyn 2TL1
- * Date de création : 15-11-17
+ * 
  */
-import tp1.Calculatrice;
+package main;
 
-public class Personnage extends Entite{
+import java.util.HashMap;
+import java.util.Scanner;
 
-	private int armeGauche = 0;
-	private int armeDroite = 0;
-	public String deplacement;
-	
-	
-	public void seDeplacer(String deplacement) {
-		
-		if(deplacement.toLowerCase().equals("haut"))
-		{
-			int monter = Entite.getPosY();
-			Entite.posY = monter++;
-		}
-		else if(deplacement.toLowerCase().equals("bas"))
-		{
-			int descendre = Entite.getPosY();
-			Entite.posY = descendre--;
-		}
-		else if(deplacement.toLowerCase().equals("gauche"))
-		{
-			int allerGauche = Entite.getPosX();
-			Entite.posX = allerGauche--;
-		}
-		else if(deplacement.toLowerCase().equals("droite"))
-		{
-			int allerDroite = Entite.getPosX();
-			Entite.posX = allerDroite++;
-		}
+/**
+ * @author he201460
+ *
+ */
+public class Personnage extends Entite
+{
+	private Arme armeGauche;
+	private Arme armeDroite;
+	Scanner sc = new Scanner(System.in);
+	public Personnage(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
+	{
+		super(nom,id,pointsDeVie, pointsDAction,emplacement);
 	}
 	
-	public void fouille() {
+	
+	
+	public void deplacer(String direction, Carte carte) 
+	{
+		int couranteY = this.getEmplacement().getPosY();
+		int couranteX = this.getEmplacement().getPosX();
 		
-		int iDArme = 0;
-		iDArme = (int) (Math.random() * (12-1));
-		
-		if(armeGauche == 0) 
+		if(direction.equals("haut") && verification(carte, new Position(couranteX, couranteY - 1)))
 		{
-			armeGauche = iDArme;
-			System.out.printf("Vous possédez maintenant l'arme %s dans la main gauche", Weapons.getNomDeLarme());
+			couranteY --;
+			Position nouvelle = new Position(couranteX, couranteY);
+			
+			
+			this.setEmplacement(nouvelle);
 		}
-		else if(armeDroite == 0)
+		else if(direction.equals("bas") && verification(carte, new Position(couranteX, couranteY + 1)))
 		{
-			armeDroite = iDArme;
-			System.out.printf("Vous possédez maintenant l'arme %s dans la main doite",Weapons.getNomDeLarme());
+			couranteY ++;
+			//peut etre change le setPosition
+			Position nouvelle = new Position(couranteX, couranteY);
+			this.setEmplacement(nouvelle);
+		}
+		else if(direction.equals("droite") && verification(carte, new Position(couranteX + 1, couranteY )))
+		{
+			couranteX ++;
+			//peut etre change le setPosition
+			Position nouvelle = new Position(couranteX, couranteY);
+			this.setEmplacement(nouvelle);
+		}
+		else if(direction.equals("gauche") && verification(carte, new Position(couranteX - 1, couranteY)))
+		{
+			couranteX --;
+			//peut etre change le setPosition
+			Position nouvelle = new Position(couranteX, couranteY);
+			this.setEmplacement(nouvelle);
+		}
+		else
+		{
+			this.setPointsDAction(this.getPointsDAction() + 1);
+			System.out.println("Vous ne pouvez pas aller par là");
+		}
+	}
+
+	
+	public int attaquer(int choixDeLarme) 
+	{
+		if(choixDeLarme == 1)
+		{
+			for(int i = 0 ; i<armeGauche.getNombreDeFrappe() ; i++)
+			{
+				if(armeGauche.tentativeDAttaque())
+				{
+					return armeGauche.getDegats();
+				}
+			}
+		
+		}
+		else // else if
+		{
+			for(int i = 0 ; i<armeDroite.getNombreDeFrappe() ; i++)
+			{
+				if(armeDroite.tentativeDAttaque())
+				{
+					return armeDroite.getDegats();
+				}
+			}
+		}
+		//else
+		return 1;
+	}
+
+	
+	public void fouille(HashMap<Integer,Arme> armes)
+	{
+		int iDArme = -5;
+		iDArme = (int) (Math.random() * (11));
+		iDArme++;
+		if(armeGauche == null) 
+		{
+			armeGauche = armes.get(iDArme);
+			System.out.println("Vous possédez maintenant l'arme "+ armeGauche.getNomDeLarme() +" dans la main gauche" );
+		}
+		else if(armeDroite == null)
+		{
+			armeDroite = armes.get(iDArme);
+			System.out.println("Vous possédez maintenant l'arme " +  armeDroite.getNomDeLarme() + " dans la main doite");
 
 		}
 		else
 		{
 			System.out.println("Vous n'avez plus de place");
+			this.setPointsDAction(this.getPointsDAction() + 1);
 		}
 				
-	}
-				
-		
-	public Zombies rentre() {
-		return null;
-		
-		//Comprend pas cette méthode
+
 	}
 	
-		
+	public void jeterUneArme(int x)
+	{
+		if(x == 1)
+		{
+			this.armeGauche = null;
+		}
+		else
+		{
+			this.armeDroite = null;
+		}
+	}
+
+
+	public Arme getArmeGauche() {
+		return armeGauche;
+	}
+
+
+	public void setArmeGauche(Arme armeGauche) {
+		this.armeGauche = armeGauche;
+	}
+
+
+	public Arme getArmeDroite() {
+		return armeDroite;
+	}
+
+
+	public void setArmeDroite(Arme armeDroite) {
+		this.armeDroite = armeDroite;
+	}
+
+
+	@Override
+	public int attaquer() {
+		return 0;
+	}
+
+
+	public boolean verification(Carte carte, Position z) 
+	{
+		try 
+		{
+			String debug  = carte.getTab()[z.getPosY()][z.getPosX()];
+			String ddebug = carte.getCarPossible();
+			boolean debugz  = debug.equals(ddebug); 
+			return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			e.getMessage();
+			return false;
+		}
+	}
 }

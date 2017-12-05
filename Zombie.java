@@ -1,4 +1,4 @@
-package main1;
+package main;
 
 /**
  * @author he201460
@@ -11,12 +11,6 @@ public class Zombie extends Entite
 		super(nom,id,pointsDeVie, pointsDAction,emplacement);
 	}
 
-	@Override
-	public void deplacer(String direction)
-	{
-		//à quoi sert-elle ??
-		//voir méthode déplacer suivante
-	}
 	
 	public void deplacer(Personnage perso, Carte carte)
 	{
@@ -25,25 +19,22 @@ public class Zombie extends Entite
 		int persPosX = perso.getEmplacement().getPosX();
 		int persPosY = perso.getEmplacement().getPosY();
 		
-		if(couranteX > persPosX)
+		if(couranteX > persPosX && this.verification(carte,new Position(couranteX - 1,couranteY)))
 		{
-			couranteX--;
-			this.verification(carte, couranteX);
+			this.setEmplacement(new Position(couranteX - 1,couranteY));
 		}
-		else if(couranteX < persPosX)
+		else if(couranteX < persPosX && this.verification(carte,new Position(couranteX + 1,couranteY)))
 		{
-			couranteX++;
-			this.verification(carte, couranteX);
+			this.setEmplacement(new Position(couranteX + 1,couranteY));
 		}
-		else if(couranteY > persPosY)
+		else if(couranteY > persPosY && this.verification(carte,new Position(couranteX,couranteY - 1)))
 		{
-			couranteY--;
-			this.verification(carte, couranteY);
+			this.setEmplacement(new Position(couranteX,couranteY - 1));
 		}		
-		else if(couranteY < persPosY)
+		else if(couranteY < persPosY && this.verification(carte,new Position(couranteX,couranteY + 1)))
 		{
-			couranteY++;
-			this.verification(carte, couranteY);
+			this.setEmplacement(new Position(couranteX,couranteY + 1));
+			
 		}
 		
 	}
@@ -53,45 +44,10 @@ public class Zombie extends Entite
 	 * @param z : peut prendre la position X ou la position Y
 	 */
 	//cette méthode devra p-e se retrouver dans carte (ou ailleurs)
-	public void verification(Carte carte, int z) 
+	public boolean verification(Carte carte, Position z) 
 	{
-		int couranteX = this.getEmplacement().getPosX();
-		int couranteY = this.getEmplacement().getPosY();
-		String[][] map = carte.getTab();
-		
-		
-		if (map[couranteX][couranteY] == "/") 
-		{
-	        int rand = (int) (Math.random() * 4 );
-	        switch(rand)
-	        {
-	        	case 1 : couranteX++;
-	        			 if (map[couranteX][couranteY] == "/") 
-	        			 {
-	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-	        			 }
-	        			 break;
-	        	case 2 : couranteX--;
-	        			 if (map[couranteX][couranteY] == "/") 
-	        			 {
-	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-	        			 }
-	        			 break;
-	        	case 3 : couranteY++;
-	        			 if (map[couranteX][couranteY] == "/") 
-	        			 {
-	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-	        			 }
-	        			 break;
-	        	case 4 : couranteY--;
-	        			 if (map[couranteX][couranteY] == "/") 
-	        			 {
-	        				 System.out.println("Le zombie ne peut pas se déplacer. A votre tour !");
-	        			 }
-	        			 break;
-	        }
-	        
-	    }
+		String debuger = carte.getTab()[0][1];
+		return (!carte.getTab()[z.getPosY()][z.getPosX()].equals(debuger));
 	}
 	
 	@Override
@@ -108,14 +64,11 @@ public class Zombie extends Entite
 		return 1;
 	}
 
+
+
 	@Override
-	public void apparition(int x, int y)
-	{
-		//apparition de zombie ????
-	}
-	
-	public static int apparition()
-	{
-		return 1;
+	public void deplacer(String direction, Carte carte) {
+		// TODO Auto-generated method stub
+		
 	}
 }
