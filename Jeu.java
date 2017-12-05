@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 /**
  * @author groupe 7
- *verifier input choix d'arme
+ * modified Rosar Nicolas & Persyn Loïc
  */
 public class Jeu {
 	

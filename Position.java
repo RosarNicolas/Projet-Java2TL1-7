@@ -5,7 +5,7 @@ package main;
 
 /**
  * @author he201460
- *
+ * modified Rosar Nicolas & Persyn Loïc
  */
 public class Position 
 {

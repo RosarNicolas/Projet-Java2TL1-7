@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  * @author he201460
- *
+ * modified Rosar Nicolas & Persyn Loïc
  */
 public class Personnage extends Entite
 {
