@@ -1,4 +1,3 @@
-
 /**
  * Groupe 7 JAVA PROJECT
  * MAJ 17/11/2017
@@ -30,7 +29,10 @@ public class Jeu {
 	static int compteurTour = 1;
 	/**
 	 * @param args
-	 * methode main dans laquelle se deroule la presentation et la boucle qui fera tournee le jeu jusqu'a la fin
+	 * methode main dans laquelle se deroule la presentation et la boucle qui fera tourner le jeu jusqu'a la fin
+	 * si les points de vie du joueurs descendent en dessous de 1 alors la game est finie 
+	 * apparition de zombie tous les tours pair
+	 * le joueur gagne si a la fin de son tour il se trouve l'emplacement de la sortie
 	 */
 	public static void main(String[] args)
 	{
@@ -69,8 +71,8 @@ public class Jeu {
 			{
 				System.out.println("Tour pair, apparition de zombie");
 				zombieApparition();
-//				updateEntiteListe();
-//				carte.generer(entiteSurCarte);
+    			updateEntiteListe();
+				carte.generer(entiteSurCarte);
 			}
 			perso.setPointsDAction(3);
 			compteurTour++;
@@ -80,7 +82,8 @@ public class Jeu {
 	}
 	
 	/**
-	 * methode qui initialise les HashMap avec tous les types de zombies et d'armes differents
+	 * methode qui initialise les LinkedList avec tous les types de zombies et d'armes differents
+	 * fais apparaitre un zombie (a detreminer en fonction de la difficulté futur MAJ)
 	 */
 	public static void init()
 	{
@@ -111,6 +114,13 @@ public class Jeu {
 	
 	/** 
 	 * action possible lors d'un tour du personnage 
+	 * recuperation via un scanner
+	 * 1 permet de fouiller
+	 * 2 de se battre en choisissant une arme et un endroit ou tirer si le joueur possede une arme a distance
+	 * 3 permet de se deplacer en choisissant une direction
+	 * 4 permet d'attendre
+	 * 5 donne les informations sur le joueur
+	 * 6 permet de jeter une arme
 	 */
 	public static void tourPerso()
 	{
@@ -135,13 +145,6 @@ public class Jeu {
 			
 			if(action == 1)
 			{
-				/*
-				if(perso.getArmeDroite() != null && perso.getArmeGauche() != null) 
-				{
-					perso.setPointsDAction(perso.getPointsDAction() + 1);
-				}
-				*/
-				//deplace dans Personnage
 				perso.fouille(armes);
 				perso.setPointsDAction(perso.getPointsDAction() - 1);
 				updateEntiteListe();
@@ -335,6 +338,7 @@ public class Jeu {
 	/**
 	 * action des zombies lors de leur tour
 	 * les zombie jouent tous en meme temps 
+	 * soit ils attaquent soit ils se deplacent
 	 */
 	public static void tourZombie()
 	{
@@ -362,6 +366,10 @@ public class Jeu {
 		
 	}
 	
+	/**
+	 * fais apparaitre un zombie sur la carte de maniere aléatoire
+	 * jamais la ou le joueur se trouve
+	 */
 	public static void zombieApparition()
 	{
 		String [][] courant = carte.getTab();
@@ -386,6 +394,9 @@ public class Jeu {
 		}
 	}
 	
+	/**
+	 * met a jour la linkedList en fonction des entites sur la map
+	 */
 	public static void updateEntiteListe()
 	{
 		entiteSurCarte.removeAll(entiteSurCarte);
@@ -398,6 +409,10 @@ public class Jeu {
 		
 	}
 	
+	/**
+	 *  permet de recuperer les zombie sur une case precise
+	 * @param x Position sur laquelle on veut recuperer les zombies
+	 */
 	public static void updateZombieSurCase(Position x)
 	{
 		zombiesSurCase.removeAll(zombiesSurCase);
@@ -410,6 +425,9 @@ public class Jeu {
 		}
 	}
 	
+	/**
+	 * permet d'afficher les commande possible
+	 */
 	public static void explication()
 	{
 		System.out.println(	"\n- Fouillez (entrez 1);"

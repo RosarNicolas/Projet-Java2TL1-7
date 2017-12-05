@@ -22,6 +22,16 @@ public class Carte
 	private String carImpossible;
 	private static String pionJoueur = "j";
 	private static String pionZombie = "z";
+	/**
+	 * constructeur de la classe carte
+	 * se construit a partir d'un fichier texte
+	 * premiere ligne vide (important vis a vis de l'encodage)
+	 * 2eme ligne hauteur et largeur de la map
+	 * 3eme ligne position de l'apparition du joueur
+	 * 4eme ligne position de la sortie de la carte
+	 * 5eme ligne un caractere sur lequel les joueurs et zombies peuvent marcher et un autre ou ils ne peuvent pas
+	 * @param path
+	 */
 	public Carte(String path)
 	{
 		try 
@@ -81,6 +91,14 @@ public class Carte
 		}
 	}
 	
+	/**
+	 * permet de generer la carte en console en fonction du fichiers texte et des entites presentes sur la carte
+	 * un J represente le joueurs
+	 * un Z represente 1 zombie
+	 * un X represente un joueur avec 1 ou plusieurs zombies sur la emme case
+	 * un chiffre represente un nombre de zombie sur la meme case
+	 * @param ent
+	 */
 	public void generer(LinkedList<Entite> ent)
 	{
 		for(int i = 0;i<tab.length;i++)
@@ -142,6 +160,11 @@ public class Carte
 		}
 		genererLigne(this.largeur);
 	}
+	
+	/**
+	 * methode necessaire a la generation des murs de la carte en fonction de la largeur de la carte
+	 * @param x
+	 */
 	public void genererLigne(int x)
 	{
 		 
@@ -152,6 +175,9 @@ public class Carte
       System.out.println("|");
 
 	}
+	
+	//getters and setters
+	
 	public int getLongueur() {
 		return longueur;
 	}

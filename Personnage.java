@@ -21,7 +21,14 @@ public class Personnage extends Entite
 	}
 	
 	
-	
+	/**
+	 * update la position du joueur
+	 * si la position vers laquelle le joueur veut aller n'est pas atteignable alors fais en sorte de lui redonner un point d'action
+	 * 
+	 * direction est un String valable (haut, bas , gauche, droite)
+	 * carte est la carte de jeu
+	 * @param String direction, Carte carte
+	 */
 	public void deplacer(String direction, Carte carte) 
 	{
 		int couranteY = this.getEmplacement().getPosY();
@@ -63,7 +70,11 @@ public class Personnage extends Entite
 		}
 	}
 
-	
+	/**
+	 * permet de renvoyer les degats de l'arme si elle touche 
+	 * @param choixDeLarme : int (1 = gauche, 2 = droite)
+	 * @return les degats de l'arme si elle touche : int
+	 */
 	public int attaquer(int choixDeLarme) 
 	{
 		if(choixDeLarme == 1)
@@ -91,7 +102,11 @@ public class Personnage extends Entite
 		return 1;
 	}
 
-	
+	/**
+	 * renvoie une arme parmis celle de la liste du jeu au hasard
+	 * si le joueur n'a plus de place fais en sorte de ne pas lui retirer un points d'action
+	 * @param armes : LinkedList
+	 */
 	public void fouille(HashMap<Integer,Arme> armes)
 	{
 		int iDArme = -5;
@@ -117,6 +132,10 @@ public class Personnage extends Entite
 
 	}
 	
+	/**
+	 * permet de rendre une des armes du joueur null pour pouvoir en recuperer une autre
+	 * @param x : int (1 = gauche, 2 = droite)
+	 */
 	public void jeterUneArme(int x)
 	{
 		//verifier si arme a jeter
@@ -169,7 +188,12 @@ public class Personnage extends Entite
 		return 0;
 	}
 
-
+	/**
+	 * verifie si le joueur peut se deplacer a une certaine coordonnée
+	 * @param carte : Carte
+	 * @param z : Position
+	 * @return true si le joueur peut se deplacer a la position z, false sinon
+	 */
 	public boolean verification(Carte carte, Position z) 
 	{
 		try 

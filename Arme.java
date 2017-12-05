@@ -31,6 +31,10 @@ public class Arme
 		this.nomDeLarme = nomDeLArme;
 	}
 	
+	/**
+	 * chance de toucher avec une arme pour un coup
+	 * @return true si l'arme touche false sinon
+	 */
 	public boolean tentativeDAttaque()
 	{
 		//return true;
@@ -40,6 +44,10 @@ public class Arme
 		return(a<b);
 	}
 
+	/*
+	 *getters and setters
+	 */
+	
 	public int getId() {
 		return id;
 	}
@@ -104,4 +112,3 @@ public class Arme
 		this.nomDeLarme = nomDeLarme;
 	}
 }
-
