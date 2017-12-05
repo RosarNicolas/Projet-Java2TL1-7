@@ -120,8 +120,15 @@ public class Personnage extends Entite
 	public void jeterUneArme(int x)
 	{
 		//verifier si arme a jeter
-		
-		if(x == 1)
+		 if(x == 1 && this.armeGauche == null)
+		{
+			System.out.println("Vous n'avez pas d'arme à jeter dans la main gauche");
+		}
+		else if(x == 2 && this.armeDroite == null)
+		{
+			System.out.println("Vous n'avez pas d'arme à jeter dans la main droite");
+		}
+		else if(x == 1)
 		{
 			this.armeGauche = null;
 		}
@@ -129,6 +136,7 @@ public class Personnage extends Entite
 		{
 			this.armeDroite = null;
 		}
+	
 		else
 		{
 			System.out.println("Mauvais numero pour choix de l'arme");
