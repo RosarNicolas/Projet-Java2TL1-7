@@ -12,6 +12,11 @@ public class Position
 	private int posX;
 	private int posY;
 	
+	/**
+	 * Constructeur de la classe Position
+	 * @param posX : int
+	 * @param posY : int
+	 */
 	public Position(int posX, int posY)
 	{
 		this.posX = posX;

@@ -14,6 +14,15 @@ public abstract class Entite
 	private int pointsDeVie;
 	private int pointsDAction;
 	private Position emplacement;
+	
+	/**
+	 * constructeur d'entite 
+	 * @param nom : String
+	 * @param id : int
+	 * @param pointsDeVie : int
+	 * @param pointsDAction : int
+	 * @param emplacement : Position
+	 */
 	public Entite(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
 	{
 		this.nom = nom;

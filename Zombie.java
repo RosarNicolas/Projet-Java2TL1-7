@@ -6,6 +6,14 @@ package main;
  */
 public class Zombie extends Entite
 {
+	/**
+	 * constructeur de la classe Zombie
+	 * @param nom : String
+	 * @param id : int
+	 * @param pointsDeVie : int
+	 * @param pointsDAction : int
+	 * @param emplacement : Position
+	 */
 	public Zombie(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
 	{
 		super(nom,id,pointsDeVie, pointsDAction,emplacement);

@@ -15,6 +15,15 @@ public class Personnage extends Entite
 	private Arme armeGauche;
 	private Arme armeDroite;
 	Scanner sc = new Scanner(System.in);
+	
+	/**
+	 * constructeur de la classe Personnage
+	 * @param nom : String
+	 * @param id : int
+	 * @param pointsDeVie : int
+	 * @param pointsDAction : int
+	 * @param emplacement : Position
+	 */
 	public Personnage(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
 	{
 		super(nom,id,pointsDeVie, pointsDAction,emplacement);
