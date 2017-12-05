@@ -119,13 +119,19 @@ public class Personnage extends Entite
 	
 	public void jeterUneArme(int x)
 	{
+		//verifier si arme a jeter
+		
 		if(x == 1)
 		{
 			this.armeGauche = null;
 		}
-		else
+		else if(x == 2)
 		{
 			this.armeDroite = null;
+		}
+		else
+		{
+			System.out.println("Mauvais numero pour choix de l'arme");
 		}
 	}
 
@@ -160,9 +166,6 @@ public class Personnage extends Entite
 	{
 		try 
 		{
-			String debug  = carte.getTab()[z.getPosY()][z.getPosX()];
-			String ddebug = carte.getCarPossible();
-			boolean debugz  = debug.equals(ddebug); 
 			return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
 		}
 		catch(ArrayIndexOutOfBoundsException e)
