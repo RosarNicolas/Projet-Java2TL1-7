@@ -1,4 +1,6 @@
-package main;
+package testMVC;
+
+
 
 /**
  * @author he201460

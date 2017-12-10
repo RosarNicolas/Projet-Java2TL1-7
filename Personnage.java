@@ -1,14 +1,14 @@
 /**
  * 
  */
-package main;
+package testMVC;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 /**
  * @author he201460
- * modified Rosar Nicolas & Persyn Loïc
+ *
  */
 public class Personnage extends Entite
 {
@@ -72,11 +72,13 @@ public class Personnage extends Entite
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
 		}
-		else
+		
+		//MVC
+		/*else
 		{
 			this.setPointsDAction(this.getPointsDAction() + 1);
 			System.out.println("Vous ne pouvez pas aller par là");
-		}
+		}*/
 	}
 
 	/**
@@ -116,7 +118,7 @@ public class Personnage extends Entite
 	 * si le joueur n'a plus de place fais en sorte de ne pas lui retirer un points d'action
 	 * @param armes : LinkedList
 	 */
-	public void fouille(HashMap<Integer,Arme> armes)
+	public int fouille(HashMap<Integer,Arme> armes)
 	{
 		int iDArme = -5;
 		iDArme = (int) (Math.random() * (11));
@@ -124,18 +126,24 @@ public class Personnage extends Entite
 		if(armeGauche == null) 
 		{
 			armeGauche = armes.get(iDArme);
-			System.out.println("Vous possédez maintenant l'arme "+ armeGauche.getNomDeLarme() +" dans la main gauche" );
+			return 1;
+			//MVC
+			//System.out.println("Vous possédez maintenant l'arme "+ armeGauche.getNomDeLarme() +" dans la main gauche" );
 		}
 		else if(armeDroite == null)
 		{
 			armeDroite = armes.get(iDArme);
-			System.out.println("Vous possédez maintenant l'arme " +  armeDroite.getNomDeLarme() + " dans la main doite");
+			return 2;
+			//MVC
+			//System.out.println("Vous possédez maintenant l'arme " +  armeDroite.getNomDeLarme() + " dans la main doite");
 
 		}
 		else
 		{
-			System.out.println("Vous n'avez plus de place");
+			//MVC
+			//System.out.println("Vous n'avez plus de place");
 			this.setPointsDAction(this.getPointsDAction() + 1);
+			return 0;
 		}
 				
 
@@ -150,11 +158,13 @@ public class Personnage extends Entite
 		//verifier si arme a jeter
 		 if(x == 1 && this.armeGauche == null)
 		{
-			System.out.println("Vous n'avez pas d'arme à jeter dans la main gauche");
+			 //MVC
+			//System.out.println("Vous n'avez pas d'arme à jeter dans la main gauche");
 		}
 		else if(x == 2 && this.armeDroite == null)
 		{
-			System.out.println("Vous n'avez pas d'arme à jeter dans la main droite");
+			//MVC
+			//System.out.println("Vous n'avez pas d'arme à jeter dans la main droite");
 		}
 		else if(x == 1)
 		{
@@ -167,7 +177,8 @@ public class Personnage extends Entite
 	
 		else
 		{
-			System.out.println("Mauvais numero pour choix de l'arme");
+			//MVC
+			//System.out.println("Mauvais numero pour choix de l'arme");
 		}
 	}
 
@@ -215,4 +226,7 @@ public class Personnage extends Entite
 			return false;
 		}
 	}
+
+
+	
 }

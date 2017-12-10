@@ -1,4 +1,4 @@
-package main;
+package testMVC;
 
 import java.util.Scanner;
 
@@ -6,9 +6,11 @@ public class Test {
 
 	public static void main(String[] args) 
 	{
-		Scanner sc = new Scanner(System.in);
-		int a = Integer.parseInt(sc.next());
-		System.out.println(sc);
+		Jeu jeu = new Jeu();
+		JeuController controle = new JeuController(jeu);
+		JeuVueConsole vue = new JeuVueConsole(jeu, controle);
+		controle.addView(vue);
+		vue.main();
 	}
 
 }

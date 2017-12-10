@@ -1,11 +1,12 @@
 /**
  * 
  */
-package main;
+package testMVC;
+
 
 /**
  * @author he201460
- * modified Rosar Nicolas & Persyn Loïc
+ *
  */
 public abstract class Entite
 {
