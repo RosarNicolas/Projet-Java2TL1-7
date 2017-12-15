@@ -11,7 +11,7 @@ public class JeuController
 	
 	public void nouveauPerso(String nom)
 	{
-		Personnage perso = new Personnage(nom, 1, 2, 3, modele.getCarte().getApparition());
+		Personnage perso = new Personnage(nom, 1, 3, 3, modele.getCarte().getApparition());
 		modele.setPerso(perso);
 		modele.updateEntiteListe();
 	}
@@ -23,11 +23,11 @@ public class JeuController
 			int fouilleAction = modele.getPerso().fouille(modele.getArmes());
 			if(fouilleAction == 1)
 			{
-				vue.affiche("Vous possÈdez maintenant l'arme "+ modele.getPerso().getArmeGauche().getNomDeLarme() +" dans la main gauche" );
+				vue.affiche("Vous poss√©dez maintenant l'arme "+ modele.getPerso().getArmeGauche().getNomDeLarme() +" dans la main gauche" );
 			}
 			else if(fouilleAction == 2)
 			{
-				vue.affiche("Vous possÈdez maintenant l'arme "+ modele.getPerso().getArmeDroite().getNomDeLarme() +" dans la main droite" );
+				vue.affiche("Vous poss√©dez maintenant l'arme "+ modele.getPerso().getArmeDroite().getNomDeLarme() +" dans la main droite" );
 			}
 			else if(fouilleAction == 0)
 			{
@@ -60,7 +60,7 @@ public class JeuController
 			modele.updateZombieSurCase(endroitDeLattaque);
 			if(modele.getZombiesSurCase().isEmpty())
 			{
-				vue.affiche("Il n'y pas de zombie ‡ cet endroit");
+				vue.affiche("Il n'y pas de zombie √† cet endroit");
 				return;
 			}
 			
@@ -73,11 +73,11 @@ public class JeuController
 					if(!(modele.getPerso().attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 					{
 						modele.getZombiesSurCase().addFirst(cibleAttaque);
-						vue.affiche("Vous n'avez pas rÈussi a tuer le zombie cible !");
+						vue.affiche("Vous n'avez pas r√©ussi a tuer le zombie cible !");
 					}
 					else
 					{
-						System.out.println("Vous avez tuÈ un zombie !");
+						System.out.println("Vous avez tu√© un zombie !");
 						modele.updateEntiteListe();
 						//vue.update(null,  null); sinon double affichage de map
 					}
@@ -85,7 +85,7 @@ public class JeuController
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la portÈe ou la ligne de vue pour tirer a cet endroit ");
+					vue.affiche("Vous n'avez pas la port√©e ou la ligne de vue pour tirer a cet endroit ");
 				}
 			}
 			else 
@@ -97,11 +97,11 @@ public class JeuController
 					if(!(modele.getPerso().attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 					{
 						modele.getZombiesSurCase().addFirst(cibleAttaque);
-						System.out.println("Vous n'avez pas rÈussi a tuer le zombie cible !");
+						System.out.println("Vous n'avez pas r√©ussi a tuer le zombie cible !");
 					}
 					else
 					{
-						System.out.println("Vous avez tuÈ un zombie ! ");
+						System.out.println("Vous avez tu√© un zombie ! ");
 						modele.updateEntiteListe();
 						//vue.update(null,  null);
 					}
@@ -109,7 +109,7 @@ public class JeuController
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la portÈe ou la ligne de vue pour tirer l‡ !");
+					vue.affiche("Vous n'avez pas la port√©e ou la ligne de vue pour tirer l√† !");
 				}
 			}
 			
