@@ -55,7 +55,7 @@ public class JeuVueConsole extends JeuVue implements Observer
 				{
 					affiche("Vous n'avez pas entré un chiffre réessayer !");
 				}
-				controle.tourPerso(action);
+				controle.tourPerso(action,0,"");
 			}
 			affiche("tour zombie appuyer blabla");
 			sc.next();
@@ -226,6 +226,20 @@ public class JeuVueConsole extends JeuVue implements Observer
 	public void affiche(String string) 
 	{
 		System.out.println(string);
+	}
+
+
+	@Override
+	public void afficheArme1(String string) {
+		affiche(string);
+		
+	}
+
+
+	@Override
+	public void afficheArme2(String string) {
+		affiche(string);
+		
 	}
 	
 }

@@ -11,23 +11,23 @@ public class JeuController
 	
 	public void nouveauPerso(String nom)
 	{
-		Personnage perso = new Personnage(nom, 1, 3, 3, modele.getCarte().getApparition());
+		Personnage perso = new Personnage(nom, 1, 2, 3, modele.getCarte().getApparition());
 		modele.setPerso(perso);
 		modele.updateEntiteListe();
 	}
 	
-	public void tourPerso(int action)
+	public void tourPerso(int action, int choixArme, String deplacement)
 	{
 		if(action == 1)
 		{
 			int fouilleAction = modele.getPerso().fouille(modele.getArmes());
 			if(fouilleAction == 1)
 			{
-				vue.affiche("Vous poss√©dez maintenant l'arme "+ modele.getPerso().getArmeGauche().getNomDeLarme() +" dans la main gauche" );
+				vue.afficheArme1("Vous possÈdez maintenant l'arme "+ modele.getPerso().getArmeGauche().getNomDeLarme() +" dans la main gauche" );
 			}
 			else if(fouilleAction == 2)
 			{
-				vue.affiche("Vous poss√©dez maintenant l'arme "+ modele.getPerso().getArmeDroite().getNomDeLarme() +" dans la main droite" );
+				vue.afficheArme2("Vous possÈdez maintenant l'arme "+ modele.getPerso().getArmeDroite().getNomDeLarme() +" dans la main droite" );
 			}
 			else if(fouilleAction == 0)
 			{
@@ -40,8 +40,13 @@ public class JeuController
 		else if(action == 2)
 		{
 			int noArme = 0;
-			vue.affiche("Avec quelle arme voulez vous attaquer ?");
-			if((noArme = vue.choixArme()) == 0 )
+			if(choixArme == 0)
+			{
+				vue.affiche("Avec quelle arme voulez vous attaquer ?");
+				noArme = vue.choixArme();
+			}
+			
+			if(noArme  == 0 )
 			{
 				return;
 			}
@@ -60,7 +65,7 @@ public class JeuController
 			modele.updateZombieSurCase(endroitDeLattaque);
 			if(modele.getZombiesSurCase().isEmpty())
 			{
-				vue.affiche("Il n'y pas de zombie √† cet endroit");
+				vue.affiche("Il n'y pas de zombie ‡ cet endroit");
 				return;
 			}
 			
@@ -73,11 +78,11 @@ public class JeuController
 					if(!(modele.getPerso().attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 					{
 						modele.getZombiesSurCase().addFirst(cibleAttaque);
-						vue.affiche("Vous n'avez pas r√©ussi a tuer le zombie cible !");
+						vue.affiche("Vous n'avez pas rÈussi a tuer le zombie cible !");
 					}
 					else
 					{
-						System.out.println("Vous avez tu√© un zombie !");
+						System.out.println("Vous avez tuÈ un zombie !");
 						modele.updateEntiteListe();
 						//vue.update(null,  null); sinon double affichage de map
 					}
@@ -85,7 +90,7 @@ public class JeuController
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la port√©e ou la ligne de vue pour tirer a cet endroit ");
+					vue.affiche("Vous n'avez pas la portÈe ou la ligne de vue pour tirer a cet endroit ");
 				}
 			}
 			else 
@@ -97,11 +102,11 @@ public class JeuController
 					if(!(modele.getPerso().attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 					{
 						modele.getZombiesSurCase().addFirst(cibleAttaque);
-						System.out.println("Vous n'avez pas r√©ussi a tuer le zombie cible !");
+						System.out.println("Vous n'avez pas rÈussi a tuer le zombie cible !");
 					}
 					else
 					{
-						System.out.println("Vous avez tu√© un zombie ! ");
+						System.out.println("Vous avez tuÈ un zombie ! ");
 						modele.updateEntiteListe();
 						//vue.update(null,  null);
 					}
@@ -109,7 +114,7 @@ public class JeuController
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la port√©e ou la ligne de vue pour tirer l√† !");
+					vue.affiche("Vous n'avez pas la portÈe ou la ligne de vue pour tirer l‡ !");
 				}
 			}
 			
@@ -119,12 +124,14 @@ public class JeuController
 		}
 		else if(action == 3)
 		{
-			String deplacement  =  vue.deplacement();
-			modele.getPerso().deplacer(deplacement, modele.getCarte());
-			vue.affiche("Voici votre position actuelle  "+ modele.getPerso().getEmplacement().getPosX()+";"+ modele.getPerso().getEmplacement().getPosY());
-			modele.updateEntiteListe();
-			vue.update(null, null);
-			modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
+			if(deplacement.isEmpty())
+			{
+				deplacerVueConsole();
+			}
+			else
+			{
+				deplacerVueGUI(deplacement);
+			}
 		}
 		else if(action == 4)
 		{
@@ -165,15 +172,47 @@ public class JeuController
 		}
 		else if(action == 6)
 		{
-			vue.affiche("quelle arme jeter ? (1 gauche, 2 droite)");
-			int armeAjeter = vue.choixArme();
-			modele.getPerso().jeterUneArme(armeAjeter);
-			modele.updateEntiteListe();
-			vue.update(null, null);
+			if(choixArme == 0)
+			{
+				jeterUneArmeConsole();
+			}
+			else
+			{
+				jeterUneArmeGUI(choixArme);
+			}
 		}
+		
 	}
-	
-	
+	public void deplacerVueConsole()
+	{
+		String deplacement  =  vue.deplacement();
+		modele.getPerso().deplacer(deplacement, modele.getCarte());
+		vue.affiche("Voici votre position actuelle  "+ modele.getPerso().getEmplacement().getPosX()+";"+ modele.getPerso().getEmplacement().getPosY());
+		modele.updateEntiteListe();
+		vue.update(null, null);
+		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
+	}
+	public void deplacerVueGUI(String deplacement)
+	{
+		modele.getPerso().deplacer(deplacement, modele.getCarte());
+		modele.updateEntiteListe();
+		vue.update(null, null);
+		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
+	}
+	public void jeterUneArmeConsole()
+	{
+		vue.affiche("quelle arme jeter ? (1 gauche, 2 droite)");
+		int armeAjeter = vue.choixArme();
+		modele.getPerso().jeterUneArme(armeAjeter);
+		modele.updateEntiteListe();
+		vue.update(null, null);
+	}
+	public void jeterUneArmeGUI(int a)
+	{
+		modele.getPerso().jeterUneArme(a);
+		modele.updateEntiteListe();
+		vue.update(null, null);
+	}
 	public void addView(JeuVue vue)
 	{
 		this.vue = vue;

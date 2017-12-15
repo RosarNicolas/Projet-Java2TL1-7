@@ -22,4 +22,8 @@ public abstract class JeuVue implements Observer
 	public abstract Position choixAttaque();
 	
 	public abstract String deplacement();
+
+	public abstract void afficheArme1(String string);
+
+	public abstract void afficheArme2(String string);
 }

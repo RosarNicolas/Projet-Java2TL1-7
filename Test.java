@@ -16,6 +16,7 @@ public class Test {
 		Jeu jeu1 = new Jeu();
 		JeuController jeu2 = new JeuController(jeu1);
 		JeuVueGUI jeu = new JeuVueGUI(jeu1, jeu2);
+		jeu2.addView(jeu);
 		
 		
 	}

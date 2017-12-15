@@ -102,7 +102,7 @@ public class Jeu extends Observable {
 		armes.put(4,new Arme(4, 2, 0, 1, 0.5, 0.125,0.05, "Hache"));
 		armes.put(5,new Arme(5, 2, 0, 5, 0.33, 0.125,0.05, "Tronçonneuse"));
 		armes.put(6,new Arme(6, 1, 1, 1, 0.66, 0.125,0.05, "Pistolet"));
-		armes.put(7,new Arme(7, 1, 0, 2, 0.5, 0.125,0.05, "Batte"));
+		armes.put(7,new Arme(7, 1, 0, 2, 0.5, 0.125,0.05, "Batte Cloutée"));
 		armes.put(8,new Arme(8, 2, 1, 2, 0.5, 0.125,0.05, "Fusil à pompe"));
 		armes.put(9,new Arme(9, 0, 0, 0, 0.0, 0.125,0.05, "Détritus"));
 		armes.put(10,new Arme(10, 0, 0, 0, 0.0, 0.125,0.05, "Détritus"));
