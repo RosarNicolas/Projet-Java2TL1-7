@@ -28,6 +28,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 {
 	
 	Boolean estCombat = false;
+	Boolean estCombatADroite = false;
+	Boolean estCombatAGauche = false;
 	int choixArme = 0;
 	int debug = 0;
 	
@@ -39,8 +41,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	JPanel droit1 = new JPanel();
 	
 	
-	JPanel texte = new JPanel();
-	JLabel texteConsole = new JLabel("texteConsole");
+	JPanel texte = new Panneau("res/papier.jpg");
+	JLabel texteConsole = new JLabel("Bienvenue dans notre petit jeu");
 	
 	
 	JPanel carte = new JPanel();
@@ -98,7 +100,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		fen = new JFrame("ZOMBICIDE");
 		
 		//NICO
-		contentPane = new Panneau();
+		contentPane = new Panneau("res/Zbackground.jpg");
 		contentPane.setPreferredSize(new Dimension(400,1));
 		contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS) );
 		contentPane.setBorder( new EmptyBorder(50, 5, 5, 5) );
@@ -243,7 +245,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	
 		
 		//texte
-		texte.setLayout(null);
 		texte.setBorder(blackline);
 		texte.setBackground(Color.RED);
 		texte.setPreferredSize(new Dimension(380,1000));
@@ -359,8 +360,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			controle.tourPerso(1,0,"");
 			update(null,null);
 		}
-		else if(courant == attaquer)
+		else if(courant == attaquer)// ATTAQUER ===================================================
 		{
+//			estCombat = true;
+//			System.out.println(estCombat);
 			debug = 1;
 		}
 		else if(courant == deplacer)
@@ -469,7 +472,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		//genererCarte();
 		genererInfo();
 		
-		
 	}
 	
 	
@@ -480,7 +482,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 
 	public void genererInfo()
 	{
-		
+		/*if ( !(modele.getPerso().getArmeGauche() == null) )
+		affiche("Vous posséder " + modele.getPerso().getArmeGauche().getNomDeLarme() + " dans la main gauche");
+		if ( !(modele.getPerso().getArmeDroite() == null) )
+			affiche("Vous posséder " + modele.getPerso().getArmeGauche().getNomDeLarme() + " dans la main gauche");!!!!!!!!!!!!!!!!!!!!!!!*/
 	}
 
 
@@ -493,19 +498,16 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	@Override
 	public int choixArme() 
 	{
-		
 		return choixArme;
 	}
 
 	@Override
 	public Position choixAttaque() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String deplacement() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -516,10 +518,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		{
 			imageArme = SwitchArmesGD(idArme);
 		} 
-		catch (IOException e) 
-		{
-			
-		}
+		catch (IOException e) {}
+		
 		vueArmeGauche.setIcon(new ImageIcon(imageArme));
 	}
 
@@ -530,10 +530,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		{
 			imageArme = SwitchArmesGD(idArme);
 		} 
-		catch (IOException e) 
-		{
-			
-		}
+		catch (IOException e) {}
+		
 		vueArmeDroite.setIcon(new ImageIcon(imageArme));
 	}
 	
