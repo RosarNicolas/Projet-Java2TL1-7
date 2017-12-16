@@ -227,19 +227,4 @@ public class JeuVueConsole extends JeuVue implements Observer
 	{
 		System.out.println(string);
 	}
-
-
-	@Override
-	public void afficheArme1(String string) {
-		affiche(string);
-		
-	}
-
-
-	@Override
-	public void afficheArme2(String string) {
-		affiche(string);
-		
-	}
-	
 }

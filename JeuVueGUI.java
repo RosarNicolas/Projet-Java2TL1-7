@@ -38,7 +38,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	JPanel gauche1 = new JPanel();
 	JPanel droit1 = new JPanel();
 	
-	JPanel debug1 = new JPanel();
 	
 	JPanel texte = new JPanel();
 	JLabel texteConsole = new JLabel("texteConsole");
@@ -64,9 +63,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	JButton haut = new JButton("Haut");
 	JButton droite = new JButton("Droite");
 	
-	JButton armeGauche1 = new JButton("arme gauche");
-	JButton armeDroite2 = new JButton("arme droite");
-	JButton jeter = new JButton("Jeter");
+	//JButton armeGauche1 = new JButton("arme gauche");
+	//JButton armeDroite2 = new JButton("arme droite");
+	
 	
 	//NICO
 	private JPanel contentPane;
@@ -79,15 +78,20 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	
 	Image coeurs;
 	Image actions;
-	Image armeGauche;
-	Image armeDroite;
+	Image imageArme;
+	
+	JLabel vueCoeurs = new JLabel();
+	JLabel vueAction = new JLabel();
+	JButton vueArmeGauche = new JButton();
+	JButton vueArmeDroite = new JButton();
+	JButton jeterArmeGauche = new JButton("Jeter");
+	JButton jeterArmeDroite = new JButton("Jeter");
 	
 	//Canvas canvas;
 	
 	public JeuVueGUI(Jeu modele, JeuController controle)
 	{
 		super(modele, controle);
-		//this.modele = modele;
 		modele.setPerso(new Personnage("test",1,3,3, modele.getCarte().getApparition()));//MVC
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		
@@ -103,31 +107,37 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		top = Box.createHorizontalBox();
 		top.setPreferredSize(new Dimension(0,100));
 		top.setOpaque(false);
+		//top.setBorder(blackline);
 		
 		// TOP gauche
 		panel_1 = new JPanel();
 		panel_1.setOpaque(false);
 		panel_1.setPreferredSize( new Dimension(130,40) );
+		//panel_1.setBorder(blackline);
 		
 		// TOP droite
 		panel_2 = new JPanel();
 		panel_2.setOpaque(false);
 		panel_2.setPreferredSize( new Dimension(130,40) );
+		//panel_2.setBorder(blackline);
 		
 		// Seconde couche BOTTOM
 		bottom = Box.createHorizontalBox();
 		bottom.setPreferredSize(new Dimension(0,150));
 		bottom.setOpaque(false);
+		//bottom.setBorder(blackline);
 		
 		// BOTTOM gauche
 		panel_3 = new JPanel();
 		panel_3.setOpaque(false);
 		panel_3.setPreferredSize( new Dimension(130,40) );
+		//panel_3.setBorder(blackline);
 		
 		// BOTTOM droite
 		panel_4 = new JPanel();
 		panel_4.setOpaque(false);
 		panel_4.setPreferredSize( new Dimension(130,40) );
+		//panel_4.setBorder(blackline);
 		
 		
 		try {
@@ -163,23 +173,28 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			SwitchArmesGD( armeGauche, IdArmeGauche );
 			SwitchArmesGD( armeDroite, IdArmeDroite );*/
 			
-			JLabel vueCoeurs = new JLabel( new ImageIcon( coeurs ));
+			vueCoeurs.setIcon(new ImageIcon(coeurs));
 			panel_1.add( vueCoeurs );
 			
-			JLabel vueAction = new JLabel( new ImageIcon( actions ));
+			vueAction.setIcon( new ImageIcon(actions));
 			panel_2.add( vueAction );
 			
-			JButton vueArmeGauche = new JButton( new ImageIcon( "res/rien.png" ));
+			vueArmeGauche.setIcon( new ImageIcon( "res/question.png" ));
 			vueArmeGauche.setBounds(0, 0, 100, 130);
 			vueArmeGauche.setContentAreaFilled(false);
             vueArmeGauche.setBorderPainted(false);
 			panel_3.add( vueArmeGauche );
 			
-			JButton vueArmeDroite = new JButton( new ImageIcon( "res/rien.png" ));
+			vueArmeDroite.setIcon( new ImageIcon( "res/question.png" ));
 			vueArmeDroite.setBounds(0, 0, 100, 130);
 			vueArmeDroite.setContentAreaFilled(false);
             vueArmeDroite.setBorderPainted(false);
 			panel_4.add( vueArmeDroite );
+			
+			panel_3.add(jeterArmeGauche);
+			panel_4.add(jeterArmeDroite);
+			jeterArmeGauche.setEnabled(false);
+			jeterArmeDroite.setEnabled(false);
 			
 			
 		} 
@@ -265,11 +280,18 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		bas.addActionListener(this);
 		gauche.addActionListener(this);
 		droite.addActionListener(this);
+		vueArmeGauche.addActionListener(this);
+		vueArmeDroite.addActionListener(this);
+		jeterArmeDroite.addActionListener(this);
+		jeterArmeGauche.addActionListener(this);
+		
 		
 	}
 	
 	public void genererCarte()
 	{
+		boolean dejaEcrit = false;
+		int compteur = 0;
 		String tab [][] = modele.getCarte().getTab();
 		int longueur = modele.getCarte().getLongueur();
 		int largeur = modele.getCarte().getLargeur();
@@ -280,13 +302,37 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		{
 			for(int j = 0 ;j<largeur;j++)
 			{
-				if(tab[i][j].equals(carTrou))
+				dejaEcrit = false;
+				compteur = 0;
+				//regler probleme si pas de zombie alors carte ne se genere pas
+				for(Zombie z : modele.getZombiesSurCarte())
+				{
+					if(z.getEmplacement().getPosX() == j && z.getEmplacement().getPosY() == i)
+					{
+						compteur++;
+					}
+				}
+				if(compteur == 1)
+				{
+					DessinerImage image = new DessinerImage("res/cuisine.jpg");
+					image.setBounds(j*100, i*100, 100, 100);
+					carte.add(image);
+					dejaEcrit = true;
+				}
+				else if(compteur > 1 )
+				{
+					DessinerImage image = new DessinerImage("res/hopital2.jpg");
+					image.setBounds(j*100, i*100, 100, 100);
+					carte.add(image);
+					dejaEcrit = true;
+				}
+				else if(tab[i][j].equals(carTrou) && !dejaEcrit)
 				{
 					DessinerImage image = new DessinerImage("res/troutile.jpg");
 					image.setBounds(j*100, i*100, 100, 100);
 					carte.add(image);
 				}
-				else
+				else if(!dejaEcrit)
 				{
 					DessinerImage image = new DessinerImage("res/couloirHopital.jpg");
 					image.setBounds(j*100, i*100, 100, 100);
@@ -328,8 +374,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		}
 		else if(courant == attendre)
 		{
-			//controle.tourPerso(4,0,"");
-			boutonJoueur.setLocation(0,400);
+		
+			controle.tourPerso(4,0,"");
+
 		}
 		else if(courant == gauche)
 		{
@@ -348,12 +395,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		{
 			controle.tourPerso(3,1,"haut");
 		}
-		else if(courant == jeter)
-		{
-			armeGauche1.setEnabled(true);
-			armeDroite2.setEnabled(true);
-		}
-		else if(courant == armeGauche)
+		else if(courant == vueArmeGauche)
 		{
 			if(estCombat)
 			{
@@ -361,12 +403,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			}
 			else
 			{
-				controle.tourPerso(6,1,"");
-				armeGauche1.setEnabled(false);
-				armeDroite2.setEnabled(false);
+				jeterArmeGauche.setEnabled(true);
 			}
 		}
-		else if(courant == armeDroite)
+		else if(courant == vueArmeDroite)
 		{
 			if(estCombat)
 			{
@@ -374,10 +414,16 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			}
 			else
 			{
-				controle.tourPerso(6,2,"");
-				armeGauche1.setEnabled(false);
-						}armeDroite2.setEnabled(false);
-	
+				jeterArmeDroite.setEnabled(true);	
+			}
+		}
+		else if(courant == jeterArmeGauche)
+		{
+			controle.tourPerso(6, 1, "");
+		}
+		else if(courant == jeterArmeDroite)
+		{
+			controle.tourPerso(6, 2, "");
 		}
 		
 		/* carte.removeAll();
@@ -388,8 +434,35 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	@Override
 	public void update(Observable arg0, Object arg1)
 	{
-		//carte.removeAll();
+		System.out.println(modele.getPerso().getPointsDAction());
+		jeterArmeGauche.setEnabled(false);
+		jeterArmeDroite.setEnabled(false);
+		gauche.setEnabled(false);
+		bas.setEnabled(false);
+		droite.setEnabled(false);
+		haut.setEnabled(false);
 		boutonJoueur.setLocation(modele.getPerso().getEmplacement().getPosX()*100+10,modele.getPerso().getEmplacement().getPosY()*100+10);
+		//ne charge l'image que s'il y a une arme !!!!!
+		if(modele.getPerso().getArmeGauche() == null && modele.getPerso().getArmeDroite() == null) // changer en isNull
+		{
+			afficheArme1(13);
+			afficheArme2(13);
+		}
+		else if(modele.getPerso().getArmeGauche() == null)
+		{
+			afficheArme2(modele.getPerso().getArmeDroite().getId());
+			afficheArme1(13);
+		}
+		else if(modele.getPerso().getArmeDroite() == null)
+		{
+			afficheArme1(modele.getPerso().getArmeGauche().getId());
+			afficheArme2(13);
+		}
+		else
+		{
+			afficheArme1(modele.getPerso().getArmeGauche().getId());
+			afficheArme2(modele.getPerso().getArmeDroite().getId());
+		}
 		//setJoueur(modele.getPerso().getEmplacement().getPosX()*100,modele.getPerso().getEmplacement().getPosY()*100);
 		//genererCarte();
 		setZombies();
@@ -398,6 +471,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		
 		
 	}
+	
 	
 	public void setZombies()
 	{
@@ -435,48 +509,64 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		return null;
 	}
 
-	@Override
-	public void afficheArme1(String string) {
-		// TODO Auto-generated method stub
-		
+
+	public void afficheArme1(int idArme) 
+	{
+		try 
+		{
+			imageArme = SwitchArmesGD(idArme);
+		} 
+		catch (IOException e) 
+		{
+			
+		}
+		vueArmeGauche.setIcon(new ImageIcon(imageArme));
 	}
 
-	@Override
-	public void afficheArme2(String string) {
-		// TODO Auto-generated method stub
-		
+
+	public void afficheArme2(int idArme) 
+	{
+		try 
+		{
+			imageArme = SwitchArmesGD(idArme);
+		} 
+		catch (IOException e) 
+		{
+			
+		}
+		vueArmeDroite.setIcon(new ImageIcon(imageArme));
 	}
 	
 	
 	//GUI
 	
-	public void SwitchArmesGD( Image armeGauche2, int IdArme ) throws IOException {
+	public Image SwitchArmesGD( int IdArme ) throws IOException {
 		switch( IdArme ) {
-			case 12 : armeGauche2 = ImageIO.read(new File("res/persoM.png"));
-				break;
-			case 11 : armeGauche2 = ImageIO.read(new File("res/persoM.png"));
-				break;
-			case 10 : armeGauche2 = ImageIO.read(new File("res/persoM.png"));
-				break;
-			case 9 :  armeGauche2 = ImageIO.read(new File("res/persoM.png"));
-				break;
-			case 8 :  armeGauche2 = ImageIO.read(new File("res/fusil a pompe.png"));
-				break;
-			case 7 :  armeGauche2 = ImageIO.read(new File("res/batte cloutee.png"));
-				break;
-			case 6 :  armeGauche2 = ImageIO.read(new File("res/pistolet.png"));
-				break;
-			case 5 :  armeGauche2 = ImageIO.read(new File("res/Tronconneuse.png"));
-				break;
-			case 4 :  armeGauche2 = ImageIO.read(new File("res/hache.png"));
-				break;
-			case 3 :  armeGauche2 = ImageIO.read(new File("res/ak-47.png"));
-				break;
-			case 2 :  armeGauche2 = ImageIO.read(new File("res/épée.png"));
-				break;
-			case 1 :  armeGauche2 = ImageIO.read(new File("res/arc.png"));
-				break;
-			default : armeGauche2 = ImageIO.read(new File("res/persoF.png")); 
+			case 12 : return ImageIO.read(new File("res/detritus.png"));
+			
+			case 11 : return ImageIO.read(new File("res/detritus.png"));
+				
+			case 10 : return ImageIO.read(new File("res/detritus.png"));
+				
+			case 9 :  return ImageIO.read(new File("res/detritus.png"));
+				
+			case 8 :  return ImageIO.read(new File("res/fusil a pompe.png"));
+				
+			case 7 :  return ImageIO.read(new File("res/batte cloutee.png"));
+				
+			case 6 :  return ImageIO.read(new File("res/pistolet.png"));
+				
+			case 5 : System.out.println("raté"); return ImageIO.read(new File("res/Tronconneuse.png"));
+				
+			case 4 :  return ImageIO.read(new File("res/hache.png"));
+				
+			case 3 :  return ImageIO.read(new File("res/ak-47.png"));
+				
+			case 2 :  return ImageIO.read(new File("res/épée.png"));
+				
+			case 1 :  return ImageIO.read(new File("res/arc.png"));
+				
+			default : return ImageIO.read(new File("res/question.png")); 
 		}
 	
 	}

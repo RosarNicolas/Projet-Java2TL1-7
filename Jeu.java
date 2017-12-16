@@ -110,8 +110,8 @@ public class Jeu extends Observable {
 		armes.put(12,new Arme(12, 0, 0, 0, 0.0, 0.125,0.05, "Détritus"));
 		
 		carte = new Carte("res/carte4.txt");
-		
-		for(int i = 0 ; i < 1;i++)
+				
+		for(int i = 0 ; i < 2;i++)
 		{
 			zombieApparition();
 		}

@@ -23,18 +23,18 @@ public class JeuController
 			int fouilleAction = modele.getPerso().fouille(modele.getArmes());
 			if(fouilleAction == 1)
 			{
-				vue.afficheArme1("Vous possédez maintenant l'arme "+ modele.getPerso().getArmeGauche().getNomDeLarme() +" dans la main gauche" );
+				vue.affiche("Vous possédez maintenant l'arme "+ modele.getPerso().getArmeGauche().getNomDeLarme() +" dans la main gauche");
 			}
 			else if(fouilleAction == 2)
 			{
-				vue.afficheArme2("Vous possédez maintenant l'arme "+ modele.getPerso().getArmeDroite().getNomDeLarme() +" dans la main droite" );
+				vue.affiche("Vous possédez maintenant l'arme "+ modele.getPerso().getArmeDroite().getNomDeLarme() +" dans la main droite");
 			}
 			else if(fouilleAction == 0)
 			{
 				vue.affiche("Vous n'avez plus de place");
 			}
 			modele.updateEntiteListe();
-			//vue.update(null, null); afficher la carte apres avoir fouiller oui ? non ?
+			vue.update(null, null); 
 			modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
 		}
 		else if(action == 2)
