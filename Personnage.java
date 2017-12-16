@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main;
+package testMVC;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -15,13 +15,29 @@ public class Personnage extends Entite
 	private Arme armeGauche;
 	private Arme armeDroite;
 	Scanner sc = new Scanner(System.in);
+	
+	/**
+	 * constructeur de la classe Personnage
+	 * @param nom : String
+	 * @param id : int
+	 * @param pointsDeVie : int
+	 * @param pointsDAction : int
+	 * @param emplacement : Position
+	 */
 	public Personnage(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
 	{
 		super(nom,id,pointsDeVie, pointsDAction,emplacement);
 	}
 	
 	
-	
+	/**
+	 * update la position du joueur
+	 * si la position vers laquelle le joueur veut aller n'est pas atteignable alors fais en sorte de lui redonner un point d'action
+	 * 
+	 * direction est un String valable (haut, bas , gauche, droite)
+	 * carte est la carte de jeu
+	 * @param String direction, Carte carte
+	 */
 	public void deplacer(String direction, Carte carte) 
 	{
 		int couranteY = this.getEmplacement().getPosY();
@@ -56,14 +72,20 @@ public class Personnage extends Entite
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
 		}
-		else
+		
+		//MVC
+		/*else
 		{
 			this.setPointsDAction(this.getPointsDAction() + 1);
-			System.out.println("Vous ne pouvez pas aller par la");
-		}
+			System.out.println("Vous ne pouvez pas aller par là");
+		}*/
 	}
 
-	
+	/**
+	 * permet de renvoyer les degats de l'arme si elle touche 
+	 * @param choixDeLarme : int (1 = gauche, 2 = droite)
+	 * @return les degats de l'arme si elle touche : int
+	 */
 	public int attaquer(int choixDeLarme) 
 	{
 		if(choixDeLarme == 1)
@@ -91,8 +113,12 @@ public class Personnage extends Entite
 		return 1;
 	}
 
-	
-	public void fouille(HashMap<Integer,Arme> armes)
+	/**
+	 * renvoie une arme parmis celle de la liste du jeu au hasard
+	 * si le joueur n'a plus de place fais en sorte de ne pas lui retirer un points d'action
+	 * @param armes : LinkedList
+	 */
+	public int fouille(HashMap<Integer,Arme> armes)
 	{
 		int iDArme = -5;
 		iDArme = (int) (Math.random() * (11));
@@ -100,32 +126,59 @@ public class Personnage extends Entite
 		if(armeGauche == null) 
 		{
 			armeGauche = armes.get(iDArme);
-			System.out.println("Vous possédez maintenant l'arme "+ armeGauche.getNomDeLarme() +" dans la main gauche" );
+			return 1;
+			//MVC
+			//System.out.println("Vous possédez maintenant l'arme "+ armeGauche.getNomDeLarme() +" dans la main gauche" );
 		}
 		else if(armeDroite == null)
 		{
 			armeDroite = armes.get(iDArme);
-			System.out.println("Vous possédez maintenant l'arme " +  armeDroite.getNomDeLarme() + " dans la main doite");
+			return 2;
+			//MVC
+			//System.out.println("Vous possédez maintenant l'arme " +  armeDroite.getNomDeLarme() + " dans la main doite");
 
 		}
 		else
 		{
-			System.out.println("Vous n'avez plus de place");
+			//MVC
+			//System.out.println("Vous n'avez plus de place");
 			this.setPointsDAction(this.getPointsDAction() + 1);
+			return 0;
 		}
 				
 
 	}
 	
+	/**
+	 * permet de rendre une des armes du joueur null pour pouvoir en recuperer une autre
+	 * @param x : int (1 = gauche, 2 = droite)
+	 */
 	public void jeterUneArme(int x)
 	{
-		if(x == 1)
+		//verifier si arme a jeter
+		 if(x == 1 && this.armeGauche == null)
+		{
+			 //MVC
+			//System.out.println("Vous n'avez pas d'arme à jeter dans la main gauche");
+		}
+		else if(x == 2 && this.armeDroite == null)
+		{
+			//MVC
+			//System.out.println("Vous n'avez pas d'arme à jeter dans la main droite");
+		}
+		else if(x == 1)
 		{
 			this.armeGauche = null;
 		}
-		else
+		else if(x == 2)
 		{
 			this.armeDroite = null;
+		}
+	
+		else
+		{
+			//MVC
+			//System.out.println("Mauvais numero pour choix de l'arme");
 		}
 	}
 
@@ -152,18 +205,19 @@ public class Personnage extends Entite
 
 	@Override
 	public int attaquer() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
+	/**
+	 * verifie si le joueur peut se deplacer a une certaine coordonnée
+	 * @param carte : Carte
+	 * @param z : Position
+	 * @return true si le joueur peut se deplacer a la position z, false sinon
+	 */
 	public boolean verification(Carte carte, Position z) 
 	{
 		try 
 		{
-			String debug  = carte.getTab()[z.getPosY()][z.getPosX()];
-			String ddebug = carte.getCarPossible();
-			boolean debugz  = debug.equals(ddebug); 
 			return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
 		}
 		catch(ArrayIndexOutOfBoundsException e)
@@ -172,4 +226,7 @@ public class Personnage extends Entite
 			return false;
 		}
 	}
+
+
+	
 }

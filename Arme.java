@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main;
+package testMVC;
 
 /**
  * @author he201460
@@ -18,6 +18,17 @@ public class Arme
 	private double echecCritique;
 	private String nomDeLarme;
 	
+	/**
+	 * constructeur de la classe arme
+	 * @param id : int
+	 * @param degats : int
+	 * @param portee : int
+	 * @param nombreDeFrappe : int
+	 * @param chanceDeToucher : double
+	 * @param coupsCritique : double
+	 * @param echecCritique : double
+	 * @param nomDeLArme : String
+	 */
 	public Arme(int id, int degats, int portee, int nombreDeFrappe, double chanceDeToucher,
 				double coupsCritique, double echecCritique, String nomDeLArme)
 	{
@@ -31,6 +42,10 @@ public class Arme
 		this.nomDeLarme = nomDeLArme;
 	}
 	
+	/**
+	 * chance de toucher avec une arme pour un coup
+	 * @return true si l'arme touche false sinon
+	 */
 	public boolean tentativeDAttaque()
 	{
 		//return true;
@@ -40,6 +55,10 @@ public class Arme
 		return(a<b);
 	}
 
+	/*
+	 *getters and setters
+	 */
+	
 	public int getId() {
 		return id;
 	}
@@ -104,4 +123,3 @@ public class Arme
 		this.nomDeLarme = nomDeLarme;
 	}
 }
-

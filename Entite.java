@@ -1,7 +1,8 @@
 /**
  * 
  */
-package main;
+package testMVC;
+
 
 /**
  * @author he201460
@@ -14,6 +15,15 @@ public abstract class Entite
 	private int pointsDeVie;
 	private int pointsDAction;
 	private Position emplacement;
+	
+	/**
+	 * constructeur d'entite 
+	 * @param nom : String
+	 * @param id : int
+	 * @param pointsDeVie : int
+	 * @param pointsDAction : int
+	 * @param emplacement : Position
+	 */
 	public Entite(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
 	{
 		this.nom = nom;
@@ -25,7 +35,7 @@ public abstract class Entite
 	
 	public abstract void deplacer(String direction, Carte carte);
 	
-	public abstract int attaquer(); //parametre ?????
+	public abstract int attaquer();
 	
 	public String getNom() {
 		return nom;

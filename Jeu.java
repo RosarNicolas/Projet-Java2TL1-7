@@ -1,4 +1,3 @@
-
 /**
  * Groupe 7 JAVA PROJECT
  * MAJ 17/11/2017
@@ -7,104 +6,112 @@
  * verifier les comportement des zombies 
  * verifier les attaque des joueurs
  */
-package main;
+package testMVC;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.Observable;
 import java.util.Scanner;
 
 /**
  * @author groupe 7
  *verifier input choix d'arme
  */
-public class Jeu {
+public class Jeu extends Observable {
 	
-	static Carte carte;
-	static Personnage perso;
-	static HashMap<Integer, Zombie> zombies = new HashMap<>();
-	static HashMap<Integer, Arme> armes = new HashMap<>();
-	static LinkedList<Entite> entiteSurCarte = new LinkedList<Entite>();
-	static LinkedList<Zombie> zombiesSurCarte = new LinkedList<Zombie>();
-	static LinkedList<Zombie> zombiesSurCase = new LinkedList<Zombie>();
-	static Scanner sc = new Scanner(System.in);
-	static int compteurTour = 1;
+	private Carte carte;
+	private Personnage perso;
+	private HashMap<Integer, Zombie> zombies = new HashMap<>();
+	private HashMap<Integer, Arme> armes = new HashMap<>();
+	private LinkedList<Entite> entiteSurCarte = new LinkedList<Entite>();
+	private LinkedList<Zombie> zombiesSurCarte = new LinkedList<Zombie>();
+	private LinkedList<Zombie> zombiesSurCase = new LinkedList<Zombie>();
+	private Scanner sc = new Scanner(System.in);
+	private int compteurTour = 1;
+	
+	public Jeu()
+	{
+		init();
+	}
 	/**
 	 * @param args
-	 * methode main dans laquelle se deroule la presentation et la boucle qui fera tournee le jeu jusqu'a la fin
+	 * methode main dans laquelle se deroule la presentation et la boucle qui fera tourner le jeu jusqu'a la fin
+	 * si les points de vie du joueurs descendent en dessous de 1 alors la game est finie 
+	 * apparition de zombie tous les tours pair
+	 * le joueur gagne si a la fin de son tour il se trouve l'emplacement de la sortie
 	 */
-	public static void main(String[] args)
+	public void main(String[] args)
 	{
 		
-		init();
-		System.out.println("Quel est votre nom ?");
-		perso = new Personnage(sc.next(), 1, 2, 3, carte.getApparition());
 		
-		System.out.println("Vous voila dans un sale petrin vous devez vous sortir d'ici la sortie se trouve ici (" + carte.getSortie().getPosX() + ";" + carte.getSortie().getPosY() 
-				+ ")\nPour cela vous devrez traversez ce batiment rempli de Zombies..."
+		//System.out.println("Bonjour survivant ! Quel est votre pseudo ?");
+		
+		
+		/*System.out.println("Vous voilà dans un sale pétrin " + perso.getNom() +" ! Votre mission ? Atteindre la postion (" + carte.getSortie().getPosX() + ";" + carte.getSortie().getPosY() + ") pour vous échapper de ce massacre."
+				+ "\nPour cela vous devrez traverser ce bâtiment rempli de zombies..."
 				+ "\nVoici votre position actuelle (" + perso.getEmplacement().getPosX()+";"+perso.getEmplacement().getPosY() 
-				+ ")\nVous pouvez effectuer plusieurs action : "
-				+ "\nFouillez (entrez 1)"
-				+ "\nAttaquer (entrez 2)"
-				+ "\nVous deplacez (entrez 3)"
-				+ "\nAttendre (entrez 4)"
-				+ "\nConsultez vos infos (entrez 5 cela ne consomme pas d'action)"
-				+ "\nJeter une arme (entrez 6 puis le numero de l'arme a jeter 1 = gauche, 2 = droite)");
+				+ ")\nVous êtes représenté sur la carte par le pion \""+Carte.getPionJoueur()+"\""
+				+ "\nLes zombies sont représentés par un \"" + Carte.getPionZombie() + "\""
+				+ "\nVous pouvez effectuer plusieurs actions : "
+				+ "\n	- Fouillez (entrez 1);"
+				+ "\n	- Attaquer (entrez 2);"
+				+ "\n	- Vous deplacez (entrez 3);"
+				+ "\n	- Attendre (entrez 4);"
+				+ "\n	- Consultez vos infos (entrez 5. Cela ne consomme pas de point d'action);"
+				+ "\n	- Jeter une arme (entrez 6 puis le numéro de l'arme à jeter => 1 : gauche, 2 : droite);");*/
 		updateEntiteListe();
-		carte.generer(entiteSurCarte);
+		//carte.generer(entiteSurCarte);
 		while(!perso.getEmplacement().equals(carte.getSortie()))
 		{
-			System.out.println("Tour numero : " +compteurTour);
+			/*System.out.println("Tour numéro : " +compteurTour);
 			System.out.println();
-			System.out.println();
-			tourPerso();
+			System.out.println();*/
+			//tourPerso();
 			tourZombie();
 			if(perso.getPointsDeVie() <= 0)
 			{
-				System.out.println("Vous etes mort...et perdez la partie");
+				//System.out.println("Vous êtes mort...et perdez la partie");
 				break;
 			}
-			if(compteurTour%2 == 0 && compteurTour > 0)
+			if(compteurTour%2 == 0)
 			{
-				System.out.println("Tour pair apparition de zombie");
+				//System.out.println("Tour pair, apparition de zombie");
 				zombieApparition();
-//				updateEntiteListe();
-//				carte.generer(entiteSurCarte);
+    			updateEntiteListe();
+				//carte.generer(entiteSurCarte);
 			}
 			perso.setPointsDAction(3);
 			compteurTour++;
 		}
-		System.out.println();
-		System.out.println("Vous vous etes echaper bravo !! ");
+		/*System.out.println();
+		System.out.println("Vous vous êtes échappé bravo !! Le jeu est terminé ");*/
 	}
 	
 	/**
-	 * methode qui initialise les HashMap avec tous les types de zombies et d'armes differents
+	 * methode qui initialise les LinkedList avec tous les types de zombies et d'armes differents
+	 * fais apparaitre un zombie (a detreminer en fonction de la difficulté futur MAJ)
 	 */
-	public static void init()
+	public void init()
 	{
 		zombies.put(1,new Zombie("Walker", 1, 1, 1, new Position(0,0)));
-		zombies.put(2,new Zombie("Runner", 2, 1, 2, new Position(0,0)));
-		zombies.put(3,new Zombie("Fatty", 3, 2, 1, new Position(0,0)));
-		zombies.put(4,new Zombie("Crawler", 4, 1, 1, new Position(0,0)));
+
 		
 		armes.put(1,new Arme(1, 1, 1, 1, 0.66, 0.125,0.05, "Arc"));
-		armes.put(2,new Arme(2, 1, 0, 3, 0.5, 0.125,0.05, "Epee"));
+		armes.put(2,new Arme(2, 1, 0, 3, 0.5, 0.125,0.05, "Epée"));
 		armes.put(3,new Arme(3, 1, 2, 2, 0.5, 0.125,0.05, "Ak47"));
 		armes.put(4,new Arme(4, 2, 0, 1, 0.5, 0.125,0.05, "Hache"));
-		armes.put(5,new Arme(5, 2, 0, 5, 0.33, 0.125,0.05, "Tronconneuse"));
+		armes.put(5,new Arme(5, 2, 0, 5, 0.33, 0.125,0.05, "Tronçonneuse"));
 		armes.put(6,new Arme(6, 1, 1, 1, 0.66, 0.125,0.05, "Pistolet"));
-		armes.put(7,new Arme(7, 1, 0, 2, 0.5, 0.125,0.05, "Batte"));
-		armes.put(8,new Arme(8, 2, 1, 2, 0.5, 0.125,0.05, "Fusil a pompe"));
-		armes.put(9,new Arme(9, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
-		armes.put(10,new Arme(10, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
-		armes.put(11,new Arme(11, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
-		armes.put(12,new Arme(12, 0, 0, 0, 0.0, 0.125,0.05, "Detritus"));
+		armes.put(7,new Arme(7, 1, 0, 2, 0.5, 0.125,0.05, "Batte Cloutée"));
+		armes.put(8,new Arme(8, 2, 1, 2, 0.5, 0.125,0.05, "Fusil à pompe"));
+		armes.put(9,new Arme(9, 0, 0, 0, 0.0, 0.125,0.05, "Détritus"));
+		armes.put(10,new Arme(10, 0, 0, 0, 0.0, 0.125,0.05, "Détritus"));
+		armes.put(11,new Arme(11, 0, 0, 0, 0.0, 0.125,0.05, "Détritus"));
+		armes.put(12,new Arme(12, 0, 0, 0, 0.0, 0.125,0.05, "Détritus"));
 		
 		carte = new Carte("res/carte4.txt");
-		
-		for(int i = 0 ; i < 1;i++)
+				
+		for(int i = 0 ; i < 2;i++)
 		{
 			zombieApparition();
 		}
@@ -113,17 +120,24 @@ public class Jeu {
 	
 	/** 
 	 * action possible lors d'un tour du personnage 
+	 * recuperation via un scanner
+	 * 1 permet de fouiller
+	 * 2 de se battre en choisissant une arme et un endroit ou tirer si le joueur possede une arme a distance
+	 * 3 permet de se deplacer en choisissant une direction
+	 * 4 permet d'attendre
+	 * 5 donne les informations sur le joueur
+	 * 6 permet de jeter une arme
 	 */
-	public static void tourPerso()
+	/*public void tourPerso()
 	{
-		
+		//appel du controlleur
 		System.out.println();
 		System.out.println();
 		
 		 
 		while( perso.getPointsDAction() > 0 && !perso.getEmplacement().equals(carte.getSortie()))
 		{
-			System.out.println("Que voulez vous faire ?");
+			System.out.println("Que voulez-vous faire ?");
 			explication();
 			int action = 0;
 			try
@@ -132,18 +146,11 @@ public class Jeu {
 			}
 			catch(NumberFormatException e)
 			{
-				System.out.println("Vous n'avez pas entrer un bon chiffre reessayer !");
+				System.out.println("Vous n'avez pas entré un chiffre réessayer !");
 			}
 			
 			if(action == 1)
 			{
-				/*
-				if(perso.getArmeDroite() != null && perso.getArmeGauche() != null) 
-				{
-					perso.setPointsDAction(perso.getPointsDAction() + 1);
-				}
-				*/
-				//deplace dans Personnage
 				perso.fouille(armes);
 				perso.setPointsDAction(perso.getPointsDAction() - 1);
 				updateEntiteListe();
@@ -152,20 +159,20 @@ public class Jeu {
 			else if(action == 2)
 			{
 				int noArme = 0;
-				System.out.println("Avec quelle arme voulez vous attaquer ?(1 ou 2)");
+				System.out.println("Avec quelle arme voulez-vous attaquer ?(1 ou 2)");
 						
 						try
 						{
 							noArme = Integer.parseInt(sc.next());
 							
 							if (noArme != 1 && noArme != 2) {
-								System.out.println("Mauvaise entree arme !");
+								System.out.println("Mauvaise entrée arme !");
 								continue;
 							}
 						}
 						catch(NumberFormatException e)
 							{
-								System.out.println("Mauvaise entree arme !");
+								System.out.println("Mauvaise entrée arme !");
 								continue;
 							}
 						if(noArme == 1 && perso.getArmeGauche() == null)
@@ -185,7 +192,7 @@ public class Jeu {
 				String vise;
 				do
 				{
-					System.out.println("Ou voulez vous attaquer ?");
+					System.out.println("Où voulez-vous attaquer ?");
 					do 
 					{
 						vise = sc.next();
@@ -201,7 +208,7 @@ public class Jeu {
 				updateZombieSurCase(endroitDeLattaque);
 				if(zombiesSurCase.isEmpty())
 				{
-					System.out.println("Il n'y pas de zombie a cet endroit");
+					System.out.println("Il n'y pas de zombie à cet endroit");
 					continue;
 				}
 				//trouver un moyen pour eviter la redondance du code !!!!!!!!
@@ -214,11 +221,11 @@ public class Jeu {
 						if(!(perso.attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 						{
 							zombiesSurCase.addFirst(cibleAttaque);
-							System.out.println("Vous n'avez pas reussi a tuer le zombie cible !");
+							System.out.println("Vous n'avez pas réussi a tuer le zombie cible !");
 						}
 						else
 						{
-							System.out.println("Vous avez tuer un zombie !");
+							System.out.println("Vous avez tué un zombie !");
 							updateEntiteListe();
 							carte.generer(entiteSurCarte);
 						}
@@ -226,7 +233,7 @@ public class Jeu {
 					}
 					else
 					{
-						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer a cete endroit ");
+						System.out.println("Vous n'avez pas la portée ou la ligne de vue pour tirer a cet endroit ");
 					}
 				}
 				else 
@@ -238,11 +245,11 @@ public class Jeu {
 						if(!(perso.attaquer(noArme)>=cibleAttaque.getPointsDeVie()))
 						{
 							zombiesSurCase.addFirst(cibleAttaque);
-							System.out.println("Vous n'avez pas reussi a tuer le zombie cible !");
+							System.out.println("Vous n'avez pas réussi a tuer le zombie cible !");
 						}
 						else
 						{
-							System.out.println("Vous avez tuer un zombie ! ");
+							System.out.println("Vous avez tué un zombie ! ");
 							updateEntiteListe();
 							carte.generer(entiteSurCarte);
 						}
@@ -250,7 +257,7 @@ public class Jeu {
 					}
 					else
 					{
-						System.out.println("Vous n'avez pas la portee ou la ligne de vue pour tirer là !");
+						System.out.println("Vous n'avez pas la portée ou la ligne de vue pour tirer là !");
 					}
 				}
 				perso.setPointsDAction(perso.getPointsDAction() - 1);
@@ -262,7 +269,7 @@ public class Jeu {
 				String deplacement;
 				do
 				{
-					System.out.println("Vers ou voulez vous aller ?");
+					System.out.println("Vers où voulez-vous aller ?");
 					deplacement = sc.next();
 				}while((!deplacement.equals("bas")) && (!deplacement.equals("haut")) && (!deplacement.equals("gauche")) && (!deplacement.equals("droite")));
 					
@@ -281,7 +288,10 @@ public class Jeu {
 			else if(action == 5)
 			{
 				System.out.println("Vous vous trouvez en " + perso.getEmplacement().getPosX() + "," + perso.getEmplacement().getPosY()
-								  +"\nLa sortie se trouve en " +carte.getSortie().getPosX() + "," +carte.getSortie().getPosY());
+								  +"\nLa sortie se trouve en " +carte.getSortie().getPosX() + "," +carte.getSortie().getPosY()
+								  +"\nVous avez encore " + perso.getPointsDeVie() + " points de vie"
+								  +"\nVous pouvez encore effectuer " + perso.getPointsDAction() + " actions ce tour-ci"
+								  );
 				
 				if(perso.getArmeDroite() == null && perso.getArmeGauche() == null)
 				{
@@ -299,56 +309,73 @@ public class Jeu {
 							  +"\nVotre arme en main droite (2) est un "+ perso.getArmeDroite().getNomDeLarme());
 			
 				}
+				else
+				{
+					System.out.println("Votre arme en main gauche (1) est un "+perso.getArmeGauche().getNomDeLarme()
+							  +"\nVotre arme en main droite (2) est un "+ perso.getArmeDroite().getNomDeLarme());
+				}
 				updateEntiteListe();
 				carte.generer(entiteSurCarte);
 				
 			}
 			else if(action == 6)
 			{
-				System.out.println("Quelle arme voulez vous jeter ?");
-				int armeAjeter = Integer.parseInt(sc.next());
+				int armeAjeter = 0;
+				System.out.println("Quelle arme voulez-vous jeter ?");
+				try
+				{
+					armeAjeter = Integer.parseInt(sc.next());
+				}
+				catch(NumberFormatException e)
+				{
+					System.out.println("Veuillez entrer un chiffre (1 ou 2)");
+				}
 				perso.jeterUneArme(armeAjeter);
 				updateEntiteListe();
 				carte.generer(entiteSurCarte);
 			}
 			else
 			{
-				System.out.println("Mauvais entree !");
+				System.out.println("Mauvaise entrée !");
 			}
 		}
-	}
+	}*/
 	
 	/**
 	 * action des zombies lors de leur tour
 	 * les zombie jouent tous en meme temps 
+	 * soit ils attaquent soit ils se deplacent
 	 */
-	public static void tourZombie()
+	public boolean tourZombie()
 	{
-		System.out.println("C'est au tour des zombies (appuyer sur une touche)");
-		String test = sc.next();
+		boolean mordu = false;
+		//System.out.println("C'est au tour des zombies (entrez une touche quelconque)");
+		//String test = sc.next();
 		for(Zombie z : zombiesSurCarte)
 		{
 			if(z.getEmplacement().equals(perso.getEmplacement()))
 			{
 				int degat = z.attaquer();
 				perso.setPointsDeVie(perso.getPointsDeVie() - degat);
+				mordu = true;
 				//degat toujours egal a 1
-				System.out.println("Un zombie vous a mordu vous etes blessé !");
+				//System.out.println("Un zombie vous a mordu, vous êtes blessé !");
 			}
 			else
 			{
 				z.deplacer(perso, carte);
 				updateEntiteListe();
-				carte.generer(entiteSurCarte);
+				//carte.generer(entiteSurCarte);
 			}
-		
-			
 		}
-		
-		
+		return mordu;
 	}
 	
-	public static void zombieApparition()
+	/**
+	 * fais apparaitre un zombie sur la carte de maniere aléatoire
+	 * jamais la ou le joueur se trouve
+	 */
+	public void zombieApparition()
 	{
 		String [][] courant = carte.getTab();
 		int posX = 0;
@@ -360,16 +387,22 @@ public class Jeu {
 			posY = (int) Math.floor((Math.random() * carte.getLongueur()));
 			debug2  = courant[posY][posX];
 		   }while(!debug2.equals(signeCasePratiquable) || (posX == 0 && posY == 0));
-		int a = (int) Math.ceil(Math.random() * 4);
-		zombiesSurCarte.add(new Zombie(zombies.get(a).getNom(),zombies.get(a).getId(),zombies.get(a).getPointsDeVie(),zombies.get(a).getPointsDAction(),new Position(posX,posY)));
+		//1 seul de type de zombie
+		//int a = (int) Math.ceil(Math.random() * 4);
+		
+		//a optimiser (liste d'un seul element
+		zombiesSurCarte.add(new Zombie(zombies.get(1).getNom(),zombies.get(1).getId(),zombies.get(1).getPointsDeVie(),zombies.get(1).getPointsDAction(),new Position(posX,posY)));
 		updateEntiteListe();
 		if(compteurTour != 1)
 		{
-			carte.generer(entiteSurCarte);
+			notifyObservers();
 		}
 	}
 	
-	public static void updateEntiteListe()
+	/**
+	 * met a jour la linkedList en fonction des entites sur la map
+	 */
+	public void updateEntiteListe()
 	{
 		entiteSurCarte.removeAll(entiteSurCarte);
 		if(perso != null)
@@ -381,7 +414,11 @@ public class Jeu {
 		
 	}
 	
-	public static void updateZombieSurCase(Position x)
+	/**
+	 *  permet de recuperer les zombie sur une case precise
+	 * @param x Position sur laquelle on veut recuperer les zombies
+	 */
+	public void updateZombieSurCase(Position x)
 	{
 		zombiesSurCase.removeAll(zombiesSurCase);
 		for(Zombie z : zombiesSurCarte)
@@ -393,14 +430,65 @@ public class Jeu {
 		}
 	}
 	
-	public static void explication()
+	/**
+	 * permet d'afficher les commande possible
+	 */
+	public void explication()
 	{
-		System.out.println(	"\nFouillez (entrez 1)"
-				+ "\nAttaquer (entrez 2)"
-				+ "\nVous deplacez (entrez 3)"
-				+ "\nAttendre (entrez 4)"
-				+ "\nConsultez vos infos (entrez 5 cela ne consomme pas d'action)"
-				+ "\nJeter une arme (entrez 6 puis le numero de l'arme a jeter 1 = gauche, 2 = droite)");
+		/*System.out.println(	"\n- Fouillez (entrez 1);"
+				+ "\n- Attaquer (entrez 2);"
+				+ "\n- Vous deplacez (entrez 3);"
+				+ "\n- Attendre (entrez 4);"
+				+ "\n- Consultez vos infos (entrez 5 cela ne consomme pas d'action);"
+				+ "\n- Jeter une arme (entrez 6 puis le numero de l'arme a jeter 1 = gauche, 2 = droite);");*/
+	}
+	public Carte getCarte() {
+		return carte;
+	}
+	public void setCarte(Carte carte) {
+		this.carte = carte;
+	}
+	public Personnage getPerso() {
+		return perso;
+	}
+	public void setPerso(Personnage perso) {
+		this.perso = perso;
+	}
+	public HashMap<Integer, Zombie> getZombies() {
+		return zombies;
+	}
+	public void setZombies(HashMap<Integer, Zombie> zombies) {
+		this.zombies = zombies;
+	}
+	public HashMap<Integer, Arme> getArmes() {
+		return armes;
+	}
+	public void setArmes(HashMap<Integer, Arme> armes) {
+		this.armes = armes;
+	}
+	public LinkedList<Entite> getEntiteSurCarte() {
+		return entiteSurCarte;
+	}
+	public void setEntiteSurCarte(LinkedList<Entite> entiteSurCarte) {
+		this.entiteSurCarte = entiteSurCarte;
+	}
+	public LinkedList<Zombie> getZombiesSurCarte() {
+		return zombiesSurCarte;
+	}
+	public void setZombiesSurCarte(LinkedList<Zombie> zombiesSurCarte) {
+		this.zombiesSurCarte = zombiesSurCarte;
+	}
+	public LinkedList<Zombie> getZombiesSurCase() {
+		return zombiesSurCase;
+	}
+	public void setZombiesSurCase(LinkedList<Zombie> zombiesSurCase) {
+		this.zombiesSurCase = zombiesSurCase;
+	}
+	public int getCompteurTour() {
+		return compteurTour;
+	}
+	public void setCompteurTour(int compteurTour) {
+		this.compteurTour = compteurTour;
 	}
 
 }

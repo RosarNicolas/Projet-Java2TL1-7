@@ -1,4 +1,6 @@
-package main;
+package testMVC;
+
+
 
 /**
  * @author he201460
@@ -6,12 +8,25 @@ package main;
  */
 public class Zombie extends Entite
 {
+	/**
+	 * constructeur de la classe Zombie
+	 * @param nom : String
+	 * @param id : int
+	 * @param pointsDeVie : int
+	 * @param pointsDAction : int
+	 * @param emplacement : Position
+	 */
 	public Zombie(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
 	{
 		super(nom,id,pointsDeVie, pointsDAction,emplacement);
 	}
 
-	
+	/**
+	 * permet au zombie de se deplacer en fonction de la position du joueur
+	 * se deplace en priorite sur l'axe X puis sur l'axe Y
+	 * @param perso : Personnage
+	 * @param carte : Carte
+	 */
 	public void deplacer(Personnage perso, Carte carte)
 	{
 		int couranteX = this.getEmplacement().getPosX();
@@ -39,28 +54,36 @@ public class Zombie extends Entite
 		
 	}
 	/**
-	 * 
-	 * @param carte
-	 * @param z : peut prendre la position X ou la position Y
+	 * verifie si le zombie peut se deplacer a une certaine coordonnée
+	 * @param carte : Carte
+	 * @param z : Position
+	 * @return true si le joueur peut se deplacer a la position z, false sinon
 	 */
-	//cette méthode devra p-e se retrouver dans carte (ou ailleurs)
 	public boolean verification(Carte carte, Position z) 
 	{
-		String debuger = carte.getTab()[0][1];
-		return (!carte.getTab()[z.getPosY()][z.getPosX()].equals(debuger));
+		try 
+		{
+			return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			e.getMessage();
+			return false;
+		}
 	}
 	
 	@Override
+	/**
+	 * renvoie 1 car le zombie n'a qu'un point d'action pour le moment (MAJ)
+	 */
 	public int attaquer() 
 	{
-		//attaque de zombie ?????
 		return 1;
 	}
 	
 	public int attaquer(Personnage perso) 
 	{
 		attaquer();
-		//attaque de zombie ?????
 		return 1;
 	}
 
