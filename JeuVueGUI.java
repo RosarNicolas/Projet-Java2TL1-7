@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
@@ -28,8 +29,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 {
 	
 	Boolean estCombat = false;
-	Boolean estCombatADroite = false;
-	Boolean estCombatAGauche = false;
 	int choixArme = 0;
 	int debug = 0;
 	
@@ -362,8 +361,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		}
 		else if(courant == attaquer)// ATTAQUER ===================================================
 		{
-//			estCombat = true;
-//			System.out.println(estCombat);
+			estCombat = true;
+			
 			debug = 1;
 		}
 		else if(courant == deplacer)
@@ -402,10 +401,20 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		{
 			if(estCombat)
 			{
-				controle.tourPerso(2,1,"");
+				choixArme = 1;
+				JOptionPane pop = new JOptionPane();
+				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+				String[] tab = rang.split( " " );
+				
+				controle.tourPerso(2,choixArme,"");
+				estCombat = false;
 			}
 			else
-			{
+			{	
+				JOptionPane pop = new JOptionPane();
+				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+				String[] tab = rang.split( " " );
+				
 				jeterArmeGauche.setEnabled(true);
 			}
 		}
@@ -413,7 +422,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		{
 			if(estCombat)
 			{
-				controle.tourPerso(2,2,"");
+				choixArme = 2;
+				controle.tourPerso(2,choixArme,"");
+				estCombat = false;
 			}
 			else
 			{

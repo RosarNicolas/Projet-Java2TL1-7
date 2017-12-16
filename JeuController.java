@@ -1,5 +1,7 @@
 package testMVC;
 
+import javax.swing.JOptionPane;
+
 public class JeuController
 {
 	JeuVue vue;
@@ -16,7 +18,7 @@ public class JeuController
 		modele.updateEntiteListe();
 	}
 	
-	public void tourPerso(int action, int choixArme, String deplacement)
+	public void tourPerso(int action, int choixArme, String deplacement, Position pos)
 	{
 		if(action == 1)
 		{
@@ -44,9 +46,27 @@ public class JeuController
 			{
 				vue.affiche("Avec quelle arme voulez vous attaquer ?");
 				noArme = vue.choixArme();
+				attaquerVueGui(choixArme);
+				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!mettre variables estCombat à false et choixArme à 0
+			}
+			if(choixArme == 1)
+			{
+				vue.affiche("Vous attaquez avec l'arme de gauche.");
+				noArme = vue.choixArme();
+				attaquerVueGui(choixArme);
+				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!mettre variables estCombat à false et choixArme à 0
+			}
+			if(choixArme == 2)
+			{
+				vue.affiche("Vous attaquez avec l'arme de droite.");
+				noArme = vue.choixArme();
+				attaquerVueGui(choixArme);
+				// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!mettre variables estCombat à false et choixArme à 0
 			}
 			
-			if(noArme  == 0 )
+			
+			
+			if(noArme == 0 )
 			{
 				return;
 			}
@@ -213,6 +233,16 @@ public class JeuController
 		modele.updateEntiteListe();
 		vue.update(null, null);
 	}
+	
+	public void attaquerVueGui( int choixArme ) {
+		
+		vue.affiche("Vous allez attaquer avec " + modele.getPerso().getArmeGauche().getNomDeLarme() );
+		// FAIRE le pop up !!!!======================================================
+		
+		
+
+	}
+	
 	public void addView(JeuVue vue)
 	{
 		this.vue = vue;
