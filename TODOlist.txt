@@ -27,3 +27,5 @@
 -rename les package
 
 -LOGIQUE DU JEU
+
+-Quand attaque dans GUI faire quelque chose quand on clique sur attaquer (e.g. encadré rouge sur les armes) 
