@@ -25,3 +25,5 @@
 -Rapport ?(checkez les consignes du projet sur portail.Ephec)
 
 -rename les package
+
+-LOGIQUE DU JEU
