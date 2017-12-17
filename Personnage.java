@@ -127,21 +127,15 @@ public class Personnage extends Entite
 		{
 			armeGauche = armes.get(iDArme);
 			return 1;
-			//MVC
-			//System.out.println("Vous possédez maintenant l'arme "+ armeGauche.getNomDeLarme() +" dans la main gauche" );
 		}
 		else if(armeDroite == null)
 		{
 			armeDroite = armes.get(iDArme);
 			return 2;
-			//MVC
-			//System.out.println("Vous possédez maintenant l'arme " +  armeDroite.getNomDeLarme() + " dans la main doite");
 
 		}
 		else
 		{
-			//MVC
-			//System.out.println("Vous n'avez plus de place");
 			this.setPointsDAction(this.getPointsDAction() + 1);
 			return 0;
 		}
@@ -158,13 +152,11 @@ public class Personnage extends Entite
 		//verifier si arme a jeter
 		 if(x == 1 && this.armeGauche == null)
 		{
-			 //MVC
-			//System.out.println("Vous n'avez pas d'arme à jeter dans la main gauche");
+			 
 		}
 		else if(x == 2 && this.armeDroite == null)
 		{
-			//MVC
-			//System.out.println("Vous n'avez pas d'arme à jeter dans la main droite");
+			;
 		}
 		else if(x == 1)
 		{
@@ -177,8 +169,7 @@ public class Personnage extends Entite
 	
 		else
 		{
-			//MVC
-			//System.out.println("Mauvais numero pour choix de l'arme");
+
 		}
 	}
 
@@ -204,7 +195,8 @@ public class Personnage extends Entite
 
 
 	@Override
-	public int attaquer() {
+	public int attaquer() 
+	{
 		return 0;
 	}
 
@@ -225,8 +217,5 @@ public class Personnage extends Entite
 			e.getMessage();
 			return false;
 		}
-	}
-
-
-	
+	}	
 }

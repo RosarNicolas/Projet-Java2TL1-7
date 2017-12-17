@@ -28,6 +28,7 @@ public class Jeu extends Observable {
 	private LinkedList<Zombie> zombiesSurCase = new LinkedList<Zombie>();
 	private Scanner sc = new Scanner(System.in);
 	private int compteurTour = 1;
+	private int fin = 0;
 	
 	public Jeu()
 	{
@@ -40,14 +41,14 @@ public class Jeu extends Observable {
 	 * apparition de zombie tous les tours pair
 	 * le joueur gagne si a la fin de son tour il se trouve l'emplacement de la sortie
 	 */
-	public void main(String[] args)
+	/*public void main(String[] args)
 	{
 		
 		
 		//System.out.println("Bonjour survivant ! Quel est votre pseudo ?");
 		
 		
-		/*System.out.println("Vous voilà dans un sale pétrin " + perso.getNom() +" ! Votre mission ? Atteindre la postion (" + carte.getSortie().getPosX() + ";" + carte.getSortie().getPosY() + ") pour vous échapper de ce massacre."
+		System.out.println("Vous voilà dans un sale pétrin " + perso.getNom() +" ! Votre mission ? Atteindre la postion (" + carte.getSortie().getPosX() + ";" + carte.getSortie().getPosY() + ") pour vous échapper de ce massacre."
 				+ "\nPour cela vous devrez traverser ce bâtiment rempli de zombies..."
 				+ "\nVoici votre position actuelle (" + perso.getEmplacement().getPosX()+";"+perso.getEmplacement().getPosY() 
 				+ ")\nVous êtes représenté sur la carte par le pion \""+Carte.getPionJoueur()+"\""
@@ -58,14 +59,14 @@ public class Jeu extends Observable {
 				+ "\n	- Vous deplacez (entrez 3);"
 				+ "\n	- Attendre (entrez 4);"
 				+ "\n	- Consultez vos infos (entrez 5. Cela ne consomme pas de point d'action);"
-				+ "\n	- Jeter une arme (entrez 6 puis le numéro de l'arme à jeter => 1 : gauche, 2 : droite);");*/
+				+ "\n	- Jeter une arme (entrez 6 puis le numéro de l'arme à jeter => 1 : gauche, 2 : droite);");
 		updateEntiteListe();
 		//carte.generer(entiteSurCarte);
 		while(!perso.getEmplacement().equals(carte.getSortie()))
 		{
-			/*System.out.println("Tour numéro : " +compteurTour);
+			System.out.println("Tour numéro : " +compteurTour);
 			System.out.println();
-			System.out.println();*/
+			System.out.println();
 			//tourPerso();
 			tourZombie();
 			if(perso.getPointsDeVie() <= 0)
@@ -83,9 +84,9 @@ public class Jeu extends Observable {
 			perso.setPointsDAction(3);
 			compteurTour++;
 		}
-		/*System.out.println();
-		System.out.println("Vous vous êtes échappé bravo !! Le jeu est terminé ");*/
-	}
+		System.out.println();
+		System.out.println("Vous vous êtes échappé bravo !! Le jeu est terminé ");
+	}*/
 	
 	/**
 	 * methode qui initialise les LinkedList avec tous les types de zombies et d'armes differents
@@ -115,9 +116,49 @@ public class Jeu extends Observable {
 		{
 			zombieApparition();
 		}
+		setChanged();
+		notifyObservers();
+	}
+	//testMVC
+	public int actionPerso(int actionPossible, String deplacement, int armeAjeter, int attaque, Zombie z)
+	{
+		if(actionPossible != 0 )
+		{
+			int fouille = perso.fouille(armes);
+			updateEntiteListe();
+			setChanged();
+			notifyObservers();
+			return fouille;
+		}
+		else if(!deplacement.equals(""))
+		{
+			perso.deplacer(deplacement, this.carte);
+			updateEntiteListe();
+			setChanged();
+			notifyObservers();
+		}
+		else if(armeAjeter != 0)	
+		{
+			perso.jeterUneArme(armeAjeter);
+			updateEntiteListe();
+			setChanged();
+			notifyObservers();
+		}
+		else if(attaque != 0)
+		{
+			int degats = perso.attaquer(attaque);
+			return degats;
+			
+		}
+		return 0;
 	}
 	
-	
+	public void notifier()
+	{
+		updateEntiteListe();
+		setChanged();
+		notifyObservers();
+	}
 	/** 
 	 * action possible lors d'un tour du personnage 
 	 * recuperation via un scanner
@@ -368,6 +409,8 @@ public class Jeu extends Observable {
 				//carte.generer(entiteSurCarte);
 			}
 		}
+		setChanged();
+		notifyObservers();
 		return mordu;
 	}
 	
@@ -395,6 +438,7 @@ public class Jeu extends Observable {
 		updateEntiteListe();
 		if(compteurTour != 1)
 		{
+			setChanged();
 			notifyObservers();
 		}
 	}
@@ -430,18 +474,6 @@ public class Jeu extends Observable {
 		}
 	}
 	
-	/**
-	 * permet d'afficher les commande possible
-	 */
-	public void explication()
-	{
-		/*System.out.println(	"\n- Fouillez (entrez 1);"
-				+ "\n- Attaquer (entrez 2);"
-				+ "\n- Vous deplacez (entrez 3);"
-				+ "\n- Attendre (entrez 4);"
-				+ "\n- Consultez vos infos (entrez 5 cela ne consomme pas d'action);"
-				+ "\n- Jeter une arme (entrez 6 puis le numero de l'arme a jeter 1 = gauche, 2 = droite);");*/
-	}
 	public Carte getCarte() {
 		return carte;
 	}
@@ -489,6 +521,14 @@ public class Jeu extends Observable {
 	}
 	public void setCompteurTour(int compteurTour) {
 		this.compteurTour = compteurTour;
+	}
+
+	public int getFin() {
+		return fin;
+	}
+
+	public void setFin(int fin) {
+		this.fin = fin;
 	}
 
 }

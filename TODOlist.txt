@@ -1,0 +1,27 @@
+-Sockets
+
+-Images correctes
+
+-Console GUI
+
+-Retirer commentaires inutiles (!!! seulement les inutiles)
+
+-Checker les warning 
+
+-Test test et re-test
+
+-JUnit
+
+-Bien indenter puis commenter
+
+-Javadoc (!= commentaires)
+
+-github
+
+-UML
+
+-Wiki
+
+-Rapport ?(checkez les consignes du projet sur portail.Ephec)
+
+-rename les package

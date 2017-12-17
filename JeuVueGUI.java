@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -25,7 +26,7 @@ import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class JeuVueGUI extends JeuVue implements ActionListener
+public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 {
 	
 	Boolean estCombat = false;
@@ -93,7 +94,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	public JeuVueGUI(Jeu modele, JeuController controle)
 	{
 		super(modele, controle);
-		modele.setPerso(new Personnage("test",1,3,3, modele.getCarte().getApparition()));//MVC
+		//modele.setPerso(new Personnage("test",1,3,3,new Position(3,4) ));//MVCmodele.getCarte().getApparition()
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		
 		fen = new JFrame("ZOMBICIDE");
@@ -142,32 +143,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		
 		
 		try {
-			
-			int w = modele.getPerso().getPointsDeVie();
-			// switch points de vie
-			switch( w ) { 
-				case 3 : coeurs = ImageIO.read(new File("res/3coeurs.png"));
-					break;
-				case 2 : coeurs = ImageIO.read(new File("res/2coeurs.png"));
-					break;
-				case 1 : coeurs = ImageIO.read(new File("res/1coeurs.png"));
-					break;
-				case 0 : coeurs = ImageIO.read(new File("res/0coeurs.png"));
-					break;
-			}
-			
-			int x = modele.getPerso().getPointsDAction();
-			// switch points d'action
-			switch( x ) {
-				case 3 : actions = ImageIO.read(new File("res/3épées.png"));
-					break;
-				case 2 : actions = ImageIO.read(new File("res/2épées.png"));
-					break;
-				case 1 : actions = ImageIO.read(new File("res/1épées.png"));
-					break;
-				case 0 : actions = ImageIO.read(new File("res/0épées.png"));
-					break;
-			}
+			coeurs = ImageIO.read(new File("res/3coeurs.png"));
+			actions = ImageIO.read(new File("res/3épées.png"));
 			
 			/*int IdArmeGauche = modele.getPerso().getArmeGauche().getId();
 			int IdArmeDroite = modele.getPerso().getArmeDroite().getId();
@@ -199,7 +176,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			
 			
 		} 
-		catch (IOException e) { e.printStackTrace(); }
+		catch (IOException e) 
+		{ 
+			e.printStackTrace(); 
+		}
 		
 		top.add(panel_1);
 		top.add(panel_2);
@@ -284,7 +264,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		vueArmeDroite.addActionListener(this);
 		jeterArmeDroite.addActionListener(this);
 		jeterArmeGauche.addActionListener(this);
-		
+		if(modele.getPerso() == null)
+		{
+			JOptionPane pop = new JOptionPane();
+			String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+			controle.setPerso(rang);
+		}
 		
 	}
 	
@@ -356,14 +341,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		Object courant = e.getSource();
 		if(courant == fouiller)
 		{
-			controle.tourPerso(1,0,"");
-			update(null,null);
+			controle.tourPerso(1,0,"",null);
 		}
 		else if(courant == attaquer)// ATTAQUER ===================================================
 		{
 			estCombat = true;
-			
-			debug = 1;
 		}
 		else if(courant == deplacer)
 		{
@@ -376,26 +358,23 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		}
 		else if(courant == attendre)
 		{
-		
-			controle.tourPerso(4,0,"");
-
+			controle.tourPerso(4,0,"",null);
 		}
 		else if(courant == gauche)
 		{
-			controle.tourPerso(3,1,"gauche");
+			controle.tourPerso(3,1,"gauche",null);
 		}
 		else if(courant == droite)
 		{
-			controle.tourPerso(3,1,"droite");
+			controle.tourPerso(3,1,"droite",null);
 		}
 		else if(courant == bas)
 		{
-			controle.tourPerso(3,1,"bas");
-			System.out.println(modele.getPerso().getEmplacement().getPosX() + " " + modele.getPerso().getEmplacement().getPosY());
+			controle.tourPerso(3,1,"bas",null);
 		}
 		else if(courant == haut)
 		{
-			controle.tourPerso(3,1,"haut");
+			controle.tourPerso(3,1,"haut",null);
 		}
 		else if(courant == vueArmeGauche)
 		{
@@ -406,14 +385,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
 				String[] tab = rang.split( " " );
 				
-				controle.tourPerso(2,choixArme,"");
-				estCombat = false;
+				controle.tourPerso(2,choixArme,"",new Position(Integer.parseInt(tab[0]), Integer.parseInt(tab[1])));
 			}
 			else
 			{	
-				JOptionPane pop = new JOptionPane();
-				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
-				String[] tab = rang.split( " " );
 				
 				jeterArmeGauche.setEnabled(true);
 			}
@@ -423,8 +398,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			if(estCombat)
 			{
 				choixArme = 2;
-				controle.tourPerso(2,choixArme,"");
-				estCombat = false;
+				JOptionPane pop = new JOptionPane();
+				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+				String[] tab = rang.split( " " );
+				
+				controle.tourPerso(2,choixArme,"",new Position(Integer.parseInt(tab[0]), Integer.parseInt(tab[1])));
+				
 			}
 			else
 			{
@@ -433,13 +412,36 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		}
 		else if(courant == jeterArmeGauche)
 		{
-			controle.tourPerso(6, 1, "");
+			controle.tourPerso(6, 1, "",null);
 		}
 		else if(courant == jeterArmeDroite)
 		{
-			controle.tourPerso(6, 2, "");
+			controle.tourPerso(6, 2, "",null);
 		}
 		
+		if(modele.getPerso().getPointsDAction() <= 0)
+		{
+			if(modele.getPerso().getEmplacement().equals(modele.getCarte().getSortie()))
+			{
+				controle.fin();
+			}
+			modele.tourZombie();
+			if(modele.getCompteurTour()%2 == 0)
+			{
+				modele.zombieApparition();
+			}
+			if(modele.getPerso().getPointsDeVie() <= 0)
+			{
+				//mort GAME OVER
+				JOptionPane pop = new JOptionPane();
+				pop.showMessageDialog(null, "GAME OVER");
+				System.exit(0);
+			}
+			modele.setCompteurTour(modele.getCompteurTour() + 1);
+			modele.getPerso().setPointsDAction(3);
+			update(null,null);
+			
+		}
 		/* carte.removeAll();
 		 * bougeJoueur(110,110); definir les coordonnee !!!!!!!!!!!
 		genererCarte();*/
@@ -448,7 +450,15 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	@Override
 	public void update(Observable arg0, Object arg1)
 	{
-		System.out.println(modele.getPerso().getPointsDAction());
+		if(modele.getFin()==1)
+		{
+			JOptionPane pop = new JOptionPane();
+			pop.showMessageDialog(null, "Gagné");
+			System.out.println("Gagné"); // bourrin mais ca marche
+			System.exit(0);
+		}
+		carte.removeAll();
+		estCombat = false;
 		jeterArmeGauche.setEnabled(false);
 		jeterArmeDroite.setEnabled(false);
 		gauche.setEnabled(false);
@@ -477,11 +487,46 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			afficheArme1(modele.getPerso().getArmeGauche().getId());
 			afficheArme2(modele.getPerso().getArmeDroite().getId());
 		}
-		//setJoueur(modele.getPerso().getEmplacement().getPosX()*100,modele.getPerso().getEmplacement().getPosY()*100);
-		//genererCarte();
-		setZombies();
-		//genererCarte();
-		genererInfo();
+		
+		// switch points de vie
+		
+		try
+		{
+			int x = modele.getPerso().getPointsDAction();
+			// switch points d'action
+			switch( x ) {
+				case 3 : actions = ImageIO.read(new File("res/3épées.png"));
+					break;
+				case 2 : actions = ImageIO.read(new File("res/2 épées.png"));
+					break;
+				case 1 : actions = ImageIO.read(new File("res/1 épée.png"));
+					break;
+				case 0 : actions = ImageIO.read(new File("res/0 épée.png"));
+					break;
+				default : actions = ImageIO.read(new File("res/0 épée.png"));
+			}
+			int w = modele.getPerso().getPointsDeVie();
+			switch( w ) { 
+			case 3 : coeurs = ImageIO.read(new File("res/3coeurs.png"));
+				break;
+			case 2 : coeurs = ImageIO.read(new File("res/2 coeurs.png"));
+				break;
+			case 1 : coeurs = ImageIO.read(new File("res/1 coeur.png"));
+				break;
+			case 0 : coeurs = ImageIO.read(new File("res/0 coeur.png"));
+				break;
+			default : coeurs = ImageIO.read(new File("res/0 coeur.png"));
+			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		vueCoeurs.setIcon(new ImageIcon(coeurs));
+		vueAction.setIcon(new ImageIcon(actions));
+		setJoueur(modele.getPerso().getEmplacement().getPosX(), modele.getPerso().getEmplacement().getPosY());
+		genererCarte();
+
 		
 	}
 	
@@ -565,7 +610,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 				
 			case 6 :  return ImageIO.read(new File("res/pistolet.png"));
 				
-			case 5 : System.out.println("raté"); return ImageIO.read(new File("res/Tronconneuse.png"));
+			case 5 :  return ImageIO.read(new File("res/Tronconneuse.png"));
 				
 			case 4 :  return ImageIO.read(new File("res/hache.png"));
 				
