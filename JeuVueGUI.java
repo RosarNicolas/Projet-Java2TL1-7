@@ -257,6 +257,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		fen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fen.setSize(800,1000);
 		fen.setLocationRelativeTo(null);
+		//fen.setResizable(false);
 		fen.setVisible(true);
 		
 		
@@ -352,7 +353,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		{
 			controle.tourPerso(1,0,"",null);
 		}
-		else if(courant == attaquer)// ATTAQUER ===================================================
+		else if(courant == attaquer)
 		{
 			estCombat = true;
 		}
@@ -362,7 +363,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			droite.setEnabled(true);
 			haut.setEnabled(true);
 			bas.setEnabled(true);
-			
 			
 		}
 		else if(courant == attendre)

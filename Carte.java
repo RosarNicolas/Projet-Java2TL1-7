@@ -13,6 +13,11 @@ import java.util.LinkedList;
  */
 public class Carte 
 {
+	/**
+	 * 
+	 * String carPossible : contient le caractère remprésentant une case accessible par les entités.
+	 * String carImpossible : contient le caractère remprésentant une case inpratiquable par les entités.
+	 */
 	private int longueur;
 	private int largeur;
 	private String[][] tab;

@@ -183,21 +183,22 @@ public class Personnage extends Entite
 	}
 
 
+	/** @return armeGauche : renvoie l'arme gauche du personnage.*/
 	public Arme getArmeGauche() {
 		return armeGauche;
 	}
 
-
+	/** définit l'arme gauche du personnage.*/
 	public void setArmeGauche(Arme armeGauche) {
 		this.armeGauche = armeGauche;
 	}
 
-
+	/** @return armeDroite : renvoie l'arme gauchedroite du personnage.*/
 	public Arme getArmeDroite() {
 		return armeDroite;
 	}
 
-
+	/** définit l'arme droite du personnage.*/
 	public void setArmeDroite(Arme armeDroite) {
 		this.armeDroite = armeDroite;
 	}
