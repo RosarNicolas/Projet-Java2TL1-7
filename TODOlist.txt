@@ -1,3 +1,6 @@
+
+- !!! quand on met fen a "SetResizable(false)", les images du gui ne sont plus bonne.
+
 -Sockets
 
 -Images correctes
@@ -28,4 +31,4 @@
 
 -LOGIQUE DU JEU
 
--Quand attaque dans GUI faire quelque chose quand on clique sur attaquer (e.g. encadré rouge sur les armes) 
+-Quand attaque dans GUI faire quelque chose quand on clique sur attaquer (e.g. encadrÃ© rouge sur les armes) 
