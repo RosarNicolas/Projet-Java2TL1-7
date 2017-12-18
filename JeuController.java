@@ -163,6 +163,7 @@ public class JeuController
 		}
 		else if(action == 4)
 		{
+			vue.affiche("Vous avez dépensé un point d'action pour attendre.");
 			modele.updateEntiteListe();
 			modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
 			modele.notifier();

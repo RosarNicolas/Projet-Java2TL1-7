@@ -2,6 +2,7 @@ package testMVC;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -22,12 +23,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 {
+	
+	int compteur = 0;
 	
 	Boolean estCombat = false;
 	int choixArme = 0;
@@ -42,7 +46,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	
 	
 	JPanel texte = new Panneau("res/papier.jpg");
-	JLabel texteConsole = new JLabel("Bienvenue dans notre petit jeu");
+	JTextArea texteConsole = new JTextArea("Bienvenue survivant : ");
+	
 	
 	
 	JPanel carte = new JPanel();
@@ -64,9 +69,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	JButton bas = new JButton("Bas");
 	JButton haut = new JButton("Haut");
 	JButton droite = new JButton("Droite");
-	
-	//JButton armeGauche1 = new JButton("arme gauche");
-	//JButton armeDroite2 = new JButton("arme droite");
 	
 	
 	//NICO
@@ -99,8 +101,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		
 		fen = new JFrame("ZOMBICIDE");
 		
+		
 		//NICO
-		contentPane = new Panneau("res/Zbackground.jpg");
+		contentPane = new Panneau("res/Zbackground.png");
 		contentPane.setPreferredSize(new Dimension(400,1));
 		contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS) );
 		contentPane.setBorder( new EmptyBorder(50, 5, 5, 5) );
@@ -227,6 +230,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		texte.setBorder(blackline);
 		texte.setBackground(Color.RED);
 		texte.setPreferredSize(new Dimension(380,1000));
+		
+		texteConsole.setEditable(false);
+		texteConsole.setOpaque(false);
+		texteConsole.setFont( new Font( "TimesRoman", Font.BOLD, 13));
+		
 		texte.add(texteConsole);
 		
 		bouton.setLayout(new GridLayout(2,4));
@@ -248,7 +256,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		fen.pack();
 		fen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fen.setSize(800,1000);
-		fen.setLocation(100, 100);
+		fen.setLocationRelativeTo(null);
 		fen.setVisible(true);
 		
 		
@@ -267,8 +275,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		if(modele.getPerso() == null)
 		{
 			JOptionPane pop = new JOptionPane();
-			String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+			String rang = pop.showInputDialog(null, "Quel est votre pseudo?", null, JOptionPane.QUESTION_MESSAGE);
 			controle.setPerso(rang);
+			affiche(rang);
 		}
 		
 	}
@@ -353,7 +362,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			droite.setEnabled(true);
 			haut.setEnabled(true);
 			bas.setEnabled(true);
-			texteConsole.setText("Reussi deplacer");
+			
 			
 		}
 		else if(courant == attendre)
@@ -547,8 +556,16 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 
 	@Override
 	public void affiche(String string)
-	{
-		texteConsole.setText(string);
+	{	
+		if (compteur == 15) {
+			texteConsole.setText(string + "\n");
+			compteur = 0;
+		}
+		else {
+			compteur++;
+			texteConsole.setText( texteConsole.getText() + "\n" + string + "\n");
+		}
+		
 	}
 
 	@Override

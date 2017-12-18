@@ -3,7 +3,6 @@
  */
 package testMVC;
 
-import java.util.Observable;
 
 /**
  * @author he201460

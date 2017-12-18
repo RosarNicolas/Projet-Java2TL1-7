@@ -1,6 +1,6 @@
 package testMVC;
 
-import tp7.BibliothequeMVC;
+
 
 public class JeuMVC 
 {
