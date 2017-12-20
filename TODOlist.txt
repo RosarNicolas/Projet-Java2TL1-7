@@ -1,4 +1,7 @@
 
+
+- !!! dans classe carte ==> setLongueur()  Utile?
+
 - !!! quand on met fen a "SetResizable(false)", les images du gui ne sont plus bonne.
 
 -Sockets
