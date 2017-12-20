@@ -58,11 +58,18 @@ public class Arme
 	/*
 	 *getters and setters
 	 */
-	
+	/**
+	 * @return id : renvoie l'id d'une arme.
+	 * On identifie une arme avec son id dans
+	 * le code pour ramener les armes aléatoirement.
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @param id : Définit l'id d'une arme.
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}

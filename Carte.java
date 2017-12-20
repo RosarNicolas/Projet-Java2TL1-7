@@ -182,46 +182,78 @@ public class Carte
 	}*/
 	
 	//getters and setters
-	
+	/** @return longueur : renvoie la longeur de la carte.
+	 */
 	public int getLongueur() {
 		return longueur;
 	}
 
+	/**
+	 * @param longueur : définir la longeur de la carte.
+	 */
 	public void setLongueur(int longueur) {
 		this.longueur = longueur;
 	}
 
+	/**@return largeur : renvoie la largeur de la carte.
+	 */
 	public int getLargeur() {
 		return largeur;
 	}
 
+	/**@param largeur : définir la largeur de la carte.
+	 */
 	public void setLargeur(int largeur) {
 		this.largeur = largeur;
 	}
 
+	/**
+	 * @return tab : renvoie le tableau à double entrée
+	 * contenant les cases de la carte.
+	 */
 	public String[][] getTab() {
 		return tab;
 	}
 
+	/**
+	 * @param tab : instancier le tableau qui
+	 * contiendra les caractères repr"sentant la carte.
+	 */
 	public void setTab(String[][] tab) {
 		this.tab = tab;
 	}
 
+	/**
+	 * @return sortie : renvoie la position de sortie
+	 * que le personnage doit atteindre pour finir le jeu.
+	 */
 	public Position getSortie() {
 		return sortie;
 	}
 
+	/**
+	 * @param sortie : Définir la position de sortie
+	 * pour terminer le jeu.
+	 */
 	public void setSortie(Position sortie) {
 		this.sortie = sortie;
 	}
 
+	/**
+	 * @return apparition : renvoie la position d'apparition.
+	 */
 	public Position getApparition() {
 		return apparition;
 	}
 
-	public void setApparition(Position apparition) {
+	/**
+	 * 
+	 * @param apparition : définis la position d'apparition
+	 * d'une entité.
+	 */
+	/*public void setApparition(Position apparition) {
 		this.apparition = apparition;
-	}
+	}*/
 
 	public String getCarPossible() {
 		return carPossible;

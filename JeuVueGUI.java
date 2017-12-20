@@ -3,7 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -24,9 +23,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 {
@@ -168,8 +167,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			
 			vueArmeDroite.setIcon( new ImageIcon( "res/question.png" ));
 			vueArmeDroite.setBounds(0, 0, 100, 130);
+			vueArmeDroite.setBorderPainted(true);
+			
 			vueArmeDroite.setContentAreaFilled(false);
             vueArmeDroite.setBorderPainted(false);
+            
 			panel_4.add( vueArmeDroite );
 			
 			panel_3.add(jeterArmeGauche);

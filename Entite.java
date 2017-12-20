@@ -18,8 +18,7 @@ public abstract class Entite
 	private int pointsDAction;
 	private Position emplacement;
 	
-	/**
-	 * constructeur d'entite 
+	/**constructeur d'entite 
 	 * @param nom : String
 	 * @param id : int
 	 * @param pointsDeVie : int
@@ -39,15 +38,13 @@ public abstract class Entite
 	
 	public abstract int attaquer();
 	
-	/**
-	 * @return nom : renvoie le nom de l'entité. 
+	/**@return nom : renvoie le nom de l'entité. 
 	 */
 	public String getNom() {
 		return nom;
 	}
 
-	/**
-	 * Définit le nom de l'entité.
+	/**@param nom : Définit le nom de l'entité.
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
@@ -60,8 +57,7 @@ public abstract class Entite
 		return id;
 	}
 	
-	/**
-	 * Définit l'id de l'entité.
+	/**@param id : Définit l'id de l'entité.
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -74,7 +70,7 @@ public abstract class Entite
 		return pointsDeVie;
 	}
 
-	/** définit les points de vie de l'entité.*/
+	/**@param pointsDeVie : définit les points de vie de l'entité.*/
 	public void setPointsDeVie(int pointsDeVie) {
 		this.pointsDeVie = pointsDeVie;
 	}
@@ -84,7 +80,7 @@ public abstract class Entite
 		return pointsDAction;
 	}
 
-	/** définit les points d'action de l'entité.*/
+	/** @param pointsDAction : définit les points d'action de l'entité.*/
 	public void setPointsDAction(int pointsDAction) {
 		this.pointsDAction = pointsDAction;
 	}
@@ -94,7 +90,7 @@ public abstract class Entite
 		return emplacement;
 	}
 
-	/** définit l'emplacement de l'entité.*/
+	/** @param emplacement :  définit l'emplacement de l'entité.*/
 	public void setEmplacement(Position emplacement) {
 		this.emplacement = emplacement;
 	}
