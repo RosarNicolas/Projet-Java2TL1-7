@@ -1,4 +1,5 @@
 
+- !!! classe carte ligne 60 ==> utiliser setApparition() ou supprimer setApparition().
 
 - !!! dans classe carte ==> setLongueur(), setLargeur(), getTab()  Utile?
 
