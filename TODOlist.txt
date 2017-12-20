@@ -1,6 +1,6 @@
 
 
-- !!! dans classe carte ==> setLongueur(), setLargeur(), getTab(), setTab()  Utile?
+- !!! dans classe carte ==> setLongueur(), setLargeur(), getTab()  Utile?
 
 - !!! quand on met fen a "SetResizable(false)", les images du gui ne sont plus bonne.
 
