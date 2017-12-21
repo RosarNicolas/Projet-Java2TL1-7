@@ -1,14 +1,15 @@
 /**
  * 
  */
-package testMVC;
+package main;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
 /**
- * @author he201460
- *
+ * 
+ * String carPossible : contient le caractère remprésentant une case accessible par les entités.
+ * String carImpossible : contient le caractère remprésentant une case inpratiquable par les entités.
  */
 public class Carte 
 {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package testMVC;
+package main;
 /**
  * @author he201460
  *
