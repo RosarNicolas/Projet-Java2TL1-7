@@ -249,7 +249,7 @@ public class JeuController
 		}
 		else
 		{
-			vue.affiche("Vous vous êtes déplacer avec succes");
+			vue.affiche("Vous vous êtes déplacé avec succes");
 		}
 		modele.updateEntiteListe();
 		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);

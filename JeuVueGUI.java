@@ -463,7 +463,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			{
 				controle.fin();
 			}
-			modele.tourZombie();
+			if(modele.tourZombie())
+			{
+				affiche("Vous avez été mordu et perdez 1 points de vie!");
+			}
+			
 			modele.zombieApparition();
 			if(modele.getPerso().getPointsDeVie() <= 0)
 			{
