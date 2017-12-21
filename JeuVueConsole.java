@@ -115,7 +115,7 @@ public class JeuVueConsole extends JeuVue implements Observer
 					if(perso.getEmplacement().getPosY() == i && perso.getEmplacement().getPosX() == j)
 					{
 						String a = perso.getClass().toString();
-						if(a.equals("class testMVC.Personnage"))
+						if(a.equals("class main.Personnage"))
 						{
 							caseJoueur = true;
 							
