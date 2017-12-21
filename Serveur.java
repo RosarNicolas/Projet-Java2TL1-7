@@ -20,33 +20,16 @@ public class Serveur {
 	
 	Scanner sc ;
 	
-	public static void closeConnection() throws IOException{
-		try {
-			in.close();
-			out.close();
-			soc.close();
-		} 
-		catch (IOException e) {
-			System.out.println("Erreur de fermeture!");
-			e.printStackTrace();
-		}
-	}
-	
 	public void sendMessage( String str ) {
 		out.println(str);
 	}
 	
-	public String waitForMessage(){ // aller rechercher le message dans le in
+	public String waitForMessage(){
 		try {
 			while(true) {
 				String strRecept = in.readLine();
 				System.out.println( "Serveur : echo réception = " + strRecept);
 				
-				//String str = sc.nextLine();
-				
-				if( strRecept.equals("END") ) {
-					closeConnection();
-				}
 				if( strRecept.equals("1") ) {
 					sendMessage("Votre objectif : atteindre la sortie");
 				}
@@ -70,12 +53,10 @@ public class Serveur {
 		
 			System.out.println("Serveur :");
 			sc = new Scanner(System.in);
-			
+		
 			s = new ServerSocket(port);
 			System.out.println("serveur : attente du client.");
 			soc = s.accept();
-			System.out.println("serveur : connecté.");
-			// arrêt ici tant que pas connection
 			
 			in = new BufferedReader(
 					new InputStreamReader(

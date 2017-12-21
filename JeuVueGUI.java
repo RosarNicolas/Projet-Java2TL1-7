@@ -34,6 +34,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	int compteurChat = 0;
 	Boolean estCombat = false;
 	int choixArme = 0;
+	int ptActionMax = 3;
 	
 	JFrame fen;
 	
@@ -199,11 +200,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		droit1.setLayout(new BoxLayout(droit1, BoxLayout.Y_AXIS));
 		
 		
-		
-		//a enlever
 		gauche1.setBorder(blackline);
 		droit1.setBorder(blackline);
-		//a enlever
+	
 		 gauche1.add(bouton, BorderLayout.NORTH);
 		 gauche1.add(texte,BorderLayout.SOUTH);
 		 gauche1.add(chat);
@@ -222,12 +221,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		
 		//texte
 		texte.setBorder(blackline);
-		texte.setBackground(Color.RED);
 		texte.setPreferredSize(new Dimension(380,1000));
 		
 		texteConsole.setEditable(false);
 		texteConsole.setOpaque(false);
 		texteConsole.setFont( new Font( "TimesRoman", Font.BOLD, 13));
+		
 		texte.add(texteConsole);
 		
 		bouton.setLayout(new GridLayout(2,4));
@@ -250,6 +249,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		fen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fen.setSize(800,1000);
 		fen.setLocation(100, 100);
+		fen.setLocationRelativeTo(null);
+		fen.setResizable(false);
 		fen.setVisible(true);
 		
 		
@@ -328,7 +329,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 				}
 				else if(!dejaEcrit)
 				{
-					DessinerImage image = new DessinerImage("res/couloirHopital.jpg");
+					DessinerImage image = new DessinerImage("res/rue.jpg");
 					image.setBounds(j*100, i*100, 100, 100);
 					carte.add(image);
 				}
@@ -444,7 +445,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 				System.exit(0);
 			}
 			modele.setCompteurTour(modele.getCompteurTour() + 1);
-			modele.getPerso().setPointsDAction(3);
+			modele.getPerso().setPointsDAction( ptActionMax );
 			update(null,null);
 			
 		}

@@ -81,14 +81,6 @@ public class Zombie extends Entite
 		return 1;
 	}
 	
-	public int attaquer(Personnage perso) 
-	{
-		attaquer();
-		return 1;
-	}
-
-
-
 	@Override
 	public boolean deplacer(String direction, Carte carte) {
 		return true;
