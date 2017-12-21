@@ -1,6 +1,7 @@
 package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -47,10 +48,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	
 	
 	JPanel chat = new JPanel();
+	JPanel boxBoutons = new JPanel();
 	
-	JLabel texteChat = new JLabel("1 = info, 2 = info arme");
+	JLabel texteChat = new JLabel("Tapez : 1 = info, 2 = info arme, 3 ennemis");
 	JTextField envoiMsg = new JTextField();
 	JButton envoyerBouton = new JButton("Envoyer");
+	JButton infoBouton = new JButton("Infos");
 	
 	JPanel carte = new JPanel();
 	
@@ -186,11 +189,17 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		
 		//chat
 		texteChat.setPreferredSize(new Dimension(0,100));
+		texteChat.setAlignmentX(Component.CENTER_ALIGNMENT);
 		chat.setPreferredSize(new Dimension(0,200));
 		 chat.setLayout(new BoxLayout(chat,BoxLayout.Y_AXIS));
 		 chat.add(texteChat);
 		 chat.add(envoiMsg);
-		 chat.add(envoyerBouton);
+		 
+		 boxBoutons = new JPanel();
+		 boxBoutons.add(envoyerBouton);
+		 boxBoutons.add(infoBouton);
+		
+		 chat.add(boxBoutons);
 				
 		//partie gauche
 		fen.add(gauche1,BorderLayout.WEST);
@@ -250,7 +259,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		fen.setSize(800,1000);
 		fen.setLocation(100, 100);
 		fen.setLocationRelativeTo(null);
-		fen.setResizable(false);
 		fen.setVisible(true);
 		
 		
@@ -267,6 +275,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		jeterArmeDroite.addActionListener(this);
 		jeterArmeGauche.addActionListener(this);
 		envoyerBouton.addActionListener(this);
+		infoBouton.addActionListener(this);
+		
 		if(modele.getPerso() == null)
 		{
 			JOptionPane pop = new JOptionPane();
@@ -429,6 +439,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		else if(courant == envoyerBouton)
 		{
 			client.waitForMessage(envoiMsg.getText());
+		}
+		else if(courant == infoBouton) {
+			texteChat.setText("Tapez : 1 = info, 2 = info arme, 3 ennemis");
 		}
 		
 		if(modele.getPerso().getPointsDAction() <= 0)

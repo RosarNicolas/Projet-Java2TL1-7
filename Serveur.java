@@ -31,11 +31,15 @@ public class Serveur {
 				System.out.println( "Serveur : echo réception = " + strRecept);
 				
 				if( strRecept.equals("1") ) {
-					sendMessage("Votre objectif : atteindre la sortie");
+					sendMessage("Votre objectif : atteindre la sortie.");
 				}
 				else if(strRecept.equals("2"))
 				{
-					sendMessage("Attention les armes ont des portée différentes");
+					sendMessage("Attention les armes ont des portée différentes!");
+				}
+				else if(strRecept.equals("3"))
+				{
+					sendMessage("Chaque ennemis peut infliger 1 de dégât par tour.");
 				}
 				else
 				{
