@@ -65,11 +65,13 @@ class TestGlobaux {
 						assertFalse(jeu.getPerso().getArmeGauche() == null);
 						assertFalse(jeu.getPerso().getArmeDroite() == null);
 						//Test deplacement
-						jeu.getPerso().deplacer("bas", jeu.getCarte());
+						jeu.updateZombieSurCase(jeu.getPerso().getEmplacement());
+						jeu.getPerso().deplacer("bas", jeu.getCarte(),jeu.getZombiesSurCase());
 						assertTrue(jeu.getPerso().getEmplacement().getPosX() == 0);
 						assertTrue(jeu.getPerso().getEmplacement().getPosY() == 1);
 						//Test deplacement limite
-						jeu.getPerso().deplacer("gauche", jeu.getCarte());//le joueur essaye de sortir de la carte mais le jeu l'en empeche et sa position n'est pas modifiée
+						jeu.updateZombieSurCase(jeu.getPerso().getEmplacement());
+						jeu.getPerso().deplacer("gauche", jeu.getCarte(),jeu.getZombiesSurCase());//le joueur essaye de sortir de la carte mais le jeu l'en empeche et sa position n'est pas modifiée
 						assertTrue(jeu.getPerso().getEmplacement().getPosX() == 0);
 						assertTrue(jeu.getPerso().getEmplacement().getPosY() == 1);
 						//Test jeter une arme

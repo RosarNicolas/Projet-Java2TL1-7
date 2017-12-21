@@ -2,6 +2,9 @@ package main;
 
 public class JeuMVC 
 {
+	/**
+	 * modele MVC class a lance pour lancer le jeu
+	 */
 	public JeuMVC()
 	{
 		Jeu modele = new Jeu();

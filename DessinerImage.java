@@ -1,5 +1,7 @@
 package main;
-
+/**
+ * classe permettant a partir d'un chemin de dessiner une image dans un JPanel
+ */
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Image;
