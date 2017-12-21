@@ -2,7 +2,6 @@ package testMVC;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -10,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -21,34 +21,27 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class JeuVueGUI extends JeuVue implements ActionListener
+public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 {
 	
 	Boolean estCombat = false;
 	int choixArme = 0;
-	int debug = 0;
-	
 	
 	JFrame fen;
-	
 	
 	JPanel gauche1 = new JPanel();
 	JPanel droit1 = new JPanel();
 	
-	
 	JPanel texte = new Panneau("res/papier.jpg");
 	JLabel texteConsole = new JLabel("Bienvenue dans notre petit jeu");
-	
 	
 	JPanel carte = new JPanel();
 	JPanel bouton = new JPanel();
 	
 	JLabel boutonJoueur = new JLabel(new ImageIcon("res/persoM.png"));
-	
 	
 	JLabel joueur = new JLabel("joueur");
 	JLabel arme1 = new JLabel("arme1");
@@ -64,11 +57,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	JButton haut = new JButton("Haut");
 	JButton droite = new JButton("Droite");
 	
-	//JButton armeGauche1 = new JButton("arme gauche");
-	//JButton armeDroite2 = new JButton("arme droite");
-	
-	
-	//NICO
 	private JPanel contentPane;
 	private Box top;
 	private JPanel panel_1;
@@ -88,12 +76,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 	JButton jeterArmeGauche = new JButton("Jeter");
 	JButton jeterArmeDroite = new JButton("Jeter");
 	
-	//Canvas canvas;
-	
 	public JeuVueGUI(Jeu modele, JeuController controle)
 	{
 		super(modele, controle);
-		modele.setPerso(new Personnage("test",1,3,3, modele.getCarte().getApparition()));//MVC
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		
 		fen = new JFrame("ZOMBICIDE");
@@ -145,11 +130,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			coeurs = ImageIO.read(new File("res/3coeurs.png"));
 			actions = ImageIO.read(new File("res/3épées.png"));
 			
-			/*int IdArmeGauche = modele.getPerso().getArmeGauche().getId();
-			int IdArmeDroite = modele.getPerso().getArmeDroite().getId();
-			SwitchArmesGD( armeGauche, IdArmeGauche );
-			SwitchArmesGD( armeDroite, IdArmeDroite );*/
-			
 			vueCoeurs.setIcon(new ImageIcon(coeurs));
 			panel_1.add( vueCoeurs );
 			
@@ -188,11 +168,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		
 		contentPane.add(top);
 		contentPane.add(bottom);
-		
-		
-		
-		//NICO
-		
+				
 		//partie gauche
 		fen.add(gauche1,BorderLayout.WEST);
 		fen.add(droit1,BorderLayout.EAST);
@@ -263,7 +239,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		vueArmeDroite.addActionListener(this);
 		jeterArmeDroite.addActionListener(this);
 		jeterArmeGauche.addActionListener(this);
-		
+		if(modele.getPerso() == null)
+		{
+			String rang = JOptionPane.showInputDialog(null, "Veuillez entrer votre nom", JOptionPane.QUESTION_MESSAGE);
+			controle.setPerso(rang);
+		}
 		
 	}
 	
@@ -275,15 +255,13 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		int longueur = modele.getCarte().getLongueur();
 		int largeur = modele.getCarte().getLargeur();
 		String carTrou = modele.getCarte().getCarImpossible();
-		String carCoul = modele.getCarte().getCarPossible();
-		//
+		//String carCoul = modele.getCarte().getCarPossible();
 		for(int i = 0 ; i<longueur;i++)
 		{
 			for(int j = 0 ;j<largeur;j++)
 			{
 				dejaEcrit = false;
 				compteur = 0;
-				//regler probleme si pas de zombie alors carte ne se genere pas
 				for(Zombie z : modele.getZombiesSurCarte())
 				{
 					if(z.getEmplacement().getPosX() == j && z.getEmplacement().getPosY() == i)
@@ -336,13 +314,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		if(courant == fouiller)
 		{
 			controle.tourPerso(1,0,"",null);
-			update(null,null);
 		}
-		else if(courant == attaquer)// ATTAQUER ===================================================
+		else if(courant == attaquer)
 		{
+			texteConsole.setText("Choisissez une arme");
 			estCombat = true;
-			
-			debug = 1;
 		}
 		else if(courant == deplacer)
 		{
@@ -350,14 +326,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			droite.setEnabled(true);
 			haut.setEnabled(true);
 			bas.setEnabled(true);
-			texteConsole.setText("Reussi deplacer");
 			
 		}
 		else if(courant == attendre)
 		{
-		
 			controle.tourPerso(4,0,"",null);
-
 		}
 		else if(courant == gauche)
 		{
@@ -370,7 +343,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		else if(courant == bas)
 		{
 			controle.tourPerso(3,1,"bas",null);
-			System.out.println(modele.getPerso().getEmplacement().getPosX() + " " + modele.getPerso().getEmplacement().getPosY());
 		}
 		else if(courant == haut)
 		{
@@ -381,8 +353,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			if(estCombat)
 			{
 				choixArme = 1;
-				JOptionPane pop = new JOptionPane();
-				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+				String rang = JOptionPane.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
 				String[] tab = rang.split( " " );
 				
 				controle.tourPerso(2,choixArme,"",new Position(Integer.parseInt(tab[0]), Integer.parseInt(tab[1])));
@@ -398,8 +369,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			if(estCombat)
 			{
 				choixArme = 2;
-				JOptionPane pop = new JOptionPane();
-				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+				String rang = JOptionPane.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
 				String[] tab = rang.split( " " );
 				
 				controle.tourPerso(2,choixArme,"",new Position(Integer.parseInt(tab[0]), Integer.parseInt(tab[1])));
@@ -419,14 +389,35 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 			controle.tourPerso(6, 2, "",null);
 		}
 		
-		/* carte.removeAll();
-		 * bougeJoueur(110,110); definir les coordonnee !!!!!!!!!!!
-		genererCarte();*/
+		if(modele.getPerso().getPointsDAction() <= 0)
+		{
+			if(modele.getPerso().getEmplacement().equals(modele.getCarte().getSortie()))
+			{
+				controle.fin();
+			}
+			modele.tourZombie();
+			modele.zombieApparition();
+			if(modele.getPerso().getPointsDeVie() <= 0)
+			{
+				JOptionPane.showMessageDialog(null, "GAME OVER");
+				System.exit(0);
+			}
+			modele.setCompteurTour(modele.getCompteurTour() + 1);
+			modele.getPerso().setPointsDAction(3);
+			update(null,null);
+			
+		}
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1)
 	{
+		if(modele.getFin()==1)
+		{
+			JOptionPane.showMessageDialog(null, "Gagné");
+			System.out.println("Gagné"); // bourrin mais ca marche
+			System.exit(0);
+		}
 		carte.removeAll();
 		estCombat = false;
 		jeterArmeGauche.setEnabled(false);
@@ -436,8 +427,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		droite.setEnabled(false);
 		haut.setEnabled(false);
 		boutonJoueur.setLocation(modele.getPerso().getEmplacement().getPosX()*100+10,modele.getPerso().getEmplacement().getPosY()*100+10);
-		//ne charge l'image que s'il y a une arme !!!!!
-		if(modele.getPerso().getArmeGauche() == null && modele.getPerso().getArmeDroite() == null) // changer en isNull
+		if(modele.getPerso().getArmeGauche() == null && modele.getPerso().getArmeDroite() == null)
 		{
 			afficheArme1(13);
 			afficheArme2(13);
@@ -456,14 +446,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		{
 			afficheArme1(modele.getPerso().getArmeGauche().getId());
 			afficheArme2(modele.getPerso().getArmeDroite().getId());
-		}
-		
-		// switch points de vie
-		
+		}		
 		try
 		{
 			int x = modele.getPerso().getPointsDAction();
-			// switch points d'action
 			switch( x ) {
 				case 3 : actions = ImageIO.read(new File("res/3épées.png"));
 					break;
@@ -475,6 +461,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 					break;
 				default : actions = ImageIO.read(new File("res/0 épée.png"));
 			}
+			
 			int w = modele.getPerso().getPointsDeVie();
 			switch( w ) { 
 			case 3 : coeurs = ImageIO.read(new File("res/3coeurs.png"));
@@ -494,29 +481,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		}
 		vueCoeurs.setIcon(new ImageIcon(coeurs));
 		vueAction.setIcon(new ImageIcon(actions));
-		
-			
-		//setZombies();
 		setJoueur(modele.getPerso().getEmplacement().getPosX(), modele.getPerso().getEmplacement().getPosY());
 		genererCarte();
-		//genererInfo();
-		
 	}
-	
-	
-	public void setZombies()
-	{
-		
-	}
-
-	public void genererInfo()
-	{
-		/*if ( !(modele.getPerso().getArmeGauche() == null) )
-		affiche("Vous posséder " + modele.getPerso().getArmeGauche().getNomDeLarme() + " dans la main gauche");
-		if ( !(modele.getPerso().getArmeDroite() == null) )
-			affiche("Vous posséder " + modele.getPerso().getArmeGauche().getNomDeLarme() + " dans la main gauche");!!!!!!!!!!!!!!!!!!!!!!!*/
-	}
-
 
 	@Override
 	public void affiche(String string)
@@ -564,11 +531,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener
 		vueArmeDroite.setIcon(new ImageIcon(imageArme));
 	}
 	
-	
-	//GUI
-	
-	public Image SwitchArmesGD( int IdArme ) throws IOException {
-		switch( IdArme ) {
+	public Image SwitchArmesGD( int IdArme ) throws IOException
+	{
+		switch( IdArme ) 
+		{
 			case 12 : return ImageIO.read(new File("res/detritus.png"));
 			
 			case 11 : return ImageIO.read(new File("res/detritus.png"));

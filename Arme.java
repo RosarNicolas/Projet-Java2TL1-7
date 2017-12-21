@@ -48,8 +48,6 @@ public class Arme
 	 */
 	public boolean tentativeDAttaque()
 	{
-		//return true;
-		
 		int a = (int) (Math.random() * 100);
 		int b = (int) (this.chanceDeToucher * 100.0);
 		return(a<b);

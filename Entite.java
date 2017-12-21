@@ -2,8 +2,6 @@
  * 
  */
 package testMVC;
-
-
 /**
  * @author he201460
  *
@@ -33,7 +31,7 @@ public abstract class Entite
 		this.emplacement = emplacement;
 	}
 	
-	public abstract void deplacer(String direction, Carte carte);
+	public abstract boolean deplacer(String direction, Carte carte);
 	
 	public abstract int attaquer();
 	

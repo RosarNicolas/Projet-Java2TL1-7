@@ -1,7 +1,4 @@
 package testMVC;
-
-import javax.swing.JOptionPane;
-
 public class JeuController
 {
 	JeuVue vue;
@@ -11,6 +8,7 @@ public class JeuController
 		this.modele = modele;
 	}
 	
+	//2methode nouveauPerso
 	public void nouveauPerso(String nom)
 	{
 		Personnage perso = new Personnage(nom, 1, 2, 3, modele.getCarte().getApparition());
@@ -37,7 +35,7 @@ public class JeuController
 			}
 			modele.updateEntiteListe();
 			modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
-			vue.update(null, null); 
+			modele.notifier();
 			
 		}
 		else if(action == 2)
@@ -117,7 +115,7 @@ public class JeuController
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer a cet endroit ");
+					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer à cet endroit !");
 				}
 			}
 			else 
@@ -135,19 +133,18 @@ public class JeuController
 					{
 						vue.affiche("Vous avez tué un zombie ! ");
 						modele.updateEntiteListe();
-						//vue.update(null,  null);
 					}
 					modele.getZombiesSurCarte().addAll(modele.getZombiesSurCase());
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer là !");
+					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer à cet endroit !");
 				}
 			}
 			
 			modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
 			modele.updateEntiteListe();
-			vue.update(null,  null);	
+			modele.notifier();	
 		}
 		else if(action == 3)
 		{
@@ -164,7 +161,7 @@ public class JeuController
 		{
 			modele.updateEntiteListe();
 			modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
-			vue.update(null, null);
+			modele.notifier();
 			
 		}
 		else if(action == 5)
@@ -196,7 +193,7 @@ public class JeuController
 						  +"\nVotre arme en main droite (2) est un "+ modele.getPerso().getArmeDroite().getNomDeLarme());
 			}
 			modele.updateEntiteListe();
-			vue.update(null, null);
+			modele.notifier();
 		}
 		else if(action == 6)
 		{
@@ -211,36 +208,62 @@ public class JeuController
 		}
 		
 	}
+	
+	public void setPerso(String s)
+	{
+		modele.setPerso(new Personnage(s,1 ,3,3,modele.getCarte().getApparition()));
+	}
+	
 	public void deplacerVueConsole()
 	{
 		String deplacement  =  vue.deplacement();
-		modele.getPerso().deplacer(deplacement, modele.getCarte());
-		vue.affiche("Voici votre position actuelle  "+ modele.getPerso().getEmplacement().getPosX()+";"+ modele.getPerso().getEmplacement().getPosY());
+		if(modele.getPerso().deplacer(deplacement, modele.getCarte()))
+		{
+			vue.affiche("Voici votre position actuelle  "+ modele.getPerso().getEmplacement().getPosX()+";"+ modele.getPerso().getEmplacement().getPosY());
+		}
+		else
+		{
+			vue.affiche("Vous ne pouvez pas aller par la");
+		}
 		modele.updateEntiteListe();
 		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
-		vue.update(null, null);
+		modele.notifier();
 		
 	}
 	public void deplacerVueGUI(String deplacement)
 	{
-		modele.getPerso().deplacer(deplacement, modele.getCarte());
+		if(!modele.getPerso().deplacer(deplacement, modele.getCarte()))
+		{
+			vue.affiche("Vous ne pouvez pas aller par la");
+		}
+		else
+		{
+			vue.affiche("Vous vous êtes déplacer avec succes");
+		}
 		modele.updateEntiteListe();
 		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
-		vue.update(null, null);
+		modele.notifier();
 	}
 	public void jeterUneArmeConsole()
 	{
-		vue.affiche("quelle arme jeter ? (1 gauche, 2 droite)");
+		vue.affiche("Quelle arme désirez-vous jeter ? (1 gauche, 2 droite)");
 		int armeAjeter = vue.choixArme();
 		modele.getPerso().jeterUneArme(armeAjeter);
 		modele.updateEntiteListe();
-		vue.update(null, null);
+		modele.notifier();
 	}
-	public void jeterUneArmeGUI(int a)
+	public void jeterUneArmeGUI(int armeAjeter)
 	{
-		modele.getPerso().jeterUneArme(a);
+		modele.getPerso().jeterUneArme(armeAjeter);
 		modele.updateEntiteListe();
-		vue.update(null, null);
+		modele.notifier();
+		
+	}
+	
+	public void fin()
+	{
+		modele.setFin(1);
+		modele.notifier();
 	}
 	
 	

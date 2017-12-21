@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
+
 public class JeuVueConsole extends JeuVue implements Observer
 {
 
@@ -13,13 +14,14 @@ public class JeuVueConsole extends JeuVue implements Observer
 	public JeuVueConsole(Jeu modele, JeuController controle)
 	{
 		super(modele, controle);
-		//main();
+		
+		new Thread (new ReadInput()).start();
 	}
 	
 	
 	public void presentation()
 	{
-		System.out.println("Vous voilà dans un sale pétrin " + modele.getPerso().getNom() +" ! Votre mission ? Atteindre la postion (" + modele.getCarte().getSortie().getPosX() + ";" + modele.getCarte().getSortie().getPosY() + ") pour vous échapper de ce massacre."
+		affiche("Vous voilà dans un sale pétrin " + modele.getPerso().getNom() +" ! Votre mission ? Atteindre la postion (" + modele.getCarte().getSortie().getPosX() + ";" + modele.getCarte().getSortie().getPosY() + ") pour vous échapper de ce massacre."
 		    			+ "\nPour cela vous devrez traverser ce bâtiment rempli de zombies..."
 				  		+ "\nVoici votre position actuelle (" + modele.getPerso().getEmplacement().getPosX()+";"+modele.getPerso().getEmplacement().getPosY() 
 						+ ")\nVous êtes représenté sur la carte par le pion \""+modele.getCarte().getPionJoueur()+"\""
@@ -33,17 +35,11 @@ public class JeuVueConsole extends JeuVue implements Observer
 						+ "\n	- Jeter une arme (entrez 6 puis le numéro de l'arme à jeter => 1 : gauche, 2 : droite);");
 	}
 	
-	
 	public void main()
 	{
-		System.out.println("Bonjour survivant ! Quel est votre pseudo ?");
-		String nom = sc.next();
-		controle.nouveauPerso(nom);
-		presentation();
-		update(null, null);
-		while(!modele.getPerso().getEmplacement().equals(modele.getCarte().getSortie()))
+		if(!modele.getPerso().getEmplacement().equals(modele.getCarte().getSortie()))
 		{
-			while(modele.getPerso().getPointsDAction() > 0 && !modele.getPerso().getEmplacement().equals(modele.getCarte().getSortie()))
+			if(modele.getPerso().getPointsDAction() > 0)
 			{
 				actionPossible();
 				int action  = 0;
@@ -57,25 +53,24 @@ public class JeuVueConsole extends JeuVue implements Observer
 				}
 				controle.tourPerso(action,0,"",null);
 			}
-			affiche("tour zombie appuyer blabla");
-			sc.next();
-			if(modele.tourZombie())
+			else
 			{
-				affiche("Vous avez ete mordu");
-			}
-			update(null, null);
-			if(modele.getPerso().getPointsDeVie() <= 0)
-			{
-				affiche("vous etes mort et perdez la partie");
-				break;
-			}
-			if(modele.getCompteurTour()%2 == 0)
-			{
-				//System.out.println("Tour pair, apparition de zombie");
+				affiche("tour zombie appuyer blabla");
+				sc.next();
+				if(modele.tourZombie())
+				{
+					affiche("Vous avez ete mordu");
+				}
+				update(null, null);
+				if(modele.getPerso().getPointsDeVie() <= 0)
+				{
+					affiche("vous etes mort et perdez la partie");
+					return;
+				}
 				modele.zombieApparition();
+				modele.getPerso().setPointsDAction(3);
+				modele.setCompteurTour(modele.getCompteurTour() + 1);
 			}
-			modele.getPerso().setPointsDAction(3);
-			modele.setCompteurTour(modele.getCompteurTour() + 1);
 		}
 		if(modele.getPerso().getPointsDeVie() > 0)
 		{
@@ -89,15 +84,19 @@ public class JeuVueConsole extends JeuVue implements Observer
 		affiche("Que voulez vous faire ?");
 		affiche(	"\n- Fouillez (entrez 1);"
 				+ "\n- Attaquer (entrez 2);"
-				+ "\n- Vous deplacez (entrez 3);"
+				+ "\n- Vous deplacer (entrez 3);"
 				+ "\n- Attendre (entrez 4);"
-				+ "\n- Consultez vos infos (entrez 5 cela ne consomme pas d'action);"
+				+ "\n- Consulter vos infos (entrez 5 cela ne consomme pas d'action);"
 				+ "\n- Jeter une arme (entrez 6 puis le numero de l'arme a jeter 1 = gauche, 2 = droite);");
 	}
 	
 	@Override
 	public void update(Observable arg0, Object arg1) 
 	{
+		if(modele.getFin() == 1)
+		{
+			affiche("GAGNE !!!!!!!!!!!");
+		}
 		String [][] tab = modele.getCarte().getTab();
 		LinkedList <Entite> ent = modele.getEntiteSurCarte();
 		for(int i = 0;i<tab.length;i++)
@@ -126,7 +125,6 @@ public class JeuVueConsole extends JeuVue implements Observer
 							counter++;
 						}
 					}
-				/////////////
 				}
 				
 				if(caseJoueur && counter == 0)
@@ -149,15 +147,17 @@ public class JeuVueConsole extends JeuVue implements Observer
 					System.out.print("| z ");
 					dejaEcrit = true;
 				}
-				////////////
 				if(!dejaEcrit)
 				{
 					System.out.print("|" + tab[i][j] );
 				}
 			}
-			System.out.println("|");
+			affiche("|");
 		}
 		genererLigne(modele.getCarte().getLargeur());
+		affiche("");
+		affiche("");
+		actionPossible();
 	}
 
 	public void genererLigne(int largeur)
@@ -166,7 +166,7 @@ public class JeuVueConsole extends JeuVue implements Observer
 	      {
 	    	  System.out.print("||||");
 		  }
-	      System.out.println("|");
+	      affiche("|");
 	}
 
 	public int choixArme()
@@ -202,8 +202,6 @@ public class JeuVueConsole extends JeuVue implements Observer
 			{
 				vise = sc.next();
 				courant = vise.split("");
-				
-				//a voir si suppression
 				zero =  courant[0].charAt(0);
 				un = courant[1].charAt(0);	
 			}while(!Character.isDigit(zero) || !Character.isDigit(un) || courant.length > 2 );
@@ -226,5 +224,23 @@ public class JeuVueConsole extends JeuVue implements Observer
 	public void affiche(String string) 
 	{
 		System.out.println(string);
+	}
+	
+	
+	private class ReadInput implements Runnable
+	{
+		public void run() 
+		{	
+			if(modele.getPerso().getNom() == null)
+			{
+				affiche("Quelle est votre nom ?");
+				String nom = sc.next();
+				controle.setPerso(nom);
+			}
+			while(true)
+			{
+				main();
+			}
+		}
 	}
 }

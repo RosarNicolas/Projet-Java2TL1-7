@@ -16,9 +16,9 @@ public class Zombie extends Entite
 	 * @param pointsDAction : int
 	 * @param emplacement : Position
 	 */
-	public Zombie(String nom, int id, int pointsDeVie, int pointsDAction, Position emplacement)
+	public Zombie(Position emplacement)
 	{
-		super(nom,id,pointsDeVie, pointsDAction,emplacement);
+		super("Walker",1,1,1,emplacement);
 	}
 
 	/**
@@ -90,8 +90,8 @@ public class Zombie extends Entite
 
 
 	@Override
-	public void deplacer(String direction, Carte carte) {
-		// TODO Auto-generated method stub
+	public boolean deplacer(String direction, Carte carte) {
+		return true;
 		
 	}
 }
