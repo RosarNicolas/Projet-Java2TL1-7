@@ -1,7 +1,6 @@
-package testMVC;
+package main;
 
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -12,11 +11,11 @@ import javax.swing.JPanel;
 
 public class Panneau extends JPanel{
 	
+	private static final long serialVersionUID = 1L;
 	private String path;
 	
-	public Panneau(String path) {
-	
-		//this.setSize( 1,1);
+	public Panneau(String path) 
+	{
 		this.path = path;
 	}
 	

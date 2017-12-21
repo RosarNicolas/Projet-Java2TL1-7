@@ -1,7 +1,7 @@
 /**
  * 
  */
-package testMVC;
+package main;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -38,7 +38,7 @@ public class Personnage extends Entite
 	 * carte est la carte de jeu
 	 * @param String direction, Carte carte
 	 */
-	public void deplacer(String direction, Carte carte) 
+	public boolean deplacer(String direction, Carte carte) 
 	{
 		int couranteY = this.getEmplacement().getPosY();
 		int couranteX = this.getEmplacement().getPosX();
@@ -47,9 +47,8 @@ public class Personnage extends Entite
 		{
 			couranteY --;
 			Position nouvelle = new Position(couranteX, couranteY);
-			
-			
 			this.setEmplacement(nouvelle);
+			return true;
 		}
 		else if(direction.equals("bas") && verification(carte, new Position(couranteX, couranteY + 1)))
 		{
@@ -57,6 +56,7 @@ public class Personnage extends Entite
 			//peut etre change le setPosition
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
+			return true;
 		}
 		else if(direction.equals("droite") && verification(carte, new Position(couranteX + 1, couranteY )))
 		{
@@ -64,6 +64,7 @@ public class Personnage extends Entite
 			//peut etre change le setPosition
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
+			return true;
 		}
 		else if(direction.equals("gauche") && verification(carte, new Position(couranteX - 1, couranteY)))
 		{
@@ -71,14 +72,13 @@ public class Personnage extends Entite
 			//peut etre change le setPosition
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
+			return true;
 		}
-		
-		//MVC
-		/*else
+		else
 		{
 			this.setPointsDAction(this.getPointsDAction() + 1);
-			System.out.println("Vous ne pouvez pas aller par là");
-		}*/
+			return false;
+		}
 	}
 
 	/**
@@ -97,6 +97,7 @@ public class Personnage extends Entite
 					return armeGauche.getDegats();
 				}
 			}
+			return 0;
 		
 		}
 		else // else if
@@ -110,7 +111,7 @@ public class Personnage extends Entite
 			}
 		}
 		//else
-		return 1;
+		return 0;
 	}
 
 	/**
@@ -127,21 +128,15 @@ public class Personnage extends Entite
 		{
 			armeGauche = armes.get(iDArme);
 			return 1;
-			//MVC
-			//System.out.println("Vous possédez maintenant l'arme "+ armeGauche.getNomDeLarme() +" dans la main gauche" );
 		}
 		else if(armeDroite == null)
 		{
 			armeDroite = armes.get(iDArme);
 			return 2;
-			//MVC
-			//System.out.println("Vous possédez maintenant l'arme " +  armeDroite.getNomDeLarme() + " dans la main doite");
 
 		}
 		else
 		{
-			//MVC
-			//System.out.println("Vous n'avez plus de place");
 			this.setPointsDAction(this.getPointsDAction() + 1);
 			return 0;
 		}
@@ -158,13 +153,11 @@ public class Personnage extends Entite
 		//verifier si arme a jeter
 		 if(x == 1 && this.armeGauche == null)
 		{
-			 //MVC
-			//System.out.println("Vous n'avez pas d'arme à jeter dans la main gauche");
+			 
 		}
 		else if(x == 2 && this.armeDroite == null)
 		{
-			//MVC
-			//System.out.println("Vous n'avez pas d'arme à jeter dans la main droite");
+			;
 		}
 		else if(x == 1)
 		{
@@ -177,35 +170,34 @@ public class Personnage extends Entite
 	
 		else
 		{
-			//MVC
-			//System.out.println("Mauvais numero pour choix de l'arme");
+
 		}
 	}
 
 
-	/** @return armeGauche : renvoie l'arme gauche du personnage.*/
 	public Arme getArmeGauche() {
 		return armeGauche;
 	}
 
-	/** définit l'arme gauche du personnage.*/
+
 	public void setArmeGauche(Arme armeGauche) {
 		this.armeGauche = armeGauche;
 	}
 
-	/** @return armeDroite : renvoie l'arme gauchedroite du personnage.*/
+
 	public Arme getArmeDroite() {
 		return armeDroite;
 	}
 
-	/** définit l'arme droite du personnage.*/
+
 	public void setArmeDroite(Arme armeDroite) {
 		this.armeDroite = armeDroite;
 	}
 
 
 	@Override
-	public int attaquer() {
+	public int attaquer() 
+	{
 		return 0;
 	}
 
@@ -226,8 +218,5 @@ public class Personnage extends Entite
 			e.getMessage();
 			return false;
 		}
-	}
-
-
-	
+	}	
 }

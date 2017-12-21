@@ -1,7 +1,4 @@
-package testMVC;
-
-import javax.swing.JOptionPane;
-
+package main;
 public class JeuController
 {
 	JeuVue vue;
@@ -11,6 +8,7 @@ public class JeuController
 		this.modele = modele;
 	}
 	
+	//2methode nouveauPerso
 	public void nouveauPerso(String nom)
 	{
 		Personnage perso = new Personnage(nom, 1, 2, 3, modele.getCarte().getApparition());
@@ -112,13 +110,12 @@ public class JeuController
 					{
 						vue.affiche("Vous avez tué un zombie !");
 						modele.updateEntiteListe();
-						//modele.ZombieMort();
 					}
 					modele.getZombiesSurCarte().addAll(modele.getZombiesSurCase());
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer a cet endroit ");
+					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer à cet endroit !");
 				}
 			}
 			else 
@@ -136,13 +133,12 @@ public class JeuController
 					{
 						vue.affiche("Vous avez tué un zombie ! ");
 						modele.updateEntiteListe();
-						//modele.ZombieMort();
 					}
 					modele.getZombiesSurCarte().addAll(modele.getZombiesSurCase());
 				}
 				else
 				{
-					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer là !");
+					vue.affiche("Vous n'avez pas la portée ou la ligne de vue pour tirer à cet endroit !");
 				}
 			}
 			
@@ -163,7 +159,6 @@ public class JeuController
 		}
 		else if(action == 4)
 		{
-			vue.affiche("Vous avez dépensé un point d'action pour attendre.");
 			modele.updateEntiteListe();
 			modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
 			modele.notifier();
@@ -222,8 +217,14 @@ public class JeuController
 	public void deplacerVueConsole()
 	{
 		String deplacement  =  vue.deplacement();
-		modele.getPerso().deplacer(deplacement, modele.getCarte());
-		vue.affiche("Voici votre position actuelle  "+ modele.getPerso().getEmplacement().getPosX()+";"+ modele.getPerso().getEmplacement().getPosY());
+		if(modele.getPerso().deplacer(deplacement, modele.getCarte()))
+		{
+			vue.affiche("Voici votre position actuelle  "+ modele.getPerso().getEmplacement().getPosX()+";"+ modele.getPerso().getEmplacement().getPosY());
+		}
+		else
+		{
+			vue.affiche("Vous ne pouvez pas aller par la");
+		}
 		modele.updateEntiteListe();
 		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
 		modele.notifier();
@@ -231,14 +232,21 @@ public class JeuController
 	}
 	public void deplacerVueGUI(String deplacement)
 	{
-		modele.getPerso().deplacer(deplacement, modele.getCarte());
+		if(!modele.getPerso().deplacer(deplacement, modele.getCarte()))
+		{
+			vue.affiche("Vous ne pouvez pas aller par la");
+		}
+		else
+		{
+			vue.affiche("Vous vous êtes déplacer avec succes");
+		}
 		modele.updateEntiteListe();
 		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
 		modele.notifier();
 	}
 	public void jeterUneArmeConsole()
 	{
-		vue.affiche("quelle arme jeter ? (1 gauche, 2 droite)");
+		vue.affiche("Quelle arme désirez-vous jeter ? (1 gauche, 2 droite)");
 		int armeAjeter = vue.choixArme();
 		modele.getPerso().jeterUneArme(armeAjeter);
 		modele.updateEntiteListe();

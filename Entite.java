@@ -1,13 +1,9 @@
 /**
  * 
  */
-package testMVC;
-
-
+package main;
 /**
  * @author he201460
- * @author he201426
- * ajout d'informations
  *
  */
 public abstract class Entite
@@ -18,7 +14,8 @@ public abstract class Entite
 	private int pointsDAction;
 	private Position emplacement;
 	
-	/**constructeur d'entite 
+	/**
+	 * constructeur d'entite 
 	 * @param nom : String
 	 * @param id : int
 	 * @param pointsDeVie : int
@@ -34,63 +31,46 @@ public abstract class Entite
 		this.emplacement = emplacement;
 	}
 	
-	public abstract void deplacer(String direction, Carte carte);
+	public abstract boolean deplacer(String direction, Carte carte);
 	
 	public abstract int attaquer();
 	
-	/**@return nom : renvoie le nom de l'entité. 
-	 */
 	public String getNom() {
 		return nom;
 	}
 
-	/**@param nom : Définit le nom de l'entité.
-	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
-	/**
-	 * @return id : identifiant de l'entité. 
-	 */
 	public int getId() {
 		return id;
 	}
-	
-	/**@param id : Définit l'id de l'entité.
-	 */
+
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return pointsDeVie : renvoie les points de vie de l'entité.
-	 */
 	public int getPointsDeVie() {
 		return pointsDeVie;
 	}
 
-	/**@param pointsDeVie : définit les points de vie de l'entité.*/
 	public void setPointsDeVie(int pointsDeVie) {
 		this.pointsDeVie = pointsDeVie;
 	}
 
-	/** @return pointsDAction : renvoie les points d'action de l'entité.*/
 	public int getPointsDAction() {
 		return pointsDAction;
 	}
 
-	/** @param pointsDAction : définit les points d'action de l'entité.*/
 	public void setPointsDAction(int pointsDAction) {
 		this.pointsDAction = pointsDAction;
 	}
 
-	/** @return emplacement : renvoie la position de l'entité.*/
 	public Position getEmplacement() {
 		return emplacement;
 	}
 
-	/** @param emplacement :  définit l'emplacement de l'entité.*/
 	public void setEmplacement(Position emplacement) {
 		this.emplacement = emplacement;
 	}

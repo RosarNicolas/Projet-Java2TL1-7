@@ -1,6 +1,5 @@
-package testMVC;
+package main;
 
-import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,14 +37,8 @@ public class JeuVueConsole extends JeuVue implements Observer
 	
 	public void main()
 	{
-		/*affiche("Bonjour survivant ! Quel est votre pseudo ?");
-		String nom = sc.next();
-		controle.nouveauPerso(nom);
-		presentation();
-		update(null, null);*/
 		if(!modele.getPerso().getEmplacement().equals(modele.getCarte().getSortie()))
 		{
-			//while(modele.getPerso().getPointsDAction() > 0 && !modele.getPerso().getEmplacement().equals(modele.getCarte().getSortie()))
 			if(modele.getPerso().getPointsDAction() > 0)
 			{
 				actionPossible();
@@ -73,12 +66,8 @@ public class JeuVueConsole extends JeuVue implements Observer
 				{
 					affiche("vous etes mort et perdez la partie");
 					return;
-				//mort();
 				}
-				if(modele.getCompteurTour()%2 == 0)
-				{
-					modele.zombieApparition();
-				}
+				modele.zombieApparition();
 				modele.getPerso().setPointsDAction(3);
 				modele.setCompteurTour(modele.getCompteurTour() + 1);
 			}
@@ -95,9 +84,9 @@ public class JeuVueConsole extends JeuVue implements Observer
 		affiche("Que voulez vous faire ?");
 		affiche(	"\n- Fouillez (entrez 1);"
 				+ "\n- Attaquer (entrez 2);"
-				+ "\n- Vous deplacez (entrez 3);"
+				+ "\n- Vous deplacer (entrez 3);"
 				+ "\n- Attendre (entrez 4);"
-				+ "\n- Consultez vos infos (entrez 5 cela ne consomme pas d'action);"
+				+ "\n- Consulter vos infos (entrez 5 cela ne consomme pas d'action);"
 				+ "\n- Jeter une arme (entrez 6 puis le numero de l'arme a jeter 1 = gauche, 2 = droite);");
 	}
 	
@@ -126,7 +115,7 @@ public class JeuVueConsole extends JeuVue implements Observer
 					if(perso.getEmplacement().getPosY() == i && perso.getEmplacement().getPosX() == j)
 					{
 						String a = perso.getClass().toString();
-						if(a.equals("class testMVC.Personnage"))
+						if(a.equals("class main.Personnage"))
 						{
 							caseJoueur = true;
 							
@@ -136,7 +125,6 @@ public class JeuVueConsole extends JeuVue implements Observer
 							counter++;
 						}
 					}
-				/////////////
 				}
 				
 				if(caseJoueur && counter == 0)
@@ -159,7 +147,6 @@ public class JeuVueConsole extends JeuVue implements Observer
 					System.out.print("| z ");
 					dejaEcrit = true;
 				}
-				////////////
 				if(!dejaEcrit)
 				{
 					System.out.print("|" + tab[i][j] );
@@ -215,8 +202,6 @@ public class JeuVueConsole extends JeuVue implements Observer
 			{
 				vise = sc.next();
 				courant = vise.split("");
-				
-				//a voir si suppression
 				zero =  courant[0].charAt(0);
 				un = courant[1].charAt(0);	
 			}while(!Character.isDigit(zero) || !Character.isDigit(un) || courant.length > 2 );
@@ -246,7 +231,6 @@ public class JeuVueConsole extends JeuVue implements Observer
 	{
 		public void run() 
 		{	
-			//inutile
 			if(modele.getPerso().getNom() == null)
 			{
 				affiche("Quelle est votre nom ?");

@@ -1,6 +1,4 @@
-package testMVC;
-
-
+package main;
 
 public class JeuMVC 
 {
@@ -16,6 +14,8 @@ public class JeuMVC
 		
 		console.addView(vueConsole);
 		GUI.addView(vueGUI);
+		
+		
 	}
 	public static void main(String[] args)
 	{

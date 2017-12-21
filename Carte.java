@@ -1,23 +1,18 @@
 /**
  * 
  */
-package testMVC;
+package main;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.LinkedList;
 
 /**
- * @author he201460
- *
+ * 
+ * String carPossible : contient le caractère remprésentant une case accessible par les entités.
+ * String carImpossible : contient le caractère remprésentant une case inpratiquable par les entités.
  */
 public class Carte 
 {
-	/**
-	 * 
-	 * String carPossible : contient le caractère remprésentant une case accessible par les entités.
-	 * String carImpossible : contient le caractère remprésentant une case inpratiquable par les entités.
-	 */
 	private int longueur;
 	private int largeur;
 	private String[][] tab;
@@ -73,15 +68,7 @@ public class Carte
 			{
 				line = test.readLine();
 				line = test.readLine();
-				tabCourant = line.split("\\|");
-				/*for(int z =  0; z<tabCourant.length; z++)
-				{
-					if(tabCourant[z] != null)
-					{
-						tabCourant[z].trim();
-					}
-				}*/
-				
+				tabCourant = line.split("\\|");				
 				for(int y = 1 ; y<=this.largeur && tabCourant[y] != null ; y++)
 				{
 					tab[i][y-1] = tabCourant[y];
@@ -96,164 +83,46 @@ public class Carte
 		}
 	}
 	
-	/**
-	 * permet de generer la carte en console en fonction du fichiers texte et des entites presentes sur la carte
-	 * un J represente le joueurs
-	 * un Z represente 1 zombie
-	 * un X represente un joueur avec 1 ou plusieurs zombies sur la emme case
-	 * un chiffre represente un nombre de zombie sur la meme case
-	 * @param ent
-	 */
-/*	public void generer(LinkedList<Entite> ent)
-	{
-		for(int i = 0;i<tab.length;i++)
-		{
-			genererLigne(this.largeur);
-			for(int j = 0;j<tab[0].length;j++)
-			{
-				boolean dejaEcrit = false;
-				int counter = 0;
-				boolean caseJoueur = false;
-				/////////////
-				for(Entite perso : ent)
-				{
-				/////////////
-					
-					if(perso.getEmplacement().getPosY() == i && perso.getEmplacement().getPosX() == j)
-					{
-						String a = perso.getClass().toString();
-						if(a.equals("class testMVC.Personnage"))
-						{
-							caseJoueur = true;
-							
-						}
-						else
-						{
-							counter++;
-						}
-					}
-				/////////////
-				}
-				
-				if(caseJoueur && counter == 0)
-				{
-					System.out.print("| "+ pionJoueur +" ");
-					dejaEcrit = true;
-				}
-				if(caseJoueur && counter > 0)
-				{
-					System.out.print("| x ");
-					dejaEcrit = true;
-				}
-				else if((!caseJoueur) && counter > 1)
-				{
-					System.out.print("| " + counter + " ");
-					dejaEcrit = true;
-				}
-				else if((!caseJoueur) && counter == 1)
-				{
-					System.out.print("| z ");
-					dejaEcrit = true;
-				}
-				////////////
-				if(!dejaEcrit)
-				{
-					System.out.print("|" + tab[i][j] );
-				}
-			}
-			System.out.println("|");
-		}
-		genererLigne(this.largeur);
-	}*/
-	
-	/**
-	 * methode necessaire a la generation des murs de la carte en fonction de la largeur de la carte
-	 * @param x
-	 */
-	/*public void genererLigne(int x)
-	{
-		 
-      for(int w = 0 ; w < largeur ; w++ ) 
-      {
-    	  System.out.print("||||");
-	  }
-      System.out.println("|");
-
-	}*/
-	
 	//getters and setters
-	/** @return longueur : renvoie la longeur de la carte.
-	 */
 	public int getLongueur() {
 		return longueur;
 	}
 
-	/**
-	 * @param longueur : définir la longeur de la carte.
-	 */
 	public void setLongueur(int longueur) {
 		this.longueur = longueur;
 	}
 
-	/**@return largeur : renvoie la largeur de la carte.
-	 */
 	public int getLargeur() {
 		return largeur;
 	}
 
-	/**@param largeur : définir la largeur de la carte.
-	 */
 	public void setLargeur(int largeur) {
 		this.largeur = largeur;
 	}
 
-	/**
-	 * @return tab : renvoie le tableau à double entrée
-	 * contenant les cases de la carte.
-	 */
 	public String[][] getTab() {
 		return tab;
 	}
 
-	/**
-	 * @param tab : instancier le tableau qui
-	 * contiendra les caractères repr"sentant la carte.
-	 */
 	public void setTab(String[][] tab) {
 		this.tab = tab;
 	}
 
-	/**
-	 * @return sortie : renvoie la position de sortie
-	 * que le personnage doit atteindre pour finir le jeu.
-	 */
 	public Position getSortie() {
 		return sortie;
 	}
 
-	/**
-	 * @param sortie : Définir la position de sortie
-	 * pour terminer le jeu.
-	 */
 	public void setSortie(Position sortie) {
 		this.sortie = sortie;
 	}
 
-	/**
-	 * @return apparition : renvoie la position d'apparition.
-	 */
 	public Position getApparition() {
 		return apparition;
 	}
 
-	/**
-	 * 
-	 * @param apparition : définis la position d'apparition
-	 * d'une entité.
-	 */
-	/*public void setApparition(Position apparition) {
+	public void setApparition(Position apparition) {
 		this.apparition = apparition;
-	}*/
+	}
 
 	public String getCarPossible() {
 		return carPossible;

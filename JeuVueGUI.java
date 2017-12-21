@@ -1,4 +1,4 @@
-package testMVC;
+package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,37 +23,38 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 {
-	
+	Client client;
 	int compteur = 0;
-	
+	int compteurChat = 0;
 	Boolean estCombat = false;
 	int choixArme = 0;
-	int debug = 0;
-	
+	int ptActionMax = 3;
 	
 	JFrame fen;
-	
 	
 	JPanel gauche1 = new JPanel();
 	JPanel droit1 = new JPanel();
 	
-	
 	JPanel texte = new Panneau("res/papier.jpg");
 	JTextArea texteConsole = new JTextArea("Bienvenue survivant : ");
-	
-	
-	
-	JPanel carte = new JPanel();
 	JPanel bouton = new JPanel();
 	
-	JLabel boutonJoueur = new JLabel(new ImageIcon("res/persoM.png"));
 	
+	JPanel chat = new JPanel();
+	
+	JLabel texteChat = new JLabel("1 = info, 2 = info arme");
+	JTextField envoiMsg = new JTextField();
+	JButton envoyerBouton = new JButton("Envoyer");
+	
+	JPanel carte = new JPanel();
+	
+	JLabel boutonJoueur = new JLabel(new ImageIcon("res/persoM.png"));
 	
 	JLabel joueur = new JLabel("joueur");
 	JLabel arme1 = new JLabel("arme1");
@@ -69,8 +70,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	JButton haut = new JButton("Haut");
 	JButton droite = new JButton("Droite");
 	
-	
-	//NICO
 	private JPanel contentPane;
 	private Box top;
 	private JPanel panel_1;
@@ -90,16 +89,14 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	JButton jeterArmeGauche = new JButton("Jeter");
 	JButton jeterArmeDroite = new JButton("Jeter");
 	
-	//Canvas canvas;
-	
 	public JeuVueGUI(Jeu modele, JeuController controle)
 	{
 		super(modele, controle);
-		//modele.setPerso(new Personnage("test",1,3,3,new Position(3,4) ));//MVCmodele.getCarte().getApparition()
+		
+		
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		
 		fen = new JFrame("ZOMBICIDE");
-		
 		
 		//NICO
 		contentPane = new Panneau("res/Zbackground.png");
@@ -148,11 +145,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			coeurs = ImageIO.read(new File("res/3coeurs.png"));
 			actions = ImageIO.read(new File("res/3épées.png"));
 			
-			/*int IdArmeGauche = modele.getPerso().getArmeGauche().getId();
-			int IdArmeDroite = modele.getPerso().getArmeDroite().getId();
-			SwitchArmesGD( armeGauche, IdArmeGauche );
-			SwitchArmesGD( armeDroite, IdArmeDroite );*/
-			
 			vueCoeurs.setIcon(new ImageIcon(coeurs));
 			panel_1.add( vueCoeurs );
 			
@@ -167,11 +159,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			
 			vueArmeDroite.setIcon( new ImageIcon( "res/question.png" ));
 			vueArmeDroite.setBounds(0, 0, 100, 130);
-			vueArmeDroite.setBorderPainted(true);
-			
 			vueArmeDroite.setContentAreaFilled(false);
             vueArmeDroite.setBorderPainted(false);
-            
 			panel_4.add( vueArmeDroite );
 			
 			panel_3.add(jeterArmeGauche);
@@ -195,10 +184,14 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		contentPane.add(top);
 		contentPane.add(bottom);
 		
-		
-		
-		//NICO
-		
+		//chat
+		texteChat.setPreferredSize(new Dimension(0,100));
+		chat.setPreferredSize(new Dimension(0,200));
+		 chat.setLayout(new BoxLayout(chat,BoxLayout.Y_AXIS));
+		 chat.add(texteChat);
+		 chat.add(envoiMsg);
+		 chat.add(envoyerBouton);
+				
 		//partie gauche
 		fen.add(gauche1,BorderLayout.WEST);
 		fen.add(droit1,BorderLayout.EAST);
@@ -207,14 +200,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		droit1.setLayout(new BoxLayout(droit1, BoxLayout.Y_AXIS));
 		
 		
-		
-		//a enlever
 		gauche1.setBorder(blackline);
 		droit1.setBorder(blackline);
-		//a enlever
+	
 		 gauche1.add(bouton, BorderLayout.NORTH);
 		 gauche1.add(texte,BorderLayout.SOUTH);
-		 
+		 gauche1.add(chat);
 		
 		 droit1.add(carte, BorderLayout.NORTH);
 		 droit1.add(contentPane, BorderLayout.SOUTH);
@@ -230,7 +221,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		
 		//texte
 		texte.setBorder(blackline);
-		texte.setBackground(Color.RED);
 		texte.setPreferredSize(new Dimension(380,1000));
 		
 		texteConsole.setEditable(false);
@@ -258,8 +248,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		fen.pack();
 		fen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fen.setSize(800,1000);
+		fen.setLocation(100, 100);
 		fen.setLocationRelativeTo(null);
-		//fen.setResizable(false);
+		fen.setResizable(false);
 		fen.setVisible(true);
 		
 		
@@ -275,12 +266,21 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		vueArmeDroite.addActionListener(this);
 		jeterArmeDroite.addActionListener(this);
 		jeterArmeGauche.addActionListener(this);
+		envoyerBouton.addActionListener(this);
 		if(modele.getPerso() == null)
 		{
 			JOptionPane pop = new JOptionPane();
-			String rang = pop.showInputDialog(null, "Quel est votre pseudo?", null, JOptionPane.QUESTION_MESSAGE);
+			String rang = JOptionPane.showInputDialog(null, "Quel est votre pseudo?", null, JOptionPane.QUESTION_MESSAGE);
 			controle.setPerso(rang);
 			affiche(rang);
+		}
+		try
+		{
+			client = new Client(this);
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 		}
 		
 	}
@@ -293,15 +293,13 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		int longueur = modele.getCarte().getLongueur();
 		int largeur = modele.getCarte().getLargeur();
 		String carTrou = modele.getCarte().getCarImpossible();
-		String carCoul = modele.getCarte().getCarPossible();
-		//
+		//String carCoul = modele.getCarte().getCarPossible();
 		for(int i = 0 ; i<longueur;i++)
 		{
 			for(int j = 0 ;j<largeur;j++)
 			{
 				dejaEcrit = false;
 				compteur = 0;
-				//regler probleme si pas de zombie alors carte ne se genere pas
 				for(Zombie z : modele.getZombiesSurCarte())
 				{
 					if(z.getEmplacement().getPosX() == j && z.getEmplacement().getPosY() == i)
@@ -311,7 +309,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 				}
 				if(compteur == 1)
 				{
-					DessinerImage image = new DessinerImage("res/cuisine.jpg");
+					DessinerImage image = new DessinerImage("res/zombie1.png");
 					image.setBounds(j*100, i*100, 100, 100);
 					carte.add(image);
 					dejaEcrit = true;
@@ -357,6 +355,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		}
 		else if(courant == attaquer)
 		{
+			affiche("Choisissez une arme");
 			estCombat = true;
 		}
 		else if(courant == deplacer)
@@ -392,8 +391,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			if(estCombat)
 			{
 				choixArme = 1;
-				JOptionPane pop = new JOptionPane();
-				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+				String rang = JOptionPane.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
 				String[] tab = rang.split( " " );
 				
 				controle.tourPerso(2,choixArme,"",new Position(Integer.parseInt(tab[0]), Integer.parseInt(tab[1])));
@@ -409,8 +407,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			if(estCombat)
 			{
 				choixArme = 2;
-				JOptionPane pop = new JOptionPane();
-				String rang = pop.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
+				String rang = JOptionPane.showInputDialog(null, "Veuillez entrer une coordonnée exemple : '2 3'", "Lieu d'attaque", JOptionPane.QUESTION_MESSAGE);
 				String[] tab = rang.split( " " );
 				
 				controle.tourPerso(2,choixArme,"",new Position(Integer.parseInt(tab[0]), Integer.parseInt(tab[1])));
@@ -429,6 +426,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		{
 			controle.tourPerso(6, 2, "",null);
 		}
+		else if(courant == envoyerBouton)
+		{
+			client.waitForMessage(envoiMsg.getText());
+		}
 		
 		if(modele.getPerso().getPointsDAction() <= 0)
 		{
@@ -437,25 +438,17 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 				controle.fin();
 			}
 			modele.tourZombie();
-			if(modele.getCompteurTour()%2 == 0)
-			{
-				modele.zombieApparition();
-			}
+			modele.zombieApparition();
 			if(modele.getPerso().getPointsDeVie() <= 0)
 			{
-				//mort GAME OVER
-				JOptionPane pop = new JOptionPane();
-				pop.showMessageDialog(null, "GAME OVER");
+				JOptionPane.showMessageDialog(null, "GAME OVER");
 				System.exit(0);
 			}
 			modele.setCompteurTour(modele.getCompteurTour() + 1);
-			modele.getPerso().setPointsDAction(3);
+			modele.getPerso().setPointsDAction( ptActionMax );
 			update(null,null);
 			
 		}
-		/* carte.removeAll();
-		 * bougeJoueur(110,110); definir les coordonnee !!!!!!!!!!!
-		genererCarte();*/
 	}
 
 	@Override
@@ -463,8 +456,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	{
 		if(modele.getFin()==1)
 		{
-			JOptionPane pop = new JOptionPane();
-			pop.showMessageDialog(null, "Gagné");
+			JOptionPane.showMessageDialog(null, "Gagné");
 			System.out.println("Gagné"); // bourrin mais ca marche
 			System.exit(0);
 		}
@@ -477,8 +469,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		droite.setEnabled(false);
 		haut.setEnabled(false);
 		boutonJoueur.setLocation(modele.getPerso().getEmplacement().getPosX()*100+10,modele.getPerso().getEmplacement().getPosY()*100+10);
-		//ne charge l'image que s'il y a une arme !!!!!
-		if(modele.getPerso().getArmeGauche() == null && modele.getPerso().getArmeDroite() == null) // changer en isNull
+		if(modele.getPerso().getArmeGauche() == null && modele.getPerso().getArmeDroite() == null)
 		{
 			afficheArme1(13);
 			afficheArme2(13);
@@ -497,14 +488,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		{
 			afficheArme1(modele.getPerso().getArmeGauche().getId());
 			afficheArme2(modele.getPerso().getArmeDroite().getId());
-		}
-		
-		// switch points de vie
-		
+		}		
 		try
 		{
 			int x = modele.getPerso().getPointsDAction();
-			// switch points d'action
 			switch( x ) {
 				case 3 : actions = ImageIO.read(new File("res/3épées.png"));
 					break;
@@ -516,6 +503,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 					break;
 				default : actions = ImageIO.read(new File("res/0 épée.png"));
 			}
+			
 			int w = modele.getPerso().getPointsDeVie();
 			switch( w ) { 
 			case 3 : coeurs = ImageIO.read(new File("res/3coeurs.png"));
@@ -537,29 +525,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		vueAction.setIcon(new ImageIcon(actions));
 		setJoueur(modele.getPerso().getEmplacement().getPosX(), modele.getPerso().getEmplacement().getPosY());
 		genererCarte();
-
-		
 	}
-	
-	
-	public void setZombies()
-	{
-		
-	}
-
-	public void genererInfo()
-	{
-		/*if ( !(modele.getPerso().getArmeGauche() == null) )
-		affiche("Vous posséder " + modele.getPerso().getArmeGauche().getNomDeLarme() + " dans la main gauche");
-		if ( !(modele.getPerso().getArmeDroite() == null) )
-			affiche("Vous posséder " + modele.getPerso().getArmeGauche().getNomDeLarme() + " dans la main gauche");!!!!!!!!!!!!!!!!!!!!!!!*/
-	}
-
 
 	@Override
 	public void affiche(String string)
 	{	
-		if (compteur == 15) {
+		if (compteur == 12) {
 			texteConsole.setText(string + "\n");
 			compteur = 0;
 		}
@@ -569,7 +540,18 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		}
 		
 	}
-
+	
+	public void chat(String msg)
+	{
+		if (compteurChat == 5) {
+			texteChat.setText(msg + "\n");
+			compteur = 0;
+		}
+		else {
+			compteurChat++;
+			texteChat.setText("\n" + msg + "\n");
+		}
+	}
 	@Override
 	public int choixArme() 
 	{
@@ -610,11 +592,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		vueArmeDroite.setIcon(new ImageIcon(imageArme));
 	}
 	
-	
-	//GUI
-	
-	public Image SwitchArmesGD( int IdArme ) throws IOException {
-		switch( IdArme ) {
+	public Image SwitchArmesGD( int IdArme ) throws IOException
+	{
+		switch( IdArme ) 
+		{
 			case 12 : return ImageIO.read(new File("res/detritus.png"));
 			
 			case 11 : return ImageIO.read(new File("res/detritus.png"));
@@ -643,4 +624,6 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		}
 	
 	}
+	
+	
 }
