@@ -7,15 +7,13 @@ public class JeuController
 	{
 		this.modele = modele;
 	}
-	
-	//2methode nouveauPerso
-	public void nouveauPerso(String nom)
-	{
-		Personnage perso = new Personnage(nom, 1, 2, 3, modele.getCarte().getApparition());
-		modele.setPerso(perso);
-		modele.updateEntiteListe();
-	}
-	
+		/**
+		 * action possible pour le joueur lors de son tour
+		 * @param action determine quelle action faire : int 
+		 * @param choixArme complement de action = 2 choix de l'arme a jeter 1 = gauche, 2 = droite, 0 = pas cette action qui est effectuée : int
+		 * @param deplacement complement de action = 3, indique la direction dans laquelle se deplacer, si mis a "" alors pas cette action effectuée : String
+		 * @param endroitAttaque  complement de action = 2, designe l'endroit de l'attaque, si null alors aps cette action effectuée : Position
+		 */
 	public void tourPerso(int action, int choixArme, String deplacement, Position endroitAttaque)
 	{
 		if(action == 1)
@@ -209,15 +207,22 @@ public class JeuController
 		
 	}
 	
+	/**
+	 * permet d'instantié un nouveau Personnage avec le nom choisi
+	 * @param s nom du personnage : String
+	 */
 	public void setPerso(String s)
 	{
 		modele.setPerso(new Personnage(s,1 ,3,3,modele.getCarte().getApparition()));
 	}
-	
+	/**
+	 * complement de la methode tourPerso deplacement vue console
+	 */
 	public void deplacerVueConsole()
 	{
 		String deplacement  =  vue.deplacement();
-		if(modele.getPerso().deplacer(deplacement, modele.getCarte()))
+		modele.updateZombieSurCase(modele.getPerso().getEmplacement());
+		if(modele.getPerso().deplacer(deplacement, modele.getCarte(),modele.getZombiesSurCase()))
 		{
 			vue.affiche("Voici votre position actuelle  "+ modele.getPerso().getEmplacement().getPosX()+";"+ modele.getPerso().getEmplacement().getPosY());
 		}
@@ -230,9 +235,14 @@ public class JeuController
 		modele.notifier();
 		
 	}
+	/**
+	 * complement de la methode tourPerso deplacement vue GUI
+	 * @param deplacement : String
+	 */
 	public void deplacerVueGUI(String deplacement)
 	{
-		if(!modele.getPerso().deplacer(deplacement, modele.getCarte()))
+		modele.updateZombieSurCase(modele.getPerso().getEmplacement());
+		if(!modele.getPerso().deplacer(deplacement, modele.getCarte(),modele.getZombiesSurCase()))
 		{
 			vue.affiche("Vous ne pouvez pas aller par la");
 		}
@@ -244,6 +254,9 @@ public class JeuController
 		modele.getPerso().setPointsDAction(modele.getPerso().getPointsDAction() - 1);
 		modele.notifier();
 	}
+	/**
+	 * complement de la methode tourPerso jeter arme vue console
+	 */
 	public void jeterUneArmeConsole()
 	{
 		vue.affiche("Quelle arme désirez-vous jeter ? (1 gauche, 2 droite)");
@@ -252,6 +265,10 @@ public class JeuController
 		modele.updateEntiteListe();
 		modele.notifier();
 	}
+	/**
+	 * complement de la methode jeter arme deplacement vue GUI
+	 * @param armeAjeter : int
+	 */
 	public void jeterUneArmeGUI(int armeAjeter)
 	{
 		modele.getPerso().jeterUneArme(armeAjeter);
@@ -259,14 +276,18 @@ public class JeuController
 		modele.notifier();
 		
 	}
-	
+	/**
+	 * methode metant la variable fin du modele a 1 pour notifier les vue que la partie est terminée
+	 */
 	public void fin()
 	{
 		modele.setFin(1);
 		modele.notifier();
 	}
 	
-	
+	/**
+	 * methode du modele MVC apelle la methode update des vues
+	 */
 	public void addView(JeuVue vue)
 	{
 		this.vue = vue;

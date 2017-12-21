@@ -4,6 +4,7 @@
 package main;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -38,19 +39,19 @@ public class Personnage extends Entite
 	 * carte est la carte de jeu
 	 * @param String direction, Carte carte
 	 */
-	public boolean deplacer(String direction, Carte carte) 
+	public boolean deplacer(String direction, Carte carte,LinkedList<Zombie> zombiesSurCase) 
 	{
 		int couranteY = this.getEmplacement().getPosY();
 		int couranteX = this.getEmplacement().getPosX();
 		
-		if(direction.equals("haut") && verification(carte, new Position(couranteX, couranteY - 1)))
+		if(direction.equals("haut") && verification(carte, new Position(couranteX, couranteY - 1),zombiesSurCase))
 		{
 			couranteY --;
 			Position nouvelle = new Position(couranteX, couranteY);
 			this.setEmplacement(nouvelle);
 			return true;
 		}
-		else if(direction.equals("bas") && verification(carte, new Position(couranteX, couranteY + 1)))
+		else if(direction.equals("bas") && verification(carte, new Position(couranteX, couranteY + 1),zombiesSurCase))
 		{
 			couranteY ++;
 			//peut etre change le setPosition
@@ -58,7 +59,7 @@ public class Personnage extends Entite
 			this.setEmplacement(nouvelle);
 			return true;
 		}
-		else if(direction.equals("droite") && verification(carte, new Position(couranteX + 1, couranteY )))
+		else if(direction.equals("droite") && verification(carte, new Position(couranteX + 1, couranteY ),zombiesSurCase))
 		{
 			couranteX ++;
 			//peut etre change le setPosition
@@ -66,7 +67,7 @@ public class Personnage extends Entite
 			this.setEmplacement(nouvelle);
 			return true;
 		}
-		else if(direction.equals("gauche") && verification(carte, new Position(couranteX - 1, couranteY)))
+		else if(direction.equals("gauche") && verification(carte, new Position(couranteX - 1, couranteY),zombiesSurCase))
 		{
 			couranteX --;
 			//peut etre change le setPosition
@@ -207,11 +208,11 @@ public class Personnage extends Entite
 	 * @param z : Position
 	 * @return true si le joueur peut se deplacer a la position z, false sinon
 	 */
-	public boolean verification(Carte carte, Position z) 
+	public boolean verification(Carte carte, Position z,LinkedList<Zombie> zombiesSurCase) 
 	{
 		try 
 		{
-			return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()));
+			return (carte.getTab()[z.getPosY()][z.getPosX()].equals(carte.getCarPossible()) && zombiesSurCase.isEmpty());
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{

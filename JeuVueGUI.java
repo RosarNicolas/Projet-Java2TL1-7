@@ -102,7 +102,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		fen = new JFrame("ZOMBICIDE");
 		
 		//NICO
-		contentPane = new Panneau("res/Zbackground.png");
+		contentPane = new Panneau("res/Zbackground.jpg");
 		contentPane.setPreferredSize(new Dimension(400,1));
 		contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS) );
 		contentPane.setBorder( new EmptyBorder(50, 5, 5, 5) );
@@ -339,7 +339,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 				}
 				else if(!dejaEcrit)
 				{
-					DessinerImage image = new DessinerImage("res/couloirHopital.jpg");
+					DessinerImage image = new DessinerImage("res/rue.jpg");
 					image.setBounds(j*100, i*100, 100, 100);
 					carte.add(image);
 				}

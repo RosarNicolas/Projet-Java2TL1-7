@@ -30,9 +30,7 @@ public abstract class Entite
 		this.pointsDAction = pointsDAction;
 		this.emplacement = emplacement;
 	}
-	
-	public abstract boolean deplacer(String direction, Carte carte);
-	
+		
 	public abstract int attaquer();
 	
 	public String getNom() {

@@ -32,8 +32,8 @@ public class Jeu extends Observable {
 	}
 	
 	/**
-	 * methode qui initialise les LinkedList avec tous les types de zombies et d'armes differents
-	 * fais apparaitre un zombie (a determiner en fonction de la difficulté futur MAJ)
+	 * methode qui initialise les LinkedList avec tous les types d'armes differents
+	 * fais apparaitre un zombie (à determiner en fonction de la difficulté futur MAJ)
 	 */
 	public void init()
 	{
@@ -55,39 +55,9 @@ public class Jeu extends Observable {
 		setChanged();
 		notifyObservers();
 	}
-	public int actionPerso(int actionPossible, String deplacement, int armeAjeter, int attaque, Zombie z)
-	{
-		if(actionPossible != 0 )
-		{
-			int fouille = perso.fouille(armes);
-			updateEntiteListe();
-			setChanged();
-			notifyObservers();
-			return fouille;
-		}
-		else if(!deplacement.equals(""))
-		{
-			perso.deplacer(deplacement, this.carte);
-			updateEntiteListe();
-			setChanged();
-			notifyObservers();
-		}
-		else if(armeAjeter != 0)	
-		{
-			perso.jeterUneArme(armeAjeter);
-			updateEntiteListe();
-			setChanged();
-			notifyObservers();
-		}
-		else if(attaque != 0)
-		{
-			int degats = perso.attaquer(attaque);
-			return degats;
-			
-		}
-		return 0;
-	}
-	
+	/**
+	 * methode permettant de mettre a jour les vue a partir d'autre classe composée de jeu (JeuController)
+	 */
 	public void notifier()
 	{
 		updateEntiteListe();
