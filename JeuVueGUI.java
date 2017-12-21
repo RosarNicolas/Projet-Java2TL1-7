@@ -102,7 +102,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		fen = new JFrame("ZOMBICIDE");
 		
 		//NICO
-		contentPane = new Panneau("res/Zbackground.jpg");
+		contentPane = new Panneau("res/Zbackground.png");
 		contentPane.setPreferredSize(new Dimension(400,1));
 		contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS) );
 		contentPane.setBorder( new EmptyBorder(50, 5, 5, 5) );
@@ -295,6 +295,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		
 	}
 	
+	/**
+	 * Méthode de génération graphique de la carte.
+	 */
 	public void genererCarte()
 	{
 		boolean dejaEcrit = false;
@@ -348,6 +351,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		
 	}
 	
+	/**
+	 * Méthode permettant le positionnement d'un personnage
+	 * à un endroit de la carte de manière graphique.
+	 * @param largeur : hauteur à laquelle le joueur sera positionné.
+	 * @param hauteur : largeur à laquelle le joueur sera positionné.
+	 */
 	public void setJoueur(int largeur, int hauteur)
 	{
 		boutonJoueur.setBounds(largeur*100+10, hauteur*100+20, 40, 60);
@@ -355,6 +364,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	}
 	
 	
+	/**
+	 * Action réalisée lorsqu'un événement 
+	 * graphique se produit (bouton appuyé ...).
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -540,6 +553,11 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		genererCarte();
 	}
 
+	/**
+	 * Méthode affichant des messages de déroulement 
+	 * des actions de la partie dans la "console" de
+	 * l'interface graphique.
+	 */
 	@Override
 	public void affiche(String string)
 	{	
@@ -554,6 +572,10 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		
 	}
 	
+	/**
+	 * Méthode affichant des messages d'information
+	 * dans le chat Client/Serveur de l'interface graphique.
+	 */
 	public void chat(String msg)
 	{
 		if (compteurChat == 5) {
@@ -565,6 +587,8 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 			texteChat.setText("\n" + msg + "\n");
 		}
 	}
+	
+
 	@Override
 	public int choixArme() 
 	{
@@ -581,7 +605,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		return null;
 	}
 
-
+	/**
+	 * Méthode d'affichage de l'arme de la main gauche
+	 * dans l'interface graphique. L'identifiant de l'arme
+	 * est utilisé pour ramené l'image appropriée.
+	 * @param idArme : identifiant de l'arme.
+	 */
 	public void afficheArme1(int idArme) 
 	{
 		try 
@@ -594,6 +623,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	}
 
 
+	/**
+	 * Méthode d'affichage de l'arme de la main droite
+	 * dans l'interface graphique. L'identifiant de l'arme
+	 * est utilisé pour ramené l'image appropriée.
+	 * @param idArme : identifiant de l'arme.
+	 */
 	public void afficheArme2(int idArme) 
 	{
 		try 
@@ -605,6 +640,13 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 		vueArmeDroite.setIcon(new ImageIcon(imageArme));
 	}
 	
+	/**
+	 * Méthode renvoyant une image selon l'id
+	 * reçu en paramètre.
+	 * @param IdArme : id de l'arme dont il faut ramener une image.
+	 * @return : une image selon l'id.
+	 * @throws IOException
+	 */
 	public Image SwitchArmesGD( int IdArme ) throws IOException
 	{
 		switch( IdArme ) 

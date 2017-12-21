@@ -9,7 +9,17 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
-
+/**
+ * 
+ * @author Nicolas
+ *
+ */
+/**
+ * Classe permettant d'instancier un serveur qui
+ * renvoie des informations à un client selon les
+ * entrées envoyées par celui-ci.
+ *
+ */
 public class Serveur {
 	
 	static ServerSocket s;
@@ -20,10 +30,20 @@ public class Serveur {
 	
 	Scanner sc ;
 	
+	/**
+	 * Méthode envoyant dans le buffer out(vers client) un String.
+	 * @param str : string mit dans le buffer out 
+	 * pour l'envoyer au client.
+	 */
 	public void sendMessage( String str ) {
 		out.println(str);
 	}
 	
+	/**
+	 * Méthode effectuant une boucle pour attendre
+	 * des messages en provenance d'un client. Le serveur
+	 * envoie une reponse au client selon le message reçu..
+	 */
 	public String waitForMessage(){
 		try {
 			while(true) {
@@ -53,6 +73,12 @@ public class Serveur {
 		return "";
 	}
 	
+	/**
+	 * Constructeur de la classe Serveur.
+	 * Il instancie les buffer nécessaire à la communication
+	 * et déclenche la méthode waitForMessage().
+	 * @throws IOException 
+	 */
 	public Serveur() throws IOException {
 		
 			System.out.println("Serveur :");

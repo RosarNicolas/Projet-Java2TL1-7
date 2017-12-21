@@ -8,7 +8,16 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Nicolas
+ *
+ */
+/**
+ * Classe permettant de créer des JPanel
+ * en spécifiant un path vers une image qui
+ * sera définie comme image de background
+ */
 public class Panneau extends JPanel{
 	
 	private static final long serialVersionUID = 1L;

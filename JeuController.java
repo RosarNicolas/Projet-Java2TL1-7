@@ -208,13 +208,14 @@ public class JeuController
 	}
 	
 	/**
-	 * permet d'instantié un nouveau Personnage avec le nom choisi
+	 * Permet d'instancier un nouveau Personnage avec le nom choisi.
 	 * @param s nom du personnage : String
 	 */
 	public void setPerso(String s)
 	{
 		modele.setPerso(new Personnage(s,1 ,3,3,modele.getCarte().getApparition()));
 	}
+	
 	/**
 	 * complement de la methode tourPerso deplacement vue console
 	 */
