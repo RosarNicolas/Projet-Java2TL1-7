@@ -1,4 +1,4 @@
-package main;
+package def;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -619,7 +619,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	{
 		try 
 		{
-			imageArme = SwitchArmesGD(idArme);
+			imageArme = switchArmesGD(idArme);
 		} 
 		catch (IOException e) {}
 		
@@ -637,7 +637,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	{
 		try 
 		{
-			imageArme = SwitchArmesGD(idArme);
+			imageArme = switchArmesGD(idArme);
 		} 
 		catch (IOException e) {}
 		
@@ -651,9 +651,9 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	 * @return : une image selon l'id.
 	 * @throws IOException
 	 */
-	public Image SwitchArmesGD( int IdArme ) throws IOException
+	public Image switchArmesGD( int idArme ) throws IOException
 	{
-		switch( IdArme ) 
+		switch( idArme ) 
 		{
 			case 12 : return ImageIO.read(new File("res/detritus.png"));
 			

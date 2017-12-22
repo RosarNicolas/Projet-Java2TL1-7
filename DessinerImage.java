@@ -1,4 +1,4 @@
-package main;
+package def;
 /**
  * classe permettant a partir d'un chemin de dessiner une image dans un JPanel
  */

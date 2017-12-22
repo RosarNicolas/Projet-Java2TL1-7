@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main;
+package def;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -154,11 +154,11 @@ public class Personnage extends Entite
 		//verifier si arme a jeter
 		 if(x == 1 && this.armeGauche == null)
 		{
-			 
+			return ;
 		}
 		else if(x == 2 && this.armeDroite == null)
 		{
-			;
+			return ;
 		}
 		else if(x == 1)
 		{
@@ -169,10 +169,7 @@ public class Personnage extends Entite
 			this.armeDroite = null;
 		}
 	
-		else
-		{
-
-		}
+		
 	}
 
 
