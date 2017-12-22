@@ -1,4 +1,4 @@
-package def;
+package main;
 
 public class JeuMVC 
 {
@@ -22,11 +22,11 @@ public class JeuMVC
 	}
 	public static void main(String[] args)
 	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new JeuMVC();
-			}
-		});
+		ServeurThread serveur = new ServeurThread();
+		serveur.start();
+		
+		JeuThread jeu = new JeuThread();
+		jeu.start();
 	}
 
 }

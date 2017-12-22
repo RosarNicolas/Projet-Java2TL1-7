@@ -1,4 +1,4 @@
-package def;
+package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -50,7 +50,7 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 	JPanel chat = new JPanel();
 	JPanel boxBoutons = new JPanel();
 	
-	JLabel texteChat = new JLabel("Tapez : 1 = info, 2 = info arme, 3 ennemis");
+	JLabel texteChat = new JLabel("Tapez : 1 = info, 2 = info arme, 3 = ennemis");
 	JTextField envoiMsg = new JTextField();
 	JButton envoyerBouton = new JButton("Envoyer");
 	JButton infoBouton = new JButton("Infos");
@@ -340,6 +340,12 @@ public class JeuVueGUI extends JeuVue implements ActionListener, Observer
 					image.setBounds(j*100, i*100, 100, 100);
 					carte.add(image);
 				}
+				else if(i == modele.getCarte().getLongueur() - 1 && j == modele.getCarte().getLargeur() -1)
+                {
+                    DessinerImage image = new DessinerImage("res/sortie.png");
+                    image.setBounds(j*100, i*100, 100, 100);
+                    carte.add(image);
+                }
 				else if(!dejaEcrit)
 				{
 					DessinerImage image = new DessinerImage("res/rue.jpg");

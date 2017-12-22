@@ -1,4 +1,4 @@
-package def;
+package main;
 public class JeuController
 {
 	JeuVue vue;

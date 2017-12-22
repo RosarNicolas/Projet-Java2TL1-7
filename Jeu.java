@@ -6,7 +6,7 @@
  * verifier les comportement des zombies 
  * verifier les attaque des joueurs
  */
-package def;
+package main;
 
 import java.util.HashMap;
 import java.util.LinkedList;
